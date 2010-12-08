@@ -2,6 +2,9 @@
 
 #include "CompositeNode.hpp"
 
+/**
+ * Represents a light in a scene.
+ */
 class Light : public CompositeNode {
 public:
   Light();
