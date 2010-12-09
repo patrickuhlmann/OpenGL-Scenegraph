@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$classLight.html#a874e7f33faebb289b48c560684e77890" title="Light::GetDiffuse" alt="" coords="299,5,427,35"/>
+<area shape="rect" id="node5" href="$classGeometry.html#a250118113acddcfdb7a1bddb29b296c7" title="Geometry::GetMesh" alt="" coords="288,59,437,88"/>
+<area shape="rect" id="node7" href="$classMesh.html#adf8a48154187f275e1d14f775f5cbab3" title="Mesh::GetNormal" alt="" coords="296,112,429,141"/>
+<area shape="rect" id="node9" href="$classLight.html#a5463fec460cbfb59d88b9b9b18072675" title="Light::GetPosition" alt="" coords="296,165,429,195"/>
+<area shape="rect" id="node11" href="$classMesh.html#a8b622a4fc33725c6e39a7f6d09db17c2" title="Mesh::GetTriangleIterator" alt="" coords="272,219,453,248"/>
+<area shape="rect" id="node13" href="$classMesh.html#aaa7fd58095f06c506f06aed180154c32" title="Mesh::GetTriangleIteratorEnd" alt="" coords="260,272,465,301"/>
+<area shape="rect" id="node15" href="$classMesh.html#a5cd66e944a86c3919873cddb52e06d2e" title="Mesh::GetVertex" alt="" coords="299,325,427,355"/>
+<area shape="rect" id="node17" href="$classMesh.html#a76280fcc93dfb1099c9302614a66e7bd" title="Mesh::GetVertexCount" alt="" coords="280,379,445,408"/>
+</map>
