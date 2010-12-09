@@ -24,6 +24,8 @@ public:
   void GetPosition ( const M3DVector3f ) const;
   void GetDirection( const M3DVector3f ) const;
 
+  void GetDiffuse( M3DVector4f ) const;
+
 private:
   GLFrame _frame; 
   M3DVector4f _ambient; // RGBA

@@ -11,5 +11,8 @@ public:
 
 protected:
   NodeVisitor() {}; // abstract
-  
+
+private:
+  virtual void Traverse( CompositeNode* c );
+
 };

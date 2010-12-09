@@ -13,7 +13,10 @@ public:
   virtual void VisitLight    ( Light* );
   virtual void VisitGroup    ( Group* );
   virtual void VisitCamera   ( Camera* );
+  
+private:
   virtual void Traverse( CompositeNode* );
+
 private:
   GLMatrixStack _modelViewMatrix;
   GLMatrixStack _projectionMatrix;

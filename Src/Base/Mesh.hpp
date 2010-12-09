@@ -2,20 +2,27 @@
 
 #include <vector>
 
+struct Triangle {
+  int vert1, vert2, vert4;
+};
+
 typedef M3DVector3f Vertex;
 typedef M3DVector3f Normal;
 typedef M3DVector4f Color;
-typedef int Triangle[3];
+typedef M3DVector2f TextureCoord;
+//typedef int Triangle[3];
 
 typedef vector< Vertex > VertexVector;
 typedef vector< Normal > NormalVector;
 typedef vector< Color > ColorVector;
 typedef vector< Triangle > TriangleVector;
+typedef vector< TextureCoord > TextureCoordVector;
 
 typedef VertexVector::  iterator VertexIterator;
 typedef NormalVector::  iterator NormalIterator;
 typedef ColorVector::   iterator ColorIterator;
 typedef TriangleVector::iterator TriangleIterator;
+typedef TextureCoordVector:: iterator TextureCoordIterator;
 
 class Mesh {
 public: 
@@ -34,14 +41,19 @@ public:
   TriangleIterator GetTriangleIterator();
   TriangleIterator GetTriangleIteratorEnd();
 
-  const Vertex* GetTriangleVertices( const Triangle& );
+  TextureIterator GetTextureCoordIterator();
+  TextureIterator GetTextureCoordIteratorEnd();
 
-  GLint GetVertexCount();
+  const Vertex& GetVertex( int ) const;
+  const Vertex& GetNormal( int ) const;
+
+  GLint GetVertexCount() const;
 
 private:
   GLint          _nVertexCount;
-  VertexVector   _vertices; // XYZ
-  NormalVector   _normals;  // XYZ
-  ColorVector    _colors;   // RGBA
-  TriangleVector _triangles; 
+  VertexVector   _vertices;  // XYZ
+  NormalVector   _normals;   // one normal per vertex
+  ColorVector    _colors;    // RGBA for each vertex
+  TriangleVector _triangles; // indexes for vertex vector
+  TextureVector  _textureCoords; // can be set to all zeroes by default
 };

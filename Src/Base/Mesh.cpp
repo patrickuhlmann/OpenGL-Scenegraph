@@ -1,12 +1,21 @@
 #include "Mesh.hpp"
 
-  Mesh( const char* file );
+Mesh::Mesh( const char* file ) {}
   
-  VertexIterator GetVertexIterator();
-  VertexIterator GetVertexIteratorEnd();
+Mesh::VertexIterator GetVertexIterator() {}
+Mesh::VertexIterator GetVertexIteratorEnd() {}
 
-  NormalIterator GetNormalIterator();
-  NormalIterator GetNormalIteratorEnd();
+Mesh::NormalIterator GetNormalIterator() {}
+Mesh::NormalIterator GetNormalIteratorEnd() {}
 
-  ColorIterator  GetColorIterator();
-  ColorIterator  GetColorIteratorEnd();
+Mesh::ColorIterator  GetColorIterator() {}
+Mesh::ColorIterator  GetColorIteratorEnd() {}
+
+Mesh::TextureIterator GetTextureCoordIterator() {}
+Mesh::TextureIterator GetTextureCoordIteratorEnd() {}
+
+const Vertex& GetVertex( int i ) { return _vertices.at(i); }
+
+const Vertex& GetNormal( int i ) { return _vertices.at(i); }
+
+

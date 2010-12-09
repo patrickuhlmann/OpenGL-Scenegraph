@@ -27,25 +27,67 @@ void RenderVisitor::VisitTransform( Transform* t )
   _modelViewMatrix.Pop(); // restore matrix
 }
 
+/**
+ * Render a geometry
+ *
+ * The rendering is limited in functionality right now
+ * since we only support one light and only the diffuse
+ * version.
+ *
+ * @param g A pointer to a Geometry node in the graph
+ */
 void RenderVisitor::VisitGeometry( Geometry* g ) 
 {
   GLTriangleBatch triangles;
-  Mesh* mesh = g->GetMesh();
-  TriangleIterator it  = mesh->GetTriangleIterator();
-  TriangleIterator end = mesh->GetTriangleIteratorEnd();
+  Mesh* mesh = g->GetMesh(); // Should not be dependent upon Mesh???
 
+  TriangleIterator it  = mesh->GetTriangleIterator(); 
+  TriangleIterator end    = mesh->GetTriangleIteratorEnd();
+  
+  M3DVector3f lightPos;   // array of 3 float (not GLfloat)
+  M3DVector4f color;      // array of 4 =||=
+
+  // set light position and diffuse light color
+  _light.GetDiffuse( color );
+  _light.GetPosition( lightPos );
+
+  // create a triangle mesh and give the initial size
   triangles.BeginMesh( mesh->GetVertexCount() );
   
   while ( it != end ) {
-    triangles.AddTriangle( mesh->GetTriangleVertices( (*it) ) );
+    M3DVector3f vertices[3];
+    M3DVector3f normals[3];
+    M3DVector2f texCoords[3];
+
+    vertices[0] = mesh->GetVertex( (*it).vert1 );
+    vertices[1] = mesh->GetVertex( (*it).vert2 );
+    vertices[2] = mesh->GetVertex( (*it).vert3 );
+
+    normals[0]  = mesh->GetNormal( (*it).vert1 );
+    normals[1]  = mesh->GetNormal( (*it).vert2 );
+    normals[2]  = mesh->GetNormal( (*it).vert3 );
+
+    texCoords[0] = mesh->GetTextureCoord( (*it).vert1 );
+    texCoords[1] = mesh->GetTextureCoord( (*it).vert2 );
+    texCoords[2] = mesh->GetTextureCoord( (*it).vert3 );
+
+    triangles.AddTriangle( vertices, normals, texCoords );
   }
-  // only support point light right now!
-  _shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF
+
+  triangles.End();
+
+  // load shader program
+  _shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
+				_transformPipeline.GetModelViewMatrix(),
+				_transformPipeline.GetProjectionMatrix(),
+				lightPos, color);
+
+  triangles.Draw();
 }
 
 void RenderVisitor::VisitLight( Light* l )
 {
-  _light = *l;
+  _light = *l; // maybe accumulate light in a vector?
   Traverse( l );
 }
 
