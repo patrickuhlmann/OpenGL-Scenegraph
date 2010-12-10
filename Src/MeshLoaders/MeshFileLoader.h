@@ -1,14 +1,18 @@
-#ifndef MESHFILELOADER_H
-#define MESHFILELOADER_H
+#pragma once
 
-#include "../Base/Mesh.h"
+#include "../Base/Mesh.hpp"
 #include "MeshLoader.h"
 #include <string>
+#include <istream>
+#include <fstream>
+#include <glog/logging.h>
+
+using namespace std;
 
 /**
  *	\brief Can load Meshes from files
  */
-class IMeshFileLoader : protected MeshLoader() {
+class MeshFileLoader : public MeshLoader {
 	private:
 
 	public:
@@ -17,7 +21,6 @@ class IMeshFileLoader : protected MeshLoader() {
 		 *
 		 * \return Pointer to Mesh if successful, 0 otherwise
 		 */
-		Mesh* Load(const string& FileName);
+		virtual Mesh* Load(const string& FileName);
+		virtual Mesh* Load(istream& Stream);		// inherited
 };
-
-#endif MESHFILELOAADER_H

@@ -1,8 +1,7 @@
-#ifndef IMESHLOADER_H
-#define IMESHLOADER_H
+#pragma once
 
 #include <istream>
-#include "../Base/Mesh.h"
+class Mesh;
 
 using namespace std;
 
@@ -21,7 +20,7 @@ class IMeshLoader {
 		 *	\param Stream to read from
 		 *  \return Mesh if successfull, 0 otherwise
 		 */
-		virtual Mesh* Load(const istream& Stream) = 0;
+		virtual Mesh* Load(istream& Stream) = 0;
 
 		/**
 		 *	\brief Check if we can load a mesh from a stream
@@ -29,7 +28,5 @@ class IMeshLoader {
 		 *	\param Stream to read from
 		 *	\return true if possible, false otherwise
 		 */
-		virtual bool Accept(const istream& Stream) = 0;
+		virtual bool Accept(istream& Stream) = 0;
 };
-
-#endif

@@ -8,7 +8,7 @@
  *	\param Stream to read from
  *  \return Pointer to Mesh if successful, 0 otherwise
  */
-Mesh* MeshLoader::Load(const istream& Stream) {
+Mesh* MeshLoader::Load(istream& Stream) {
 	for (vector<IMeshLoader*>::iterator it = this->Loaders.begin(); it != this->Loaders.end(); ++it) {
 		if ((*it)->Accept(Stream))
 			return (*it)->Load(Stream);
