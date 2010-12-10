@@ -1,10 +1,9 @@
-#ifndef MESHLOADER_H
-#define MESHLOADER_H
+#pragma once
 
+#include "../Base/Mesh.hpp"
 #include <vector>
 #include "IMeshLoader.h"
 #include <istream>
-#include "../Base/Mesh.h"
 #include <iostream>
 
 using namespace std;
@@ -20,8 +19,6 @@ class MeshLoader {
 		vector<IMeshLoader*> Loaders;
 
 	public:
-		virtual Mesh* Load(const istream& Stream);
+		virtual Mesh* Load(istream& Stream);
 		virtual void AddMeshLoader(IMeshLoader* Loader);
 };
-
-#endif
