@@ -1,0 +1,4 @@
+#include "State.hpp"
+
+void State::Enable ( GLenum val ) { _enables.insert ( val ); }
+void State::Disable( GLenum val ) { _disables.insert( val ); }

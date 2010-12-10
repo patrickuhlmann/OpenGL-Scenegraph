@@ -1,0 +1,11 @@
+#pragma once
+
+class Material {
+public:
+
+private:
+  M3DVector4f _ambient;  /**< Ambient component. RGBA.  */
+  M3DVector4f _diffuse;  /**< Diffuse component. RGBA.  */
+  M3DVector4f _specular; /**< Specular component. RGBA. */
+  GLchar      _shininess; /**< Material shine, 0 - 127 where 0 is shiniest */
+};

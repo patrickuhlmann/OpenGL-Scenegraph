@@ -1,0 +1,12 @@
+#pragma once
+
+class State {
+public:
+  State();
+
+private:
+  GLenum _enables;
+  Material _material;
+  Texture _texture;
+  
+};
