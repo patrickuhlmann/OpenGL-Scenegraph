@@ -1,5 +1,8 @@
 #pragma once
 
+/**
+ * Abstract class used for visiting scenegraph nodes.
+ */ 
 class NodeVisitor {
 public:
   // default implementation does nothing
@@ -10,6 +13,7 @@ public:
   virtual void VisitCamera   ( Camera* )    {};
 
 protected:
+  /** Only subclasses can construct a NodeVisitor */
   NodeVisitor() {}; // abstract
 
 private:
