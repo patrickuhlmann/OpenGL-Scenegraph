@@ -27,15 +27,6 @@ void RenderVisitor::VisitTransform( Transform* t )
   _modelViewMatrix.Pop(); // restore matrix
 }
 
-/**
- * Render a geometry
- *
- * The rendering is limited in functionality right now
- * since we only support one light and only the diffuse
- * version.
- *
- * @param g A pointer to a Geometry node in the graph
- */
 void RenderVisitor::VisitGeometry( Geometry* g ) 
 {
   GLTriangleBatch triangles;
@@ -103,10 +94,16 @@ void RenderVisitor::VisitGroup( Group* g )
 
 void RenderVisitor::VisitCamera( Camera* c)
 {
+  // save current matrices
   _modelViewMatrix.Push();
   _projectionMatrix.Push();
-  _modelViewMatrix.MultMatrix( c->GetViewMatrix() );
-  _projectionMatrix.MultMatrix( c->GetProjectionMatrix() );
+
+  // retrieve view and projection matrices
+  // maybe shouldn't accumulate them but replace current
+  // matrices? Does it make sense to add transformations
+  // for cameras?
+  _modelViewMatrix.LoadMatrix( c->GetViewMatrix() );
+  _projectionMatrix.LoadMatrix( c->GetProjectionMatrix() );
 
   Traverse( c );
 
