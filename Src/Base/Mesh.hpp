@@ -3,6 +3,7 @@
 #include <vector>
 #include "../Include/math3d.h"
 #include "../Include/GLTools/GL/glew.h"
+#include <string>
 
 class MeshLoaderObj;
 
@@ -12,17 +13,15 @@ struct Triangle {
   int vert1, vert2, vert4;
 };
 
-typedef M3DVector3f Vertex;
-typedef M3DVector3f Normal;
 typedef M3DVector4f Color;
 typedef M3DVector2f TextureCoord;
 //typedef int Triangle[3];
 
-typedef vector<Vertex*> VertexVector;
-typedef vector<Normal*> NormalVector;
-typedef vector<Color*> ColorVector;
+typedef vector<float*> VertexVector;
+typedef vector<float*> NormalVector;
+typedef vector<float*> ColorVector;
 typedef vector<Triangle> TriangleVector;
-typedef vector<TextureCoord*> TextureCoordVector;
+typedef vector<float*> TextureCoordVector;
 
 typedef VertexVector::iterator VertexIterator;
 typedef NormalVector::iterator NormalIterator;
@@ -51,18 +50,22 @@ public:
   TextureCoordIterator GetTextureCoordIterator();
   TextureCoordIterator GetTextureCoordIteratorEnd();
 
-  const Vertex* GetVertex( int ) const;
-  const Vertex* GetNormal( int ) const;
+  const float* GetVertex( int ) const;
+  const float* GetNormal( int ) const;
+
+  const string& GetName() const;
 
   GLint GetVertexCount() const;
 
 private:
-  GLint          _nVertexCount;
   VertexVector   _vertices;  // XYZ
   NormalVector   _normals;   // one normal per vertex
   ColorVector    _colors;    // RGBA for each vertex
   TriangleVector _triangles; // indexes for vertex vector
   TextureCoordVector  _textureCoords; // can be set to all zeroes by default
+  string _name;	// name of the mesh for example name of the file where it was loaded from
 
 friend class MeshLoaderObj;
+friend class MeshFileLoader;
+friend class TestMeshLoaders;
 };

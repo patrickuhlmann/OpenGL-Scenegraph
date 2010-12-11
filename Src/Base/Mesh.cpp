@@ -15,8 +15,12 @@ Mesh::ColorIterator  GetColorIteratorEnd() {}
 Mesh::TextureIterator GetTextureCoordIterator() {}
 Mesh::TextureIterator GetTextureCoordIteratorEnd() {}*/
 
-const Vertex* Mesh::GetVertex( int i ) const { return _vertices.at(i); }
+const float* Mesh::GetVertex( int i ) const { return _vertices.at(i); }
 
-const Vertex* Mesh::GetNormal( int i ) const { return _vertices.at(i); }
+const float* Mesh::GetNormal( int i ) const { return _vertices.at(i); }
+
+const string& Mesh::GetName() const {
+	return _name;
+}
 
 

@@ -5,8 +5,13 @@ Mesh* MeshFileLoader::Load(const string& FileName) {
 
 	DLOG(INFO) << "Load Mesh: " << FileName << endl;
 	DLOG(INFO) << "Stream Status " << in.good() << endl;
-	DLOG(INFO) << "Stream EOF " << in.eof() << endl;
+
 	Mesh* m = this->Load(in);
+
+	// if we have a valid mesh -> set it's name to the FileName which we loaded
+	if (m != 0) {
+		m->_name = FileName;
+	}
 
 	in.close();
 

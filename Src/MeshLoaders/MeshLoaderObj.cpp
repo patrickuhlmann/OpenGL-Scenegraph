@@ -31,54 +31,75 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		else
 			getline(Stream, Definition, ' ');
 
+
+		/* PROCESS LINES */
+
 		// Comments -> Ignore
 		if (Definition.compare("#") == 0) {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Comment - ignored" << endl;
+
+
 		// Object Name
 		// o object name
 		} else if (Definition[0] == 'o') {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Object Name - ignored" << endl;
+
+
 		// Group Name
 		// g group name
 		} else if (Definition[0] == 'g') {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Group Name - ignored" << endl;
+
+
 		// Smooth Shading activate/deactivate
 		// s 1
   		// s off
 		} else if (Definition[0] == 's') {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Shading Properties - ignored" << endl;
+
+
 		// Reference External Material File
 		// mtllib [external .mtl file name]
 		} else if (Definition.compare("mtllib") == 0) {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Reference to external Material file - ignored" << endl;
+
+
 		// Material Group
 		// usemtl [material name]
 		} else if (Definition.compare("usemtl") == 0) {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Material Group Definition - ignored" << endl;
+
+
 		// Vertices, with (x,y,z[,w]) coordinates, w is optional.
 		// v 0.123 0.234 0.345 1.0
 		} else if (Definition.compare("v") == 0) {
-			Vertex v;
+			float* v = new float[3];
 			ReadVector4fTo3f(v, Stream, true, false);
-			M->_vertices.push_back(&v);
+			M->_vertices.push_back(v);
 			DLOG(INFO) << "Found Vertex: " << v[0] << ", " << v[1] << ", " << v[2] << endl;
+
+
 		// Texture coordinates, in (u,v[,w]) coordinates, w is optional.
 		// vt 0.500 -1.352 [0.234]
 		} else if (Definition.compare("vt") == 0) {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Texture Coordinate - ignored" << endl;
+
+
 		// Normals in (x,y,z) form; normals might not be unit.
 		// vn 0.707 0.000 0.707
 		// ignore as we calculate them ourselves so they are in the right order and not for a point but for the whole triangle
 		} else if (Definition.compare("vn") == 0) {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Normal - ignored" << endl;
+
+
 		// Face Definitions 
 		// f 1 2 3						-> Vertex index starting with 1, face can contain more than three elements!
 		// f 3/1 4/2 5/3					-> Vertex/texture-coordinate
@@ -89,17 +110,38 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			ReadTriangle(&t, Stream);
 			M->_triangles.push_back(t);
 			DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert4 << endl;
-			M3DVector3f CalculatedNormal;
-			m3dFindNormal((float*)CalculatedNormal, (float*)M->_vertices[t.vert1-1], (float*)M->_vertices[t.vert2-1], (float*)M->_vertices[t.vert4-1]);
-			M->_normals.push_back(&CalculatedNormal);
+			float* CalculatedNormal = new float[3];
+			m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1-1], M->_vertices[t.vert2-1], M->_vertices[t.vert4-1]);
+			M->_normals.push_back(CalculatedNormal);
 			DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
+
+
 		// any other keywords -> ignore them
 		} else {
 			Stream.ignore(INT_MAX, '\n');
 			DLOG(INFO) << "Found Unknown Definition a" << Definition << "a" << endl;
 		}
 	}
-				
+
+
+
+
+	// Add Color and Texture for all Vertices
+	for (VertexIterator it = M->_vertices.begin(); it != M->_vertices.end(); ++it) {
+		float* Color = new float[4];
+		Color[0] = 0.5;
+		Color[1] = 0.5;
+		Color[2] = 0.5;
+		Color[3] = 0.5;
+
+		float* Texture = new float[2];
+		Texture[0] = 0;
+		Texture[1] = 0;
+
+		M->_colors.push_back(Color);
+		M->_textureCoords.push_back(Texture);
+	}
+
 	if (Stream.bad()) {
 		DLOG(WARNING) << "Error reading in Mesh" << endl;
 		return 0;
