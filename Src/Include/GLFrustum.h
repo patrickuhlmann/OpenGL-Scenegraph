@@ -31,6 +31,7 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 */
 #include "math3d.h"
 #include "GLFrame.h"
+#include "GL/glew.h"
 
 #ifndef __GL_FRAME_CLASS
 #define __GL_FRAME_CLASS
@@ -53,7 +54,7 @@ class GLFrustum
 			{ SetOrthographic(xMin, xMax, yMin, yMax, zMin, zMax); }
 
 		// Get the projection matrix for this guy
-		const M3DMatrix44f& GetProjectionMatrix(void) { return projMatrix; }
+		const M3DMatrix44f& GetProjectionMatrix(void) const { return projMatrix; }
 
         // Calculates the corners of the Frustum and sets the projection matrix.
 		// Orthographics Matrix Projection    

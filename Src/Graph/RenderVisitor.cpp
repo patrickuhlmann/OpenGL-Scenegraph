@@ -19,12 +19,12 @@ void RenderVisitor::Traverse( CompositeNode* c )
 
 void RenderVisitor::VisitTransform( Transform* t )
 {
-  _modelViewMatrix.Push(); // save current matrix
+  _modelViewMatrix.PushMatrix(); // save current matrix
   _modelViewMatrix.MultMatrix( t->GetMatrix() );
 
   Traverse( t );
 
-  _modelViewMatrix.Pop(); // restore matrix
+  _modelViewMatrix.PopMatrix(); // restore matrix
 }
 
 void RenderVisitor::VisitGeometry( Geometry* g ) 

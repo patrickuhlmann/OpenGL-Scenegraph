@@ -109,9 +109,9 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			Triangle t;
 			ReadTriangle(&t, Stream);
 			M->_triangles.push_back(t);
-			DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert4 << endl;
+			DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
 			float* CalculatedNormal = new float[3];
-			m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1-1], M->_vertices[t.vert2-1], M->_vertices[t.vert4-1]);
+			m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1-1], M->_vertices[t.vert2-1], M->_vertices[t.vert3-1]);
 			M->_normals.push_back(CalculatedNormal);
 			DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
 
@@ -212,7 +212,7 @@ void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
 	Stream.ignore(INT_MAX, ' ');
 	Stream >> t->vert2;
 	Stream.ignore(INT_MAX, ' ');
-	Stream >> t->vert4;
+	Stream >> t->vert3;
 
 	// It is Vertex/Texture Vertex/Texture/Normal or Vertex/Normal Format
 	if (Stream.peek() == '/') {

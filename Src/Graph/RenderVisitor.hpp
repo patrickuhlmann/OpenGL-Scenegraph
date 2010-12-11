@@ -3,6 +3,12 @@
 #include "NodeVisitor.hpp"
 #include "../Include/GLMatrixStack.h"
 #include "../Include/GLTriangleBatch.h"
+#include "../Include/GLGeometryTransform.h"
+#include "../Include/GLShaderManager.h"
+#include "Light.hpp"
+#include "Transform.hpp"
+#include "Geometry.hpp"
+#include "../Base/Mesh.hpp"
 
 /**
  * Renders a geometry using OpenGL 3 core.
@@ -85,7 +91,7 @@ private:
   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
   GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
   GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
-  ShaderManager _shaderManager;           /**< Helper object for managing shader programs */
+  GLShaderManager _shaderManager;           /**< Helper object for managing shader programs */
   Light _light;                           /**< Reference to a single light. We only support
 					       one light per scene right now */
 };

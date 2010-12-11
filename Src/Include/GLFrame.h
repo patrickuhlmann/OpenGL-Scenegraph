@@ -68,7 +68,7 @@ class GLFrame
         inline void SetOrigin(float x, float y, float z) { 
 			vOrigin[0] = x; vOrigin[1] = y; vOrigin[2] = z; }
 
-		inline void GetOrigin(M3DVector3f vPoint) {
+		inline void GetOrigin(M3DVector3f vPoint) const {
 			m3dCopyVector3(vPoint, vOrigin); }
 
 		inline float GetOriginX(void) { return vOrigin[0]; }
@@ -83,7 +83,7 @@ class GLFrame
         inline void SetForwardVector(float x, float y, float z)
             { vForward[0] = x; vForward[1] = y; vForward[2] = z; }
 
-        inline void GetForwardVector(M3DVector3f vVector) { m3dCopyVector3(vVector, vForward); }
+        inline void GetForwardVector(M3DVector3f vVector) const { m3dCopyVector3(vVector, vForward); }
 
         /////////////////////////////////////////////////////////////
         // Set Up Direction
@@ -181,7 +181,7 @@ class GLFrame
 
        ////////////////////////////////////////////////////////////////////////
        // Assemble the camera matrix
-        void GetCameraMatrix(M3DMatrix44f m, bool bRotationOnly = false)
+        void GetCameraMatrix(M3DMatrix44f m, bool bRotationOnly = false) const
             {
             M3DVector3f x, z;
 			

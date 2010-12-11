@@ -19,7 +19,7 @@ protected:
    *Construct a default Node.
    * Only subclasses can instatiate a Node.
    */
-  Node() : _parent(NULL) {};
+  Node() : _parent(0) {};
 
   /** 
    * Construct a Node with a pointer to a parent node.

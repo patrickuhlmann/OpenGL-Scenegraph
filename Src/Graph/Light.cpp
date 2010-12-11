@@ -26,11 +26,11 @@ void Light::SetDiffuse ( const M3DVector4f v ) { m3dCopyVector4( _diffuse, v ); 
 void Light::SetAmbient ( const M3DVector4f v ) { m3dCopyVector4( _ambient, v ); }
 void Light::SetSpecular( const M3DVector4f v ) { m3dCopyVector4( _specular, v ); }
 
-void Light::GetDiffuse ( M3DVector4f v ) { m3dCopyVector4( v, _diffuse ); }
-void Light::GetAmbient ( M3DVector4f v ) { m3dCopyVector4( v, _ambient ); } 
-void Light::GetSpecular( M3DVector4f v ) { m3dCopyVector4( v, _specular ); }
+void Light::GetDiffuse ( M3DVector4f v ) const { m3dCopyVector4( v, _diffuse ); }
+void Light::GetAmbient ( M3DVector4f v ) const { m3dCopyVector4( v, _ambient ); } 
+void Light::GetSpecular( M3DVector4f v ) const { m3dCopyVector4( v, _specular ); }
 
-void Light::GetPosition( const M3DVector3f pos ) const { _frame.GetOrigin( pos ); }
+void Light::GetPosition( M3DVector3f pos ) const { _frame.GetOrigin( pos ); }
 
 // REMOVE
 // GLfloat* Light::GetPosition() const
@@ -43,6 +43,6 @@ void Light::GetPosition( const M3DVector3f pos ) const { _frame.GetOrigin( pos )
 //   return pos;
 // }
 
-void Light::GetDirection( const M3DVector3f dir ) const { _frame.GetForwardVector( dir ); }
+void Light::GetDirection( M3DVector3f dir ) const { _frame.GetForwardVector( dir ); }
 
 

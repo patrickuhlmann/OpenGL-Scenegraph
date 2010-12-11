@@ -26,5 +26,5 @@ public:
 private:
   Mesh* _mesh; /**< Pointer to a mesh */
   State _state;
-  //bool  _dirty; /**< Flag for checking update of bound */
- }
+  bool  _dirty; /**< Flag for checking update of bound */
+};

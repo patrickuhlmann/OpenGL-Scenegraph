@@ -54,10 +54,10 @@ public:
    *
    * @return M3DMatrix44 const reference to the  matrix.
    */
-  const M3DMatrix44f& GetViewMatrix();
+  const M3DMatrix44f& GetViewMatrix() const;
 
   /** Return a constant reference to the frustum's projection matrix. */
-  const M3DMatrix44f& GetProjectionMatrix();
+  const M3DMatrix44f& GetProjectionMatrix() const;
   // const GLFrustum& GetViewFrustum() const;
   //void SetViewFrustum( GLFrustum& );
 
@@ -69,7 +69,7 @@ public:
    * @param GLfloat near clipping plane.
    * @param GLfloat far clipping plane.
    */
-  void SetPerspective();
+  void SetPerspective(GLfloat fFov, GLfloat fAspect, GLfloat fNear, GLfloat fFar);
 
   /**
    * Set the orthographic projection of the frustum.
@@ -81,7 +81,9 @@ public:
    * @param GLfloat minimum z.
    * @param GLfloat maximum z.
    */
-  void SetOrthographic();
+  void SetOrthographic(GLfloat xMin, GLfloat xMax, 
+			     GLfloat yMin, GLfloat yMax,
+			     GLfloat zMin, GLfloat zMax);
 
 private:
   GLFrame      _frame;       /**< Handles movement and direction of camera */

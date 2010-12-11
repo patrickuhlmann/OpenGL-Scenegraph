@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CompositeNode.hpp"
-#include "Node.hpp"
 #include "NodeVisitor.hpp"
 #include "../Include/GLFrame.h"
 
@@ -82,6 +81,18 @@ public:
    * @param M3DVector3f a vector to assign the component to.
    */
   void GetDiffuse( M3DVector4f ) const;
+
+  /**
+   * Get the light's ambient component.
+   * @param M3DVector3f a vector to assign the component to.
+   */
+  void GetAmbient( M3DVector4f ) const;
+
+  /**
+   * Get the light's specular component.
+   * @param M3DVector3f a vector to assign the component to.
+   */
+  void GetSpecular( M3DVector4f ) const;
 
 private:
   GLFrame     _frame;    /**< Handles position, direction and movement of the light. */

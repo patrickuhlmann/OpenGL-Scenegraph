@@ -27,12 +27,12 @@ const M3DMatrix44f& Camera::GetViewMatrix() const
   return _viewMatrix;
 }
 
-const M3DMatrix44f Camera::GetProjectionMatrix() const { _viewFrustum.GetProjectionMatrix(); }
+const M3DMatrix44f& Camera::GetProjectionMatrix() const { return _viewFrustum.GetProjectionMatrix(); }
 
 void Camera::SetOrthographic(GLfloat xMin, GLfloat xMax, 
 			     GLfloat yMin, GLfloat yMax,
 			     GLfloat zMin, GLfloat zMax)
-{ _viewFrustum.SetOrthoGraphic( xMin, xMax, yMin, yMax, zMin, zMax ); }
+{ _viewFrustum.SetOrthographic( xMin, xMax, yMin, yMax, zMin, zMax ); }
 
 void Camera::SetPerspective(GLfloat fFov, GLfloat fAspect, GLfloat fNear, GLfloat fFar)
 { _viewFrustum.SetPerspective( fFov, fAspect, fNear, fFar ); }

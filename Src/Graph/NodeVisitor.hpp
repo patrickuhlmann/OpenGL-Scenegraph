@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Transform.hpp"
-#include "Geometry.hpp"
-#include "Light.hpp"
-#include "Group.hpp"
-#include "Camera.hpp"
+class CompositeNode;
+class Light;
+class Group;
+class Transform;
+class Geometry;
+class Camera;
 
 /**
  * Abstract class used for visiting scenegraph nodes.

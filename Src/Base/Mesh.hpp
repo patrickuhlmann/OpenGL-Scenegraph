@@ -10,7 +10,7 @@ class MeshLoaderObj;
 using namespace std;
 
 struct Triangle {
-  int vert1, vert2, vert4;
+  int vert1, vert2, vert3;
 };
 
 typedef M3DVector4f Color;
