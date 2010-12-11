@@ -1,6 +1,10 @@
 #pragma once
 
 #include <set>
+#include "../Include/GL/glew.h"
+#include "Material.hpp"
+
+using namespace std;
 
 typedef set< GLenum > StateVariableSet;
 typedef StateVariableSet::iterator StateVariableIterator;

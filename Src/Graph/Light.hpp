@@ -1,6 +1,9 @@
 #pragma once
 
 #include "CompositeNode.hpp"
+#include "Node.hpp"
+#include "NodeVisitor.hpp"
+#include "../Include/GLFrame.h"
 
 /**
  * Light represents a light node i the scene.

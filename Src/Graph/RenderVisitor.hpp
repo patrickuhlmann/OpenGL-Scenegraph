@@ -1,8 +1,8 @@
 #pragma once
 
 #include "NodeVisitor.hpp"
-#include "../Include/GLTools/GLMatrixStack.h"
-#include "../Include/GLTools/GLTriangleBatch.h"
+#include "../Include/GLMatrixStack.h"
+#include "../Include/GLTriangleBatch.h"
 
 /**
  * Renders a geometry using OpenGL 3 core.

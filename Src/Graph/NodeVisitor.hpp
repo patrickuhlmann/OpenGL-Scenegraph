@@ -1,5 +1,11 @@
 #pragma once
 
+#include "Transform.hpp"
+#include "Geometry.hpp"
+#include "Light.hpp"
+#include "Group.hpp"
+#include "Camera.hpp"
+
 /**
  * Abstract class used for visiting scenegraph nodes.
  */ 

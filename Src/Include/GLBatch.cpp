@@ -33,8 +33,8 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #ifndef __GLT_BATCH
 #define __GLT_BATCH
 
-#include <GLBatch.h>
-#include <GLShaderManager.h>
+#include "GLBatch.h"
+#include "GLShaderManager.h"
 
 
 //////////////////////// TEMPORARY TEMPORARY TEMPORARY - On SnowLeopard this is suppored, but GLEW doens't hook up properly

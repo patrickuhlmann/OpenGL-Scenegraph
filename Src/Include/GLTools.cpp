@@ -33,9 +33,9 @@ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING 
 ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <GLTools.h>
-#include <math3d.h>
-#include <GLTriangleBatch.h>
+#include "GLTools.h"
+#include "math3d.h"
+#include "GLTriangleBatch.h"
 #include <stdio.h>
 #include <assert.h>
 #include <stdarg.h>

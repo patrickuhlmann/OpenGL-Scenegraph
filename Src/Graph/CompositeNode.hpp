@@ -8,8 +8,8 @@ typedef NodeList::iterator NodeIterator;
 
 class CompositeNode : public Node {
 public:
-  virtual void Add( Node* )    { _children.push_back( n ); };
-  virtual void Remove( Node* ) { _children.remove( n ); };
+  virtual void Add( Node* n )    { _children.push_back( n ); };
+  virtual void Remove( Node* n ) { _children.remove( n ); };
   virtual NodeIterator GetNodeIterator() { return NodeIterator( _children ); };
   virtual NodeIterator GetNodeIteratorEnd() { return _children.end(); };
 

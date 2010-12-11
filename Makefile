@@ -45,6 +45,53 @@ Mesh.o: Src/Base/Mesh.cpp Src/Base/Mesh.hpp
 math3d.o: Src/Include/math3d.h Src/Include/math3d.cpp
 	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
 
+GLBatch.o: Src/Include/GLBatch.cpp
+	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
+
+glew.o: Src/Include/glew.c
+	$(CXX) -c $(CXXFLAGS) Src/Include/$*.c
+
+GLShaderManager.o: Src/Include/GLShaderManager.cpp
+	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
+
+GLTools.o: Src/Include/GLTools.cpp
+	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
+
+GLTriangleBatch.o: Src/Include/GLTriangleBatch.cpp
+	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
+
+Material.o: Src/Graph/Material.cpp Src/Graph/Material.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+State.o: Src/Graph/State.cpp Src/Graph/State.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+
+
+# The following don't work
+
+Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+Geometry.o: Src/Graph/Geometry.cpp Src/Graph/Geometry.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+Group.o: Src/Graph/Group.cpp Src/Graph/Group.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+Light.o: Src/Graph/Light.cpp Src/Graph/Light.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+RenderVisitor.o: Src/Graph/RenderVisitor.cpp Src/Graph/RenderVisitor.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+
 
 
 

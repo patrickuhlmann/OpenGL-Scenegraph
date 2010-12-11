@@ -43,8 +43,8 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
  *
  */
 
-#include <GLTriangleBatch.h>
-#include <GLShaderManager.h>
+#include "GLTriangleBatch.h"
+#include "GLShaderManager.h"
 
 //////////////////////// TEMPORARY TEMPORARY TEMPORARY - On SnowLeopard this is suppored, but GLEW doens't hook up properly
 //////////////////////// Fixed probably in 10.6.3

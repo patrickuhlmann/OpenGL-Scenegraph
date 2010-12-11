@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Include/math3d.h"
+#include "../Include/GL/glew.h"
 
 class Material {
 public:

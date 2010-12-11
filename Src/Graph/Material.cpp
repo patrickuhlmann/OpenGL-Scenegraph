@@ -1,8 +1,8 @@
 #include "Material.hpp"
 
-Material::Material( const Material& ) { Copy( other ); }
+Material::Material( const Material& m ) { Copy( m ); }
 
-void Material::operator= ( const Material& ) { Copy( other ); }
+void Material::operator= ( const Material& m ) { Copy( m ); }
 
 void Material::Copy( const Material& other )
 {
@@ -19,6 +19,6 @@ void Material::SetDiffuse( GLfloat r, GLfloat g, GLfloat b, GLfloat a )
 { m3dLoadVector4( _diffuse, r, g, b, a ); }
 
 void Material::SetSpecular( GLfloat r, GLfloat g, GLfloat b, GLfloat a )
-{ m3dLoadVector( _specular, r, g, b, a ); }
+{ m3dLoadVector4( _specular, r, g, b, a ); }
 
 void Material::SetShine( GLchar s ) { _shine = s; }

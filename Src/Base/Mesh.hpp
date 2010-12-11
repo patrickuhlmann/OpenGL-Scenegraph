@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "../Include/math3d.h"
-#include "../Include/GLTools/GL/glew.h"
+#include "../Include/GL/glew.h"
 #include <string>
 
 class MeshLoaderObj;

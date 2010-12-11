@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Node.hpp"
-#include "Mesh.hpp"
+#include "../Base/Mesh.hpp"
+#include "NodeVisitor.hpp"
+#include "State.hpp"
 
 /**
  * A leaf node representing a graphical object.

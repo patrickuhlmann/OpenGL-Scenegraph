@@ -1,7 +1,9 @@
 #pragma once
 
 #include "CompositeNode.hpp"
-#include "../include/math3d.h"
+#include "../Include/math3d.h"
+#include "Node.hpp"
+#include "NodeVisitor.hpp"
 
 class Transform : public CompositeNode {
 public:
@@ -11,7 +13,7 @@ public:
 
    ~Transform() {};
 
-  void SetMatrix( const M3Dmatrix44f );
+  void SetMatrix( const M3DMatrix44f );
   void GetMatrix( const M3DMatrix44f m ) const;
   const  M3DMatrix44f& GetMatrix() const;
   

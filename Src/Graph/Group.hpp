@@ -1,5 +1,9 @@
 #pragma once
 
+#include "CompositeNode.hpp"
+#include "NodeVisitor.hpp"
+#include "State.hpp"
+
 /**
  * Goups several graph nodes together spatially.
  * A group can hold a number of children in a scene graph.

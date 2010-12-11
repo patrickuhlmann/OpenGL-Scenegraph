@@ -1,8 +1,8 @@
 #pragma once
 
 #include "CompositeNode.hpp"
-#include "include/GLTools/GLFrame.h"
-#include "include/GLTools/GLFrustum.h"
+#include "../Include/GLFrame.h"
+#include "../Include/GLFrustum.h"
 
 /**
  * Camera class for easy handling of view space and projection.

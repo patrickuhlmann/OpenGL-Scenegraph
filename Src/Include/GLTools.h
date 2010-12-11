@@ -85,9 +85,9 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 // Universal includes
 #include <stdio.h>
 #include <math.h>
-#include <math3d.h>
-#include <GLBatch.h>
-#include <GLTriangleBatch.h>
+#include "math3d.h"
+#include "GLBatch.h"
+#include "GLTriangleBatch.h"
 
    
 ///////////////////////////////////////////////////////

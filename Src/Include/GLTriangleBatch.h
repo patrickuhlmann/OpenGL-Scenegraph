@@ -5,7 +5,7 @@
 Copyright (c) 2007-2009, Richard S. Wright Jr.
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without modification, 
+Redistribution and use in source and binary forms, with or without modification, m
 are permitted provided that the following conditions are met:
 
 Redistributions of source code must retain the above copyright notice, this list 
@@ -77,9 +77,9 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #include <GL/glew.h>
 #endif
 
-#include <math3d.h>
-#include <GLBatchBase.h>
-#include <GLShaderManager.h>
+#include "math3d.h"
+#include "GLBatchBase.h"
+#include "GLShaderManager.h"
 
 #define VERTEX_DATA     0
 #define NORMAL_DATA     1

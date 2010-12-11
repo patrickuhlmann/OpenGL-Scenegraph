@@ -59,12 +59,12 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 // Linux
 #ifdef linux
 #define GLEW_STATIC
-#include <GL/glew.h>
+#include "GL/glew.h"
 #endif
 
 
-#include <math3d.h>
-#include <GLBatchBase.h>
+#include "math3d.h"
+#include "GLBatchBase.h"
 
 
 class GLBatch : public GLBatchBase

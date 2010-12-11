@@ -1,5 +1,7 @@
 #pragma once
 
+#include "NodeVisitor.hpp"
+
 /**
  * Abstract class representing nodes in the scene graph.
  * @see NodeVisitor
@@ -26,4 +28,6 @@ protected:
   Node( Node* parent ) : _parent( parent ) {};
 
   Node* _parent; /**< Pointer to a parent node */
+
+  bool _dirty;
 };

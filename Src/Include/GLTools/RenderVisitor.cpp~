@@ -1,8 +1,0 @@
-#include "RenderVisitor.hpp"
-
-
-RenderVisitor::RenderVisitor( const GLFrustum& frustum )
-{
-  _projectionMatrix.LoadMatrix( frustum.GetProjectionMatrix );
-  _transformPipeline.SetMatrixStacks( _modelViewMatrix, _projectionMatrix );
-}

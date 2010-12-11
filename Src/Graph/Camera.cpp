@@ -16,7 +16,7 @@ Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
 void Camera::Accept( NodeVisitor* visitor ) { visitor->VisitGroup( this ); }
 
 // TODO: update frustum???
-void Camera::SetPosition( const 3DVector3f origin ) { _frame.SetOrigin( origin ); }
+void Camera::SetPosition( const M3DVector3f origin ) { _frame.SetOrigin( origin ); }
 
 // TODO: update frustum???
 void Camera::LookAt( const M3DVector3f direction ) { _frame.SetForwardVector( direction ); }
