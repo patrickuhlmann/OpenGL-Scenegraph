@@ -37,8 +37,11 @@ public:
   /** Set new material to OpenGL */
   void SetMaterial( const Material& );
 
-  StateVariableIterator& GetStateVariableIterator();
-  StateVariableIterator& GetStateVariableIteratorEnd();
+  StateVariableIterator GetStateEnableIterator();
+  StateVariableIterator GetStateEnableIteratorEnd();
+
+  StateVariableIterator GetStateDisableIterator();
+  StateVariableIterator GetStateDisableIteratorEnd();
 
 private:
   StateVariableSet _enables; 
