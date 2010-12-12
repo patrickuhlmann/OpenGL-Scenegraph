@@ -21,13 +21,13 @@ void Camera::SetPosition( const M3DVector3f origin ) { _frame.SetOrigin( origin 
 // TODO: update frustum???
 void Camera::LookAt( const M3DVector3f direction ) { _frame.SetForwardVector( direction ); }
 
-const M3DMatrix44f& Camera::GetViewMatrix() const 
+const M3DMatrix44f Camera::GetViewMatrix() const 
 { 
   _frame.GetCameraMatrix( _viewMatrix );
   return _viewMatrix;
 }
 
-const M3DMatrix44f& Camera::GetProjectionMatrix() const { return _viewFrustum.GetProjectionMatrix(); }
+const M3DMatrix44f Camera::GetProjectionMatrix() const { return _viewFrustum.GetProjectionMatrix(); }
 
 void Camera::SetOrthographic(GLfloat xMin, GLfloat xMax, 
 			     GLfloat yMin, GLfloat yMax,

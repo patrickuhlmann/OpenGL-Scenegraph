@@ -14,9 +14,9 @@ public:
 
   Group( Node* parent ) : CompositeNode( parent ) {};
   
-  virtual void Accept( NodeVisitor* visitor ) 
-  { visitor->VisitGroup( this ); };
-  
+  virtual void Accept( NodeVisitor* );
+
+  void SetState( const State& );
 
   
 private:

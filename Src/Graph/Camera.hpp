@@ -52,12 +52,12 @@ public:
    * This is done to create a coherent interface since a frame's
    * get method doesn't return a matrix.
    *
-   * @return M3DMatrix44 const reference to the  matrix.
+   * @return M3DMatrix44 const pointer to the  matrix.
    */
-  const M3DMatrix44f& GetViewMatrix() const;
+  const M3DMatrix44f GetViewMatrix() const;
 
-  /** Return a constant reference to the frustum's projection matrix. */
-  const M3DMatrix44f& GetProjectionMatrix() const;
+  /** Return a constant pointer to the frustum's projection matrix. */
+  const M3DMatrix44f GetProjectionMatrix() const;
   // const GLFrustum& GetViewFrustum() const;
   //void SetViewFrustum( GLFrustum& );
 
@@ -82,8 +82,8 @@ public:
    * @param GLfloat maximum z.
    */
   void SetOrthographic(GLfloat xMin, GLfloat xMax, 
-			     GLfloat yMin, GLfloat yMax,
-			     GLfloat zMin, GLfloat zMax);
+		       GLfloat yMin, GLfloat yMax,
+		       GLfloat zMin, GLfloat zMax);
 
 private:
   GLFrame      _frame;       /**< Handles movement and direction of camera */
