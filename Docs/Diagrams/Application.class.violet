@@ -10,12 +10,12 @@
     </void> 
     <void property="methods"> 
      <void property="text"> 
-      <string>Constructor(WindowWidth, WindowHeight)
-+ InitObjects()
-+ InitKeys()
-+ HandleKeys()
+      <string>GetInstance(Title, WindowWidth, WindowHeight)
++ Init()
 + Update()
 + Render()
++ Resize(NewWidth, NewHeight)
++ HandleKeys()
 + Pause()
 + Continue()
 + Shutdown()</string> 
@@ -29,8 +29,8 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>99.0</double> 
-     <double>222.0</double> 
+     <double>97.0</double> 
+     <double>308.0</double> 
     </void> 
    </object> 
   </void> 
@@ -38,14 +38,21 @@
    <object id="ClassNode1" class="com.horstmann.violet.ClassNode"> 
     <void property="attributes"> 
      <void property="text"> 
-      <string>p InputManager</string> 
+      <string>p InputManager Input
+p GLShaderManager ShaderManager
+p GLBatch Batch
+p FrameCounter</string> 
      </void> 
     </void> 
     <void property="methods"> 
      <void property="text"> 
-      <string>+ Init()
-+ Update()
-+ Render()</string> 
+      <string>Constructor(Title, WindowWidth, WindowHeight)
++ Start()
++ GetFrameCounter()
++ Init() = 0
++ Update() = 0
++ Render() = 0
++ Resize(NewWidth, NewHeight) = 0</string> 
      </void> 
     </void> 
     <void property="name"> 
@@ -56,13 +63,13 @@
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>167.0</double> 
-     <double>81.0</double> 
+     <double>95.0</double> 
+     <double>82.0</double> 
     </void> 
    </object> 
   </void> 
   <void method="addNode"> 
-   <object class="com.horstmann.violet.ClassNode"> 
+   <object id="ClassNode2" class="com.horstmann.violet.ClassNode"> 
     <void property="methods"> 
      <void property="text"> 
       <string>AddBinding(string action, enum KeyInput)
@@ -78,8 +85,38 @@ AddListener(string action, function callback)</string>
    </object> 
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
-     <double>388.0</double> 
-     <double>77.0</double> 
+     <double>440.0</double> 
+     <double>114.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.NoteNode"> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>Application Helpers</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>520.0</double> 
+     <double>28.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object class="com.horstmann.violet.NoteNode"> 
+    <void property="text"> 
+     <void property="text"> 
+      <string>Build an Application</string> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>164.0</double> 
+     <double>33.0</double> 
     </void> 
    </object> 
   </void> 
@@ -93,6 +130,18 @@ AddListener(string action, function callback)</string>
     </void> 
    </object> 
    <object idref="ClassNode0"/> 
+   <object idref="ClassNode1"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.ClassRelationshipEdge"> 
+    <void property="bentStyle"> 
+     <object class="com.horstmann.violet.BentStyle" field="HVH"/> 
+    </void> 
+    <void property="startArrowHead"> 
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/> 
+    </void> 
+   </object> 
+   <object idref="ClassNode2"/> 
    <object idref="ClassNode1"/> 
   </void> 
  </object> 

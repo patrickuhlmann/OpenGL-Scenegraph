@@ -1,7 +1,8 @@
 CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
-LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog
+LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
+GRAPHICPROGO = BaseApplicationGlobal.o SimpleApplication.o BaseApplication.o InputManager.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
 
 # Generic rules
 .cc.o: $<
@@ -22,6 +23,7 @@ clean:
 	rm -rf doc/
 	rm -rf Tests/TestMeshLoaders
 	rm -rf gmon.out
+	rm -rf SkeletonApp
 
 doc:
 	doxygen Doxyfile
@@ -66,7 +68,23 @@ Material.o: Src/Graph/Material.cpp Src/Graph/Material.hpp
 State.o: Src/Graph/State.cpp Src/Graph/State.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
+InputManager.o: Src/Application/InputManager.cpp Src/Application/InputManager.h
+	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
 
+BaseApplication.o: Src/Application/BaseApplication.cpp Src/Application/BaseApplication.h
+	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
+
+SimpleApplication.o: Src/Application/SimpleApplication.cpp Src/Application/SimpleApplication.h
+	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
+
+BaseApplicationGlobal.o: Src/Application/BaseApplicationGlobal.cpp
+	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
+
+SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
+	$(CXX) -c $(CXXFLAGS) Src/$*.cpp
+
+SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
+	$(CXX) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
 
 # The following don't work
 
