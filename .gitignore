@@ -1,0 +1,13 @@
+# Doxygen files
+DoxygenWarnings.log
+
+# Compiled C++ files
+*.o
+*.out
+
+# OS generated files
+.DS_Store?
+
+# Temporary test files
+temp_test.cpp
+temp_test.hpp

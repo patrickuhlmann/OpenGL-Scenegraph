@@ -46,18 +46,12 @@ public:
   // void GetViewMatrix( const M3DMatrix44f m ) const;
 
   /**
-   * Return a constant reference to the view matrix.
-   * The view matrix member gets updated with the latest
-   * values from the frame object. The member is then returned.
-   * This is done to create a coherent interface since a frame's
-   * get method doesn't return a matrix.
-   *
-   * @return M3DMatrix44 const pointer to the  matrix.
+   * Get the value of the view matrix.
    */
-  const M3DMatrix44f GetViewMatrix() const;
+   void GetViewMatrix( const M3DMatrix44 ) const;
 
-  /** Return a constant pointer to the frustum's projection matrix. */
-  const M3DMatrix44f GetProjectionMatrix() const;
+   /** Get the value of the projection matrix */
+  void GetProjectionMatrix( const M3DMatrix44 ) const;
   // const GLFrustum& GetViewFrustum() const;
   //void SetViewFrustum( GLFrustum& );
 
