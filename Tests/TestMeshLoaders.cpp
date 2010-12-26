@@ -17,7 +17,26 @@ TEST_F(TestMeshLoaders, test_TestMeshLoaders)
 {
 	MeshFileLoader l;
 	l.AddMeshLoader(new MeshLoaderObj());
-	Mesh* m = l.Load("Objects/cube.obj");
+
+	// Has Concave Polygons -> cannot triangulate
+	//Mesh* m = l.Load("Objects/lamp.obj");
+	//Mesh* m = l.Load("Objects/violin_case.obj");
+	//Mesh* m = l.Load("Objects/trumpet.obj");
+	//Mesh* m = l.Load("Objects/cessna.obj");
+	//Mesh* m = l.Load("Objects/magnolia.obj");
+	//Mesh* m = l.Load("Objects/slot_machine.obj");
+	//Mesh* m = l.Load("Objects/skyscraper.obj");
+	//Mesh* m = l.Load("Objects/sandal.obj");
+
+	// Triangulation
+	//Mesh* m = l.Load("Objects/humanoid_quad.obj");
+	Mesh* m = l.Load("Objects/shuttle.obj");
+	//Mesh* m = l.Load("Objects/power_lines.obj");
+	//Mesh* m = l.Load("Objects/roi.obj");
+	
+	// Simple
+	//Mesh* m = l.Load("Objects/humanoid_tri.obj");
+	//Mesh* m = l.Load("Objects/cube.obj");
 	//Mesh* m = l.Load("Objects/gourd.obj");
 	//Mesh* m = l.Load("Objects/icosahedron.obj");
 	//Mesh* m = l.Load("Objects/octahedron.obj");

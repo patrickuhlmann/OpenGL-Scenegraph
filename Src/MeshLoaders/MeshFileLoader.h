@@ -16,11 +16,6 @@ class MeshFileLoader : public MeshLoader {
 	private:
 
 	public:
-		/**
-		 * \brief Load the Mesh from the File
-		 *
-		 * \return Pointer to Mesh if successful, 0 otherwise
-		 */
 		virtual Mesh* Load(const string& FileName);
 		virtual Mesh* Load(istream& Stream);		// inherited
 };

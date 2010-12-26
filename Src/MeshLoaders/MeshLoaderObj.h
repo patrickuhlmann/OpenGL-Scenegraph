@@ -7,6 +7,11 @@
 #include <climits>
 #include "../Include/math3d.h"
 #include <glog/logging.h>
+#include <list>
+#include <limits.h>
+#include <stdlib.h>
+
+const double PI = 3.1415926;
 
 using namespace std;
 
@@ -17,6 +22,8 @@ class MeshLoaderObj : public IMeshLoader {
 		void ReadVector3f(float* v, istream& Stream);
 		void ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW = true, bool OptionalWInBrackets = true);
 		void ReadTriangle(Triangle* t, istream& Stream);
+		bool Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* M);
+		bool IsPolygonConvex(vector<int>& VList, Mesh* M);
 
 	public:
 		virtual Mesh* Load(istream& Stream);
