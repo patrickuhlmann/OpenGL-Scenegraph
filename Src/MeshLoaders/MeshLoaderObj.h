@@ -10,6 +10,8 @@
 
 using namespace std;
 
+/**
+ * \brief This class load a mesh in obj format from a stream. But it only loads the vertices and faces. It adds grey as color for all faces and adds texture coordinates (0, 0) for all faces */
 class MeshLoaderObj : public IMeshLoader {
 	private:
 		void ReadVector3f(float* v, istream& Stream);

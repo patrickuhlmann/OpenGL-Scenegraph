@@ -1,5 +1,11 @@
 #include "BaseApplication.h"
 
+/**
+ * \brief Initialize Glut, Create Window, Setup Callback for Render, Resize and Keyboard Handler
+ * \param Title Title which will be print to the titlebar of the window
+ * \param WindowWidth decides how wide the window will be (pixel)
+ * \param WindowHeight decides how heigh the window will be (pixel)
+ */
 BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight) {
 	// Initialize Glut and our Window
 	char *argv[] = {"BaseApplication"};
@@ -10,9 +16,14 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	glutCreateWindow(Title.c_str());
 
 	// Setup the Callback Functions
-	BaseApplicationObject = this;
-	glutReshapeFunc(BaseApplication_Resize);
-	glutDisplayFunc(BaseApplication_Render);
+	BaseApplication::Instance = this;
+	glutReshapeFunc(this->ResizeS);
+	glutDisplayFunc(this->RenderS);
+	LOG(INFO) << "Registred Render Function in Glut" << endl;
+
+	// Setup KeyHandler
+	glutKeyboardFunc(Input.HandleKeysS);
+	DLOG(INFO) << "Registred Keyboard Handler in Glut" << endl;
 
 	// Initialize Glew
 	GLenum err = glewInit();
@@ -26,6 +37,9 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->FrameCounter = 0;
 }
 
+/**
+ * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop
+ */
 void BaseApplication::Start() {
 	this->Init();
 
@@ -33,10 +47,16 @@ void BaseApplication::Start() {
 	glutMainLoop();
 }
 
+/**
+ * \brief Return how many frames we already displayed
+ */
 int BaseApplication::GetFrameCounter() {
 	return this->FrameCounter;
 }
 
+/**
+ * \brief Set the Background Color
+ */
 void BaseApplication::SetupOpenGL() {
 	// Black Background
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -51,6 +71,9 @@ void BaseApplication::SetupOpenGL() {
 	//ShaderManager.InitializeStockShaders();
 }
 
+/**
+ * \brief Check if there was an error. If there was one we log it to the console
+ */
 void BaseApplication::CheckOpenGLError() {
 	GLenum err;
 	while (err != GL_NO_ERROR) {
@@ -68,6 +91,9 @@ void BaseApplication::CheckOpenGLError() {
 	}
 }
 
+/**
+ * \brief Check if there was an error, call virtual update function, clear the window, call virtual render, swap the buffers and increase the framecounter
+ */
 void BaseApplication::RenderBase() {
 	this->CheckOpenGLError();
 
@@ -82,4 +108,23 @@ void BaseApplication::RenderBase() {
 	glutSwapBuffers();
 
 	++this->FrameCounter;
+
+	// Redraw
+	glutPostRedisplay();
+}
+
+/**
+ * \brief Needs to be static because it is a callback function which needs to be called from glut. Redirects the call
+ to the RenderBase function of the Instance
+ */
+void BaseApplication::RenderS() {
+	BaseApplication::Instance->RenderBase();
+}
+
+/**
+ * \brief Needs to be static because it is a callback function which needs to be called from glut. Redirects the call
+ to the Resize function of the Instance
+ */
+void BaseApplication::ResizeS(int NewWidth, int NewHeight) {
+	BaseApplication::Instance->Resize(NewWidth, NewHeight);
 }

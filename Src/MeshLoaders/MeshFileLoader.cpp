@@ -1,5 +1,10 @@
 #include "MeshFileLoader.h"
 
+/**
+ * \brief Load the Mesh from the File
+ *
+ * \return Pointer to Mesh if successful, 0 otherwise
+ */
 Mesh* MeshFileLoader::Load(const string& FileName) {
 	ifstream in(FileName.c_str());
 

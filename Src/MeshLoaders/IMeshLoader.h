@@ -6,9 +6,7 @@ class Mesh;
 using namespace std;
 
 /**
- * \brief Interface for a Mesh Loader Class
- *
- * This class is able to load a Mesh from a accepted Fileformat and to return if we can load the fileformat from a stream
+ * \brief Interface for a Mesh Loader Class. This class is able to load a Mesh from a accepted Fileformat and to return if we can load the fileformat from a stream
  */
 class IMeshLoader {
 	private:

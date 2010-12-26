@@ -2,6 +2,9 @@
 
 #include "BaseApplication.h"
 
+/**
+ * \brief This class can be used to develop simple applications. It has some lifecycle methods and simple keyhandling for example Esc to close the application
+ */
 class SimpleApplication : public BaseApplication {
 	private:
 
@@ -11,12 +14,9 @@ class SimpleApplication : public BaseApplication {
 		virtual void Update();
 		virtual void Render();
 		virtual void Resize(int NewWidth, int NewHeight);
-		// TODO: implement
 		virtual void HandleKeys(enuKey Code);
-		// TODO: implement
+		static  void HandleKeysS(enuKey Code, int x, int y);
 		virtual void Pause();
-		// TODO: implement
 		virtual void Continue();
-		// TODO: implement
 		virtual void Shutdown();
 };

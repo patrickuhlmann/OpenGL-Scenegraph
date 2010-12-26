@@ -156,24 +156,39 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
  *
  *	\param Name path to a file
  *	\return true if it ends with .obj, false otherwise
+ * TODO: just stupidly returns true
  */
 bool MeshLoaderObj::Accept(istream& Stream) {
 	return true;
 }
 
+/**
+ * \brief Reads 3 float numbers from the stream an places them in the array v
+ *
+ * \param v must be a float array with 3 elements
+ * \param Stream where we read from
+ */
 void MeshLoaderObj::ReadVector3f(float* v, istream& Stream) {
 	Stream >> v[0];
 	Stream >> v[1];
 	Stream >> v[3];
 }
 
+/**
+ * \brief If OptionalW is false we read in 4 floats. Otherwise we read in 3 floats and check if it is specified (either within or not within brackets) and try to read it. If it is not specified we just set it to 1.0f. At the end we normalize the x, y and z values and can therefore discard w anyway.
+ *
+ * \param v pointer to an float array with 3 elements
+ * \param Stream where we read from
+ * \param OptionalW if false we need to read in a w and normalize otherwise we try but set it to 1.0f if we can't find it
+ * \param OptionalWInBrackets if true we try to read in in format [1.0] otherwise just format 1.0
+ */
 void MeshLoaderObj::ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW, bool OptionalWInBrackets) {
 	// Read in x to z
 	Stream >> v[0];
 	Stream >> v[1];
 	Stream >> v[2];
 
-	// w is optional and if there it is in brackets
+	// w is optional and if it is there it has brackets around
 	float w;
 	if (OptionalW && OptionalWInBrackets) {
 		char c;
@@ -185,7 +200,7 @@ void MeshLoaderObj::ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW, 
 			Stream >> w;
 			Stream.ignore('\n');
 		}
-	// w is optional but if there has no brackets around
+	// w is optional but if there are no brackets around
 	} else if (OptionalW && !OptionalWInBrackets) {
 		Stream >> w;
 		if (Stream.fail()) {
@@ -196,17 +211,22 @@ void MeshLoaderObj::ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW, 
 		Stream >> w;
 	}
 
-	// normalize so we don't need the 
+	// normalize so we don't need the w
 	v[0] = v[0] / w;
 	v[1] = v[1] / w;
 	v[2] = v[2] / w;
 }
 
-//# Face Definitions 
-// 1 2 3						-> Vertex index starting with 1, face can contain more than three elements!
-// 3/1 4/2 5/3					-> Vertex/texture-coordinate
-// 6/4/1 3/5/3 7/6/5			-> Vertex/texture-coordinate/normal
-// v1//vn1 v2//vn2 v3//vn3		-> Vertex/normal
+/**
+ * \brief Reads in a Triangle. It accepts the following formats:\n
+ *  1 2 3						-> Vertex index starting with 1, face can contain more than three elements!\n
+ * 3/1 4/2 5/3					-> Vertex/texture-coordinate\n
+ * 6/4/1 3/5/3 7/6/5			-> Vertex/texture-coordinate/normal\n
+ * v1//vn1 v2//vn2 v3//vn3		-> Vertex/normal\n
+ *
+ * \param Triangle where we should store the values
+ * \param Stream where we read from
+ */
 void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
 	Stream >> t->vert1;
 	Stream.ignore(INT_MAX, ' ');

@@ -2,7 +2,7 @@ CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
-GRAPHICPROGO = BaseApplicationGlobal.o SimpleApplication.o BaseApplication.o InputManager.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
 
 # Generic rules
 .cc.o: $<
@@ -71,13 +71,16 @@ State.o: Src/Graph/State.cpp Src/Graph/State.hpp
 InputManager.o: Src/Application/InputManager.cpp Src/Application/InputManager.h
 	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
 
+InputManagerInstanceInit.o: Src/Application/InputManagerInstanceInit.cpp Src/Application/InputManager.h
+	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
+
 BaseApplication.o: Src/Application/BaseApplication.cpp Src/Application/BaseApplication.h
 	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
 
-SimpleApplication.o: Src/Application/SimpleApplication.cpp Src/Application/SimpleApplication.h
+BaseApplicationInstanceInit.o: Src/Application/BaseApplicationInstanceInit.cpp Src/Application/BaseApplication.h
 	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
 
-BaseApplicationGlobal.o: Src/Application/BaseApplicationGlobal.cpp
+SimpleApplication.o: Src/Application/SimpleApplication.cpp Src/Application/SimpleApplication.h
 	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp
 
 SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
