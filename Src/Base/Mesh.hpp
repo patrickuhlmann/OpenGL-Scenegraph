@@ -4,6 +4,7 @@
 #include "../Include/math3d.h"
 #include "../Include/GL/glew.h"
 #include <string>
+#include "../Graph/Material.hpp"
 
 class MeshLoaderObj;
 
@@ -28,12 +29,14 @@ typedef vector<float*> NormalVector;
 typedef vector<float*> ColorVector;
 typedef vector<Triangle> TriangleVector;
 typedef vector<float*> TextureCoordVector;
+typedef vector<Material> MaterialVector;
 
 typedef VertexVector::iterator VertexIterator;
 typedef NormalVector::iterator NormalIterator;
 typedef ColorVector::iterator ColorIterator;
 typedef TriangleVector::iterator TriangleIterator;
 typedef TextureCoordVector:: iterator TextureCoordIterator;
+typedef MaterialVector::iterator MaterialIterator;
 
 class Mesh {
 public: 
@@ -66,8 +69,8 @@ public:
 private:
   VertexVector   _vertices;  // XYZ
   NormalVector   _normals;   // one normal per vertex
-  ColorVector    _colors;    // RGBA for each vertex
   TriangleVector _triangles; // indexes for vertex vector
+  MaterialVector _material;  // for material
   TextureCoordVector  _textureCoords; // can be set to all zeroes by default
   string _name;	// name of the mesh for example name of the file where it was loaded from
 

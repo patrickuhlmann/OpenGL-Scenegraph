@@ -15,7 +15,7 @@ Mesh* MeshFileLoader::Load(const string& FileName) {
 
 	// if we have a valid mesh -> set it's name to the FileName which we loaded
 	if (m != 0) {
-		m->_name = FileName;
+		m->_name = string(FileName.c_str());
 	}
 
 	in.close();
