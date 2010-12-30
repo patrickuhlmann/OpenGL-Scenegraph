@@ -2,7 +2,7 @@
 #
 #
 
-mtllib ./vp.mtl
+mtllib Objects/vp.mtl
 g
 v -2.902015 12.048209 2.966626
 v -3.952013 12.048211 2.966625

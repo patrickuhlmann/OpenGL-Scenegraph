@@ -34,8 +34,11 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
 
+	TriangulationEasy = 0;
+	TriangulationHard = 0;
+
 	/* How we read it in: always process one line at a time. First we read the first string on the line. This indicates what type of definition we have. With the switch case we handle every single Definition (Vertices, Comments, Normals, etc.) and process it */
-	while(!Stream.eof() && !Stream.bad()) {
+	while(!Stream.eof() && Stream.good()) {
 		// When we have empty lines there are \r or \n or maybe \t or whitespaces
 		while (Stream.peek() == '\r' || Stream.peek() == '\n' || Stream.peek() == '\t' || Stream.peek() == ' ')
 			Stream.ignore(1);
@@ -47,6 +50,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		// Special case comments they don't need to have a whitespace after them so we need to handle them separately
 		if (Stream.peek() == '#')
 			Definition = "#";
+
 		// Special case 2: only g without name is also valid
 		else if (Stream.peek() == 'g')
 			Definition = "g";
@@ -162,6 +166,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	DLOG(INFO) << "Calculated " << M->_normals.size() << " Normals" << endl;
 	DLOG(INFO) << "Read in " << M->_material.size() << " Materials" << endl;
 	DLOG(INFO) << "Read in " << M->_textureCoords.size() << " Texture Coordinates" << endl;
+	DLOG(INFO) << "TriangulationEasy " << TriangulationEasy << endl;
+	DLOG(INFO) << "TriangulationHard " << TriangulationHard << endl;
 
 	if (Stream.bad()) {
 		DLOG(WARNING) << "Error reading in Mesh" << endl;
@@ -199,7 +205,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 	float g;
 	float b;
 
-	while(!In.eof() && !In.bad()) {
+	while(!In.eof() && In.good()) {
 		// When we have empty lines there are \r or \n or maybe \t or whitespaces
 		while (In.peek() == '\r' || In.peek() == '\n' || In.peek() == '\t' || In.peek() == ' ')
 			In.ignore(1);
@@ -481,11 +487,10 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* 
 
 		Vertices.push_back(index);
 
-		// if we have another than the simple format for faces we stop
+		// ignore texture coordinates etc.
 		if (Stream.peek() == '/') {
-			DLOG(WARNING) << "Triangulation only for simple Face List Format!" << endl;
-			Stream.ignore(INT_MAX, '\n');
-			return false;
+			while (Stream.peek() != ' ' && Stream.peek() != '\n')
+				Stream.ignore(1);
 		}
 
 		while(Stream.peek() == ' ' || Stream.peek() == '\t' || Stream.peek() == '\r')
@@ -494,11 +499,16 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* 
 
 	// If it is concave it's to hard
 	if (!IsPolygonConvex(Vertices, M)) {
-		DLOG(WARNING) << "Triangulation to hard it's concave!" << endl;
-		return false;
+		DLOG(WARNING) << "Now it gets tough concave triangulation!" << endl;
+		return TriangulateConcave(TList, Vertices, M);
 	}
 
-	DLOG(INFO) << "Triangulation for " << Vertices.size() << " points" << endl;
+	return Triangulate(TList, Vertices, M);
+}
+
+bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, Mesh* M) {
+	DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
+	TriangulationEasy++;
 
 	// Triangulate by finding the highest y-Coordinate, it's two nearest neighbors and drawing the lines. We then add the triangle and remove the highest point. When we have only three points left they are the last triangle and we quit
 	// TODO: normals correct?
@@ -561,6 +571,43 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* 
 	TList.push_back(Triangle(Vertices[0], Vertices[1], Vertices[2]));
 
 	DLOG(INFO) << "Triangulation produced " << TList.size() << " triangles" << endl;
+
+	return true;
+}
+
+/** \brief A and B are vectors. The function returns the angle between A and B (http://www.euclideanspace.com/maths/algebra/vectors/angleBetween/index.htm) */
+double AngleAToB(float* A, float* B) {
+	return atan2(B[1], B[0]) - atan2(A[1], A[0]);
+}
+
+void VectorFromAToB(float* A, float* B, float* Vector) {
+	Vector[0] = B[0] - A[0];
+	Vector[1] = B[1] - A[1];
+	Vector[2] = B[2] - A[2];
+}
+
+/** \brief We start with one Vertex. Take the point p before and after. If the inner angle is less than 180 degrees it
+it's triangle is inside and we chop it away (otherwise we just go to the next point). We remove the Point p (the others stay!) and have a smaller Shape. We test if it is already concave and otherwise we chop away another piece. */
+bool MeshLoaderObj::TriangulateConcave(vector<Triangle>& TList, vector<int>& VerticesIndices, Mesh* M) {
+	TriangulationHard++;
+
+	for (int i=1; i<VerticesIndices.size()-1; i++) {
+		float* Vec1 = new float[3];
+		float* Vec2 = new float[3];
+
+		VectorFromAToB(M->_vertices[VerticesIndices[i-1]], M->_vertices[VerticesIndices[i]], Vec1);
+		VectorFromAToB(M->_vertices[VerticesIndices[i+1]], M->_vertices[VerticesIndices[i]], Vec2);
+
+		// Angle less than 180 degrees (triangle is part of the shape)
+		if (AngleAToB(Vec1, Vec2) < PI/2) {
+			TList.push_back(Triangle(i-1, i, i+1));
+			VerticesIndices.erase(VerticesIndices.begin()+i);
+			i--;
+			if (IsPolygonConvex(VerticesIndices, M)) {
+				return Triangulate(TList, VerticesIndices, M);
+			}
+		}
+	}	
 
 	return true;
 }

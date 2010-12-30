@@ -28,7 +28,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Mesh.o math3d.o
+TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Mesh.o math3d.o Material.o
 	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestMeshLoaders.cpp math3d.o Mesh.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Material.o -o Tests/TestMeshLoaders
 	./Tests/TestMeshLoaders
 
