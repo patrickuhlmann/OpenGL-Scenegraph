@@ -9,6 +9,8 @@
 #include "Transform.hpp"
 #include "Geometry.hpp"
 #include "../Base/Mesh.hpp"
+#include "../Base/Convert.h"
+#include "Camera.hpp"
 
 /**
  * Renders a geometry using OpenGL 3 core.
@@ -65,7 +67,7 @@ public:
    * @see Group
    * @param Group*    
    */
-  virtual void VisitGroup( Group* );
+  // TODO: what is group: virtual void VisitGroup( Group* );
 
   /**
    * Get transformations for viewing space and projection.

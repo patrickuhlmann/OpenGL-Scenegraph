@@ -1,6 +1,9 @@
 #pragma once
 
 #include "NodeVisitor.hpp"
+#include "../Include/math3d.h"
+#include "State.hpp"
+#include "Material.hpp"
 
 /**
  * Updates a node in the scene graph.
@@ -11,8 +14,8 @@
  */
 class UpdateVisitor : public NodeVisitor {
 public:
-  NodeVisitor();
-  ~NodeVisitor();
+  UpdateVisitor();
+  ~UpdateVisitor();
   
   /**
    * Update a transform node.
@@ -66,7 +69,7 @@ public:
   void SetDirection( const M3DVector3f& );
   void SetPosition( const M3DVector3f& );
   void SetState( const State& );
-  void SetMaterial ( const Material& )
+  void SetMaterial ( const Material& );
 
 private:
 
@@ -81,6 +84,6 @@ private:
   M3DVector3f  _direction;
   M3DVector3f  _position;
   Material     _material;
-  //  State* _state;
+  State _state;
   //  Texture* _texture;
 };

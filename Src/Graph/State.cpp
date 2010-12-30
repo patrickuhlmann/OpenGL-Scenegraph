@@ -20,13 +20,13 @@ void State::Apply()
   enableEnd  = _enables.end();
 
   while ( enableIt != enableEnd ) {
-    glEnable( *it );
-    ++it;
+    glEnable( *enableIt );
+    ++enableIt;
   }
 
   while ( disableIt != disableEnd ) {
-    glDisable( *it );
-    ++it;
+    glDisable( *disableIt );
+    ++disableIt;
   }
 }
 
@@ -64,11 +64,11 @@ void State::Merge( const State& state )
 StateVariableIterator State::GetStateVariableIterator()
 { return _enables.begin(); }
 
-StateVariableIterator GetStateEnableIteratorEnd()
+StateVariableIterator State::GetStateEnableIteratorEnd()
 { return _enables.end(); }
 
-StateVariableIterator GetStateDisableIterator()
+StateVariableIterator State::GetStateDisableIterator()
 { return _disables.begin(); }
 
-StateVariableIterator GetStateDisableIteratorEnd()
+StateVariableIterator State::GetStateDisableIteratorEnd()
 { return _disables.end(); }

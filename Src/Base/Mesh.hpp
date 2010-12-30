@@ -54,13 +54,17 @@ public:
   ColorIterator GetColorIteratorEnd();
 
   TriangleIterator GetTriangleIterator();
+  TriangleIterator GetTriangleIteratorConst() const;
   TriangleIterator GetTriangleIteratorEnd();
+  TriangleIterator GetTriangleIteratorEndConst() const;
+
 
   TextureCoordIterator GetTextureCoordIterator();
   TextureCoordIterator GetTextureCoordIteratorEnd();
 
-  const float* GetVertex( int ) const;
-  const float* GetNormal( int ) const;
+  float* GetVertex( int ) const;
+  float* GetNormal( int ) const;
+  float* GetTextureCoord( int ) const;
 
   const string& GetName() const;
 

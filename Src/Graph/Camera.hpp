@@ -48,10 +48,10 @@ public:
   /**
    * Get the value of the view matrix.
    */
-   void GetViewMatrix( const M3DMatrix44 ) const;
+   void GetViewMatrix( M3DMatrix44f ) const;
 
    /** Get the value of the projection matrix */
-  void GetProjectionMatrix( const M3DMatrix44 ) const;
+  void GetProjectionMatrix( M3DMatrix44f );
   // const GLFrustum& GetViewFrustum() const;
   //void SetViewFrustum( GLFrustum& );
 

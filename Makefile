@@ -89,8 +89,6 @@ SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
 SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
 	$(CXX) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
 
-# The following don't work
-
 Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
@@ -111,8 +109,4 @@ Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
 
 UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
-
-
-
-
 
