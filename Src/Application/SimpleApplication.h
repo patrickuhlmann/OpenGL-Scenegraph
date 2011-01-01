@@ -7,6 +7,7 @@
  */
 class SimpleApplication : public BaseApplication {
 	private:
+		void HandleKeysSimple(enuKey Code);
 
 	public:
 		SimpleApplication(string Title, int WindowWidth, int WindowHeight);
@@ -19,4 +20,5 @@ class SimpleApplication : public BaseApplication {
 		virtual void Pause();
 		virtual void Continue();
 		virtual void Shutdown();
+		static void ShutdownS();
 };

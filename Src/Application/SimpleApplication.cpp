@@ -7,10 +7,8 @@
  * \param WindowHeight decies how high the window will be (pixel)
  */
 SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) : BaseApplication(Title, WindowWidth, WindowHeight) {
-	// Register Esc for Exit
-	enuKey Esc = APP_KEY_ESC;
-	Input.AddBinding("Exit", Esc);
-	Input.AddListener("Exit", this->HandleKeysS);
+	Input.AddGlobalListener(this->HandleKeysS);
+	atexit(this->ShutdownS);
 }
 
 /**
@@ -39,34 +37,48 @@ void SimpleApplication::Render() {
 
 /**
  * \brief This function is called whenever we change the size of the window (which includes one call when it is created the first time).
- * Default Implementation: Adjust GLViewport to new Width and Height
+ * Empty Implementation
  */
 void SimpleApplication::Resize(int NewWidth, int NewHeight) {
-	glViewport(0, 0, NewWidth, NewHeight);
+
 }
 
 /**
  * \brief needs to be static as it is the callback function for key inputs which will be called from glut. Just redirects the call to the HandleKeys method of the most recently created real instance of SimpleApplication
  */
 void SimpleApplication::HandleKeysS(enuKey Code, int x, int y) {
-	reinterpret_cast<SimpleApplication*>(Instance)->HandleKeys(Code);
+	reinterpret_cast<SimpleApplication*>(Instance)->HandleKeysSimple(Code);
+}
+
+/**
+ * \brief Method which gets the Key Events from Glut. Here we handle the SimpleApplication Inputs
+ * at the end we call the HandleKeys method
+ */
+void SimpleApplication::HandleKeysSimple(enuKey Code) {
+	if (Code == APP_KEY_ESC) {
+		exit(0);
+	} else if (Code == APP_KEY_P) {
+		this->PauseFlag = !this->PauseFlag;
+		if (this->PauseFlag)
+			this->Pause();
+		else
+			this->Continue();
+	}
+
+	this->HandleKeys(Code);
 }
 
 /**
  * \brief Method which gets the Key Events from Glut. Here we can handle all inputs
- * Default Implementation: Esc closes the Application
- * TODO: doesn't yet get all key inputs
+ * Default Implementation: Empty
  */
 void SimpleApplication::HandleKeys(enuKey Code) {
-	if (Code == APP_KEY_ESC) {
-		exit(0);
-	}
+
 }
 
 /**
  * \brief This method will be called if the Application is paused
  * Empty Implementation
- * TODO: not yet implemented
  */
 void SimpleApplication::Pause() {
 
@@ -75,7 +87,6 @@ void SimpleApplication::Pause() {
 /**
  * \brief This method will be called if the Application is resumed
  * Empty Implementation
- * TODO: not yet implemented
  */
 void SimpleApplication::Continue() {
 
@@ -84,8 +95,14 @@ void SimpleApplication::Continue() {
 /**
  * \brief This method will be called if the Application is closed
  * Empty Implementation
- * TODO: not yet implemented
  */
 void SimpleApplication::Shutdown() {
 
+}
+
+/**
+ * \brief needs to be static as it is the callback function for key inputs which will be called from glut. Just redirects the call to the HandleKeys method of the most recently created real instance of SimpleApplication
+ */
+void SimpleApplication::ShutdownS() {
+	reinterpret_cast<SimpleApplication*>(Instance)->Shutdown();
 }

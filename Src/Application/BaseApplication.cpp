@@ -35,6 +35,8 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->SetupOpenGL();
 
 	this->FrameCounter = 0;
+
+	this->PauseFlag = false;
 }
 
 /**
@@ -52,6 +54,14 @@ void BaseApplication::Start() {
  */
 int BaseApplication::GetFrameCounter() {
 	return this->FrameCounter;
+}
+
+/**
+ * \brief Adjust the OpenGL Viewport and calls the Resize Lifecycle method
+ */
+void BaseApplication::ResizeBase(int NewWidth, int NewHeight) {
+	glViewport(0, 0, NewWidth, NewHeight);
+	this->Resize(NewWidth, NewHeight);
 }
 
 /**
@@ -97,6 +107,9 @@ void BaseApplication::CheckOpenGLError() {
 void BaseApplication::RenderBase() {
 	this->CheckOpenGLError();
 
+	if (this->PauseFlag)
+		return;
+
 	this->Update();
 			
 	// Clear the window with current clearing (=background) color
@@ -126,5 +139,5 @@ void BaseApplication::RenderS() {
  to the Resize function of the Instance
  */
 void BaseApplication::ResizeS(int NewWidth, int NewHeight) {
-	BaseApplication::Instance->Resize(NewWidth, NewHeight);
+	BaseApplication::Instance->ResizeBase(NewWidth, NewHeight);
 }

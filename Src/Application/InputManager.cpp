@@ -23,6 +23,12 @@ void InputManager::HandleKeysS(unsigned char Code, int x, int y) {
 void InputManager::HandleKeys(int Code, int x, int y) {
 	DLOG(INFO) << "Handle Key " << Code << endl;
 
+	// Global Callback
+	mmsppairit Global = ActionCallbackMap.equal_range("_GLOBAL_");
+	for (mmsp::iterator it = Global.first; it != Global.second; ++it) {
+		((*it).second)(static_cast<enuKey>(Code), x, y);
+	}
+
 	// Find Actions with this Code
 	mmispairit ARet = ActionInputMap.equal_range(Code);
 
@@ -61,4 +67,12 @@ void InputManager::AddBinding(string Action, enuMouse MouseInput) {
 void InputManager::AddListener(string Action, void (*HandlerCallback)(enuKey, int, int)) {
 	ActionCallbackMap.insert(mmsp::value_type(Action, HandlerCallback));
 	DLOG(INFO) << "Added Callback for " << Action << endl;
+}
+
+/**
+ * \brief Add a Callback Method for every key. This callback will be called whenever a key is pressed
+ */
+void InputManager::AddGlobalListener(void (*HandlerCallback)(enuKey, int, int)) {
+	ActionCallbackMap.insert(mmsp::value_type("_GLOBAL_", HandlerCallback));
+	DLOG(INFO) << "Added Global Callback" << endl;
 }

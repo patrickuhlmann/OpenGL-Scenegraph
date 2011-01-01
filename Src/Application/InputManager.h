@@ -69,5 +69,6 @@ class InputManager {
 		void AddBinding(string Action, enuKey KeyInput);
 		void AddBinding(string Action, enuMouse MouseInput);
 		void AddListener(string Action, void (*HandlerCallback)(enuKey, int, int));
+		void AddGlobalListener(void (*HandlerCallback)(enuKey, int, int));
 		static void HandleKeysS(unsigned char Code, int x, int y);
 };

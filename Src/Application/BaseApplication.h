@@ -23,6 +23,7 @@ class BaseApplication {
 		void RenderBase();
 		void SetupOpenGL();
 		void CheckOpenGLError();
+		void ResizeBase(int NewWidth, int NewHeight);
 
 	protected:
 		/** \brief InputManager which we use for this application. */
@@ -35,6 +36,7 @@ class BaseApplication {
 		int FrameCounter;
 		/** \brief Points to the most recently created instance of this class. This is necessary so that the Static Callbacks for Resize and Render are able to call the methods of the active instance */
 		static BaseApplication *Instance;
+		bool PauseFlag;
 
 	public:
 		BaseApplication(string Title, int WindowWidth, int WindowHeight);
