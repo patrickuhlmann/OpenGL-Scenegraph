@@ -9,5 +9,4 @@ DoxygenWarnings.log
 .DS_Store?
 
 # Temporary test files
-temp_test.cpp
-temp_test.hpp
+temp_*.*
