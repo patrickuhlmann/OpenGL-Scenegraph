@@ -2,6 +2,8 @@
 
 #include "NodeVisitor.hpp"
 
+//class NodeVisitor;
+
 /**
  * Abstract class representing nodes in the scene graph.
  * @see NodeVisitor
