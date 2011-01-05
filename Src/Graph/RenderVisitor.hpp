@@ -9,7 +9,7 @@
 #include "Transform.hpp"
 #include "Geometry.hpp"
 #include "../Base/Mesh.hpp"
-#include "../Base/Convert.h"
+//#include "../Base/Convert.h"
 #include "Camera.hpp"
 
 /**
@@ -81,7 +81,7 @@ public:
   virtual void VisitCamera( Camera* );
   
 
-private:
+
 
   /**
    * Traverse a composite.
@@ -90,10 +90,16 @@ private:
    */
   virtual void Traverse( CompositeNode* );
 
+private:
+
   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
   GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
   GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
   GLShaderManager _shaderManager;           /**< Helper object for managing shader programs */
   Light _light;                           /**< Reference to a single light. We only support
 					       one light per scene right now */
+
+
 };
+
+
