@@ -31,6 +31,7 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #include "GLShaderManager.h"
 #include "GLTools.h"
 #include <stdarg.h>
+#include <glog/logging.h>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -321,7 +322,12 @@ bool GLShaderManager::InitializeStockShaders(void)
 	// hickup for a reallocation.
 //	shaderTable.reserve(128);
 	
+DLOG(INFO) << "InitializeStockShaders" << std::endl;
+
 	uiStockShaders[GLT_SHADER_IDENTITY]			= gltLoadShaderPairSrcWithAttributes(szIdentityShaderVP, szIdentityShaderFP, 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
+
+DLOG(INFO) << "BLADFDSFFFFSSDSDSDDDDDDDDDDDDDDDDDDF" << std::endl;
+
 	uiStockShaders[GLT_SHADER_FLAT]				= gltLoadShaderPairSrcWithAttributes(szFlatShaderVP, szFlatShaderFP, 1, GLT_ATTRIBUTE_VERTEX, "vVertex");
 	uiStockShaders[GLT_SHADER_SHADED]			= gltLoadShaderPairSrcWithAttributes(szShadedVP, szShadedFP, 2,
 																								GLT_ATTRIBUTE_VERTEX, "vVertex", GLT_ATTRIBUTE_COLOR, "vColor");
