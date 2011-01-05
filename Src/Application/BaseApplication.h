@@ -3,7 +3,12 @@
 // Frameworks
 #include <glog/logging.h>
 #include "../Include/GL/glew.h"
+
+#ifdef __APPLE__
+#include <glut/glut.h>
+#else
 #include <GL/glut.h>
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
