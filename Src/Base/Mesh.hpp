@@ -35,6 +35,7 @@ typedef VertexVector::iterator VertexIterator;
 typedef NormalVector::iterator NormalIterator;
 typedef ColorVector::iterator ColorIterator;
 typedef TriangleVector::iterator TriangleIterator;
+typedef TriangleVector::const_iterator TriangleIteratorConst;
 typedef TextureCoordVector:: iterator TextureCoordIterator;
 typedef MaterialVector::iterator MaterialIterator;
 
@@ -51,24 +52,24 @@ public:
   NormalIterator GetNormalIteratorEnd();
 
   ColorIterator GetColorIterator();
-  ColorIterator GetColorIteratorEnd();
+   ColorIterator GetColorIteratorEnd();
 
-  TriangleIterator GetTriangleIterator();
-  TriangleIterator GetTriangleIteratorConst() const;
-  TriangleIterator GetTriangleIteratorEnd();
-  TriangleIterator GetTriangleIteratorEndConst() const;
+   TriangleIterator GetTriangleIterator();
+   TriangleIteratorConst GetTriangleIteratorConst() const;
+   TriangleIterator GetTriangleIteratorEnd();
+   TriangleIteratorConst GetTriangleIteratorEndConst() const;
 
 
-  TextureCoordIterator GetTextureCoordIterator();
-  TextureCoordIterator GetTextureCoordIteratorEnd();
+   TextureCoordIterator GetTextureCoordIterator();
+   TextureCoordIterator GetTextureCoordIteratorEnd();
 
-  const float* GetVertex( int ) const;
-  const float* GetNormal( int ) const;
-  const float* GetTextureCoord( int ) const;
+   const float* GetVertex( int ) const;
+   const float* GetNormal( int ) const;
+   const float* GetTextureCoord( int ) const;
 
-  const string& GetName() const;
+   const string& GetName() const;
 
-  GLint GetVertexCount() const;
+   int GetVertexCount() const;
 
 private:
   VertexVector   _vertices;  // XYZ

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CompositeNode.hpp"
-#include "NodeVisitor.hpp"
+//#include "NodeVisitor.hpp"
 #include "../Include/GLFrame.h"
 
 /**
