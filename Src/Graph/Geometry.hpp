@@ -21,7 +21,7 @@ public:
   void SetMesh( Mesh* );
 
   /** Return the mesh pointer */
-  Mesh* GetMesh() const;
+ const Mesh* GetMesh() const;
 
   /** Set a new state */
   void SetState( const State& );
