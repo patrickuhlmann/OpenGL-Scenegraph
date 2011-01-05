@@ -1,6 +1,11 @@
 #pragma once
 
+#ifdef __APPLE__
+#include <glut/glut.h>
+#else
 #include <GL/glut.h>
+#endif
+
 #include <string>
 #include <map>
 #include <glog/logging.h>
