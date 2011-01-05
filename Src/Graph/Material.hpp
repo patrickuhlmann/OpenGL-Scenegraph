@@ -8,37 +8,47 @@ using namespace std;
 
 class Material {
 public:
-  Material() {};
+  Material(const string& Name, const M3DVector3f& AmbientLight);
   Material( const Material& );
   
   void operator= ( const Material& );
+  void SetAmbient(const M3DVector3f& AmbientLight );
+  void SetAmbient(GLfloat r, GLfloat g, GLfloat b);
+  void SetDiffuse(const M3DVector3f& DiffuseLight );
+  void SetDiffuse(GLfloat r, GLfloat g, GLfloat b);
+  void SetSpecular(const M3DVector3f& SpecularLight, int s);
+  void SetSpecular(GLfloat r, GLfloat g, GLfloat b, int s);
+  void RemoveDiffuse();
+  void RemoveSpecular();
+  void SetTransparency (GLfloat);
 
-  /** Set ambient material color. */
-  void SetAmbient( GLfloat, GLfloat, GLfloat );
-
-  /** Set diffuse material color. */
-  void SetDiffuse( GLfloat, GLfloat, GLfloat );
-
-  /** Set specular material color. */
-  void SetSpecular( GLfloat, GLfloat, GLfloat );
-
-  /** 
-   * Set the shininess of the material.
-   * Values between 0-127 where 0 is shiniest. 
-   */
-  void SetShine( GLchar );
-
-  void SetTransparency ( GLfloat);
+  const string& GetName() const;
+  bool IsDiffuseLightEnabled() const;
+  bool IsSpecularLightEnabled() const;
+  int GetShininess() const;
+  const M3DVector3f& GetDiffuseLight() const;
+  const M3DVector3f& GetSpecularLight() const;
+  const M3DVector3f& GetAmbientLight() const;
 
 private:
   void Copy( const Material& );
 
-  M3DVector3f _ambient;  /**< Ambient component. RGBA.  */
-  M3DVector3f _diffuse;  /**< Diffuse component. RGBA.  */
-  M3DVector3f _specular; /**< Specular component. RGBA. */
-  GLchar      _shine;    /**< Material shine */
+  /** \brief Store the r, g and b components of the Ambient light */
+  M3DVector3f _ambient;
+  /** \brief Store the r, g and b components of the Diffuse light */
+  M3DVector3f _diffuse;
+  /** \brief Store the r, g and b components of the Specular light */
+  M3DVector3f _specular;
+  /** \brief Store how strong the specular hightlight is shining */
+  int      _shine;
+  /** \brief Store a name for the material */
   string      _name;
+  /** \brief Store the alpha value for the material */
   GLfloat     _transparency;
+  /** \brief If true it indicates, that the material has a diffuse light, otherwise it's false */
+  bool		  _useDiffuse;
+  /** \brief If true it indicates, that the material has a specular light, otherwise it's false */
+  bool		  _useSpecular;
 
 friend class MeshLoaderObj;
 };

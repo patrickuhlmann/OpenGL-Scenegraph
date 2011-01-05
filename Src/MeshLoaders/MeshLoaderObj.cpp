@@ -24,12 +24,10 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	mmsm Materials;
 
 	// Material initialize
-	Material Mat;
-	Mat._name = "Proto";
-	Mat.SetAmbient(0.2f, 0.2f, 0.2f);
+	M3DVector3f MatAmbient;
+	m3dLoadVector3(MatAmbient, 0.2f, 0.2f, 0.2f);
+	Material Mat("Proto", MatAmbient);
 	Mat.SetDiffuse(0.8f, 0.8f, 0.8f);
-	Mat.SetSpecular(1.0f, 1.0f, 1.0f);
-	Mat.SetShine(0.0f);
 	Mat.SetTransparency(1.0f);
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
@@ -190,15 +188,14 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 	DLOG(INFO) << "Stream Status " << In.good() << endl;
 
 	string Definition;
-	Material Mat;
 
-	Material PrototypeMat;
-	PrototypeMat._name = "Proto";
-	PrototypeMat.SetAmbient(0.2f, 0.2f, 0.2f);
+	M3DVector3f MatAmbient;
+	m3dLoadVector3(MatAmbient, 0.2f, 0.2f, 0.2f);
+
+	Material Mat("Empty", MatAmbient);
+
+	Material PrototypeMat("Proto", MatAmbient);
 	PrototypeMat.SetDiffuse(0.8f, 0.8f, 0.8f);
-	PrototypeMat.SetSpecular(1.0f, 1.0f, 1.0f);
-	PrototypeMat.SetShine(0.0f);
-	PrototypeMat.SetTransparency(1.0f);
 
 	bool FirstMat = true;
 	float r;
@@ -251,7 +248,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Specular Color
 		} else if (Definition.compare("Ks") == 0) {
 			In >> r >> g >> b;
-			Mat.SetSpecular(r, g, b);
+			Mat.SetSpecular(r, g, b, 0);
 			DLOG(INFO) << "  Found Specular Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -267,7 +264,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Shininess
 		} else if (Definition.compare("Ns") == 0) {
 			In >> r;
-			Mat.SetShine(r);
+			Mat.SetSpecular(Mat.GetSpecularLight(), r);
 			DLOG(INFO) << "  Found Shininess Value " << r << endl;
 			In.ignore(INT_MAX, '\n');
 

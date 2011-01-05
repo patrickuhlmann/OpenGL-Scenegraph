@@ -62,9 +62,9 @@ public:
   TextureCoordIterator GetTextureCoordIterator();
   TextureCoordIterator GetTextureCoordIteratorEnd();
 
-  float* GetVertex( int ) const;
-  float* GetNormal( int ) const;
-  float* GetTextureCoord( int ) const;
+  const float* GetVertex( int ) const;
+  const float* GetNormal( int ) const;
+  const float* GetTextureCoord( int ) const;
 
   const string& GetName() const;
 
