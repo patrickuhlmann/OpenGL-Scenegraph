@@ -1,5 +1,14 @@
 #include "RenderVisitor.hpp"
 
+void CopyM3DVector3f(const float* source, M3DVector3f dest) {
+	memcpy(dest, source, sizeof(M3DVector3f));
+}
+
+void CopyM3DVector2f(const float* source, M3DVector3f dest) {
+	memcpy(dest, source, sizeof(M3DVector2f));
+}
+
+
 RenderVisitor::RenderVisitor()
 {
   _shaderManager.InitializeStockShaders();
@@ -32,8 +41,8 @@ void RenderVisitor::VisitGeometry( Geometry* g )
   GLTriangleBatch triangles;
   const Mesh* mesh = g->GetMesh(); // Should not be dependent upon Mesh???
 
-  TriangleIterator it  = mesh->GetTriangleIteratorConst(); 
-  TriangleIterator end    = mesh->GetTriangleIteratorEndConst();
+  TriangleIteratorConst it  = mesh->GetTriangleIteratorConst(); 
+  TriangleIteratorConst end    = mesh->GetTriangleIteratorEndConst();
   
   M3DVector3f lightPos;   // array of 3 float (not GLfloat)
   M3DVector4f color;      // array of 4 =||=
@@ -50,17 +59,17 @@ void RenderVisitor::VisitGeometry( Geometry* g )
     M3DVector3f normals[3];
     M3DVector2f texCoords[3];
 
-    GetM3DVector3f(mesh->GetVertex( (*it).vert1 ), vertices[0]);
-    GetM3DVector3f(mesh->GetVertex( (*it).vert2 ), vertices[1]);
-    GetM3DVector3f(mesh->GetVertex( (*it).vert3 ), vertices[2]);
+    CopyM3DVector3f(mesh->GetVertex( (*it).vert1 ), vertices[0]);
+    CopyM3DVector3f(mesh->GetVertex( (*it).vert2 ), vertices[1]);
+    CopyM3DVector3f(mesh->GetVertex( (*it).vert3 ), vertices[2]);
 
-    GetM3DVector3f(mesh->GetNormal( (*it).vert1 ), normals[0]);
-    GetM3DVector3f(mesh->GetNormal( (*it).vert2 ), normals[1]);
-    GetM3DVector3f(mesh->GetNormal( (*it).vert3 ), normals[2]);
+    CopyM3DVector3f(mesh->GetNormal( (*it).vert1 ), normals[0]);
+    CopyM3DVector3f(mesh->GetNormal( (*it).vert2 ), normals[1]);
+    CopyM3DVector3f(mesh->GetNormal( (*it).vert3 ), normals[2]);
 
-    GetM3DVector2f(mesh->GetTextureCoord( (*it).vert1 ), texCoords[0]);
-	GetM3DVector2f(mesh->GetTextureCoord( (*it).vert2 ), texCoords[1]);
-	GetM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), texCoords[2]);
+    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert1 ), texCoords[0]);
+    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert2 ), texCoords[1]);
+    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), texCoords[2]);
 
     triangles.AddTriangle( vertices, normals, texCoords );
 
