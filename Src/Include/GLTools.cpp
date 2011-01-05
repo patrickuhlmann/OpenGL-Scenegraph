@@ -46,7 +46,6 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #ifdef __APPLE__
 #include <unistd.h>
 #endif
-#include <glog/logging.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Get the OpenGL version number
@@ -1410,36 +1409,24 @@ GLuint gltLoadShaderPairSrc(const char *szVertexSrc, const char *szFragmentSrc)
 // just loading say a vertex program... you have to do both.
 GLuint gltLoadShaderPairSrcWithAttributes(const char *szVertexSrc, const char *szFragmentSrc, ...)
 	{
-DLOG(INFO) << "Start" << std::endl;
-
     // Temporary Shader objects
     GLuint hVertexShader;
     GLuint hFragmentShader; 
     GLuint hReturn = 0;   
     GLint testVal;
 
-DLOG(INFO) << "Start1" << std::endl;
-	
     // Create shader objects
     hVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-DLOG(INFO) << "dd" << std::endl;
-
     hFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	
-DLOG(INFO) << "Start2" << std::endl;
 
     // Load them. 
     gltLoadShaderSrc(szVertexSrc, hVertexShader);
     gltLoadShaderSrc(szFragmentSrc, hFragmentShader);
-   
-DLOG(INFO) << "Start3" << std::endl;
 
     // Compile them
     glCompileShader(hVertexShader);
     glCompileShader(hFragmentShader);
-    
-DLOG(INFO) << "Start4" << std::endl;
 
     // Check for errors
     glGetShaderiv(hVertexShader, GL_COMPILE_STATUS, &testVal);
@@ -1457,8 +1444,6 @@ DLOG(INFO) << "Start4" << std::endl;
         glDeleteShader(hFragmentShader);
         return (GLuint)NULL;
 		}
-    
-DLOG(INFO) << "Start5" << std::endl;
 
     // Link them - assuming it works...
     hReturn = glCreateProgram();
@@ -1481,8 +1466,6 @@ DLOG(INFO) << "Start5" << std::endl;
 
 
     glLinkProgram(hReturn);
-	
-DLOG(INFO) << "Start6" << std::endl;
 
     // These are no longer needed
     glDeleteShader(hVertexShader);
@@ -1496,8 +1479,6 @@ DLOG(INFO) << "Start6" << std::endl;
 		return (GLuint)NULL;
 		}
 
-DLOG(INFO) << "End" << std::endl;
-    
     return hReturn;  
 	}   
 
