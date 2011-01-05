@@ -15,6 +15,7 @@ typedef StateVariableSet::iterator StateVariableIterator;
 class State {
 public:
   State();
+  ~State();
 
   /** Copy constructor */
   State( const State& );
@@ -48,7 +49,7 @@ public:
 private:
   StateVariableSet _enables; 
   StateVariableSet _disables;
-  Material _material;
+  Material* _material;
   //  Texture _texture;
   
 };

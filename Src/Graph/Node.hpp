@@ -2,34 +2,32 @@
 
 #include "NodeVisitor.hpp"
 
-//class NodeVisitor;
-
 /**
- * Abstract class representing nodes in the scene graph.
- * @see NodeVisitor
+ * Abstract class representing nodes in the scene graph. It provides basic properties and methods which all nodes have in commen. This is the possibility to accept a NodeVisitor, having a parent and being dirty (need to refresh the values to the children)
  */
 class Node {
 public:
-
-  /** Accept a visitor */
+  /** \brief Accept a visitor: Usually we call the appropriate method of the Visitor. For a TransformNode this could be visitor->VisitTransform */
   virtual void Accept( NodeVisitor* ) {};
-  // virtual void Add( Node* ) {};
-  // virtual void Remove( Node* ) {};
+
+  /** \brief Set the Parent of this Node
+  *
+  * \param Node* Parent pointer to the parent node
+  */
+  virtual void SetParent(Node* Parent) {
+	_parent = Parent;
+  };
 
 protected:
-  /**
-   *Construct a default Node.
-   * Only subclasses can instatiate a Node.
-   */
-  Node() : _parent(0) {};
+  /** \brief Default Constructor sets dirty to false and parent to 0 */
+  Node() {
+	_dirty = false;
+	_parent = 0;
+  };
 
-  /** 
-   * Construct a Node with a pointer to a parent node.
-   * Only subclasses can instatiate a Node.
-   */
-  Node( Node* parent ) : _parent( parent ) {};
+  /** \brief Pointer to the Parent Node of this Node */
+  Node* _parent;
 
-  Node* _parent; /**< Pointer to a parent node */
-
+  /** \brief If true the children are not refreshed, false otherwise */
   bool _dirty;
 };

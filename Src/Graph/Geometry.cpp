@@ -1,7 +1,6 @@
 #include "Geometry.hpp"
 
-Geometry::Geometry( Mesh* mesh, Node* parent )
-  : Node( parent ), _mesh( mesh ), _dirty( false ) {}
+Geometry::Geometry( Mesh* mesh) : Node(), _mesh( mesh ) {}
 
 void Geometry::Accept( NodeVisitor* visitor ) { visitor->VisitGeometry( this ); }
 

@@ -10,8 +10,8 @@
  */
 class Geometry : public Node {
 public:
-  Geometry() { _dirty = false; }; // accept geometry without mesh?
-  Geometry( Mesh*, Node* );
+  Geometry() { }; // accept geometry without mesh?
+  Geometry( Mesh* );
   ~Geometry(); // Delete mesh?
 
   /** Accept a visitor */

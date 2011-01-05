@@ -77,8 +77,7 @@ void BaseApplication::SetupOpenGL() {
 	// Set Preference for Speed/Quality
 	void glHint(GLenum target, GLenum mode);*/
 
-	// TODO: gives segmentfault!!!
-	//ShaderManager.InitializeStockShaders();
+	ShaderManager.InitializeStockShaders();
 }
 
 /**

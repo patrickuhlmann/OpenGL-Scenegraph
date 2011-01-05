@@ -2,7 +2,7 @@
 
 Light::Light() { Init(); };
 
-Light::Light( const M3DVector3f pos, const M3DVector3f dir, Node* parent) : CompositeNode( parent ) 
+Light::Light( const M3DVector3f pos, const M3DVector3f dir, Node* parent) : CompositeNode() 
 {
   _frame.SetOrigin( pos );
   _frame.SetForwardVector( dir );

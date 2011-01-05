@@ -83,7 +83,7 @@ private:
   M3DMatrix44f _transform;
   M3DVector3f  _direction;
   M3DVector3f  _position;
-  Material     _material;
+  Material*     _material;
   State _state;
   //  Texture* _texture;
 };

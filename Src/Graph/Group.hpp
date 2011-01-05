@@ -12,7 +12,7 @@
 class Group : public CompositeNode {
 public:
 
-  Group( Node* parent ) : CompositeNode( parent ) {};
+  Group( Node* parent ) : CompositeNode() {};
   
   virtual void Accept( NodeVisitor* );
 

@@ -2,6 +2,11 @@
 
 State::State() {}
 
+State::~State() {
+	if (_material)
+		delete _material;
+}
+
 State::State( const State& other ) { Merge( other ); }
 
 void State::operator= ( const State& other )
@@ -42,7 +47,12 @@ void State::Disable( GLenum val )
   _disables.insert( val );
  }
 
-void State::SetMaterial( const Material& m ) { _material = m; }
+void State::SetMaterial( const Material& m ) { 
+  if (_material)
+    delete _material;
+
+   _material = new Material(m);
+}
 
 void State::Merge( const State& state )
 {

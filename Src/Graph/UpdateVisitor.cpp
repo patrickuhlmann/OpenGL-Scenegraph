@@ -2,6 +2,11 @@
 
 UpdateVisitor::UpdateVisitor(){}
 
+UpdateVisitor::~UpdateVisitor() {
+	if (_material)
+		delete _material;
+}
+
 void UpdateVisitor::VisitTransform( Transform* t ) 
 {
 
@@ -36,4 +41,9 @@ void UpdateVisitor::SetPosition( const M3DVector3f& p )
 
 void UpdateVisitor::SetState( const State& s ) { _state = s; }
 
-void UpdateVisitor::SetMaterial ( const Material& m ) { _material = m; }
+void UpdateVisitor::SetMaterial ( const Material& m ) { 
+    if (_material)
+		delete _material;
+
+	_material = new Material(m);
+}

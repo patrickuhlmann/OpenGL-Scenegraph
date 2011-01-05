@@ -6,7 +6,7 @@
 Camera::Camera() {} 
 
 Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
-  : CompositeNode( parent )
+  : CompositeNode()
 {
   _frame.SetOrigin( pos );
   _frame.SetForwardVector( dir );
