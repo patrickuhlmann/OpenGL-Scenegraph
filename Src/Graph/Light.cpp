@@ -16,7 +16,11 @@ void Light::Init()
   m3dLoadVector4( _specular, 0.0f, 0.0f, 0.0f, 0.0f );
 }
 
-void Light::Accept( NodeVisitor* visitor ) { visitor->VisitLight( this ); }
+void Light::Accept( NodeVisitor* visitor ) 
+{ 
+   DLOG(INFO) << "Camera accepted visitor\n";
+   visitor->VisitLight( this ); 
+}
 
 
 void Light::SetDirection( const M3DVector3f dir ) { _frame.SetForwardVector( dir ); }

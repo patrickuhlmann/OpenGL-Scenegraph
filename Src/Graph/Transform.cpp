@@ -4,7 +4,11 @@ Transform::~Transform() { delete [] _matrix; }
 
 void Transform::SetMatrix( M3DMatrix44f m ) { m3dCopyMatrix44(m, _matrix); }
 
-void Transform::Accept( NodeVisitor* visitor ) { visitor->VisitTransform( this ); }
+void Transform::Accept( NodeVisitor* visitor ) 
+{ 
+   DLOG(INFO) << "Transform accepted visitor\n";
+   visitor->VisitTransform( this ); 
+}
 
 void Transform::GetMatrix( M3DMatrix44f m ) const { m3dCopyMatrix44(m, _matrix ); }
 
