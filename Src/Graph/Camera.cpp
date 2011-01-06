@@ -3,7 +3,12 @@
 
 // default at origin, pointing at -Z and up is Y
 // default frustum gives an orthographic projection matrix
-Camera::Camera() {} 
+Camera::Camera() : CompositeNode() {} 
+
+// default at origin, pointing at -Z and up is Y
+// default frustum gives an orthographic projection matrix
+// named camera
+Camera::Camera(string Name) : CompositeNode(Name) {} 
 
 Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
   : CompositeNode()

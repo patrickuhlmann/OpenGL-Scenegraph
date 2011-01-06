@@ -14,8 +14,10 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
 /**
  * \brief This function is called only once before the first update happens to initialize everything we want
  * Empty Implementation
+ *
+ * \param MeshFileLoader MeshLoader that can be used to Load Meshs from Files
  */
-void SimpleApplication::Init() {
+void SimpleApplication::Init(MeshFileLoader MeshLoader) {
 
 }
 
@@ -30,8 +32,11 @@ void SimpleApplication::Update() {
 /**
  * \brief This function is called everytime we draw a frame. You need to draw everything you want to be on the next frame
  * Empty implementation
+ *
+ * \param RenderVisitor RVisitor to visit and render the Scenegraph
+ * \param Node* RootNode of the Scenegraph
  */
-void SimpleApplication::Render() {
+void SimpleApplication::Render(RenderVisitor* RVisitor, Node* RootNode) {
 
 }
 

@@ -23,6 +23,8 @@ public:
    */
   Camera();
 
+  Camera(string Name);
+
   /**
    * Create a camera and initilize it with a position and
    * a direction and set a node as a parent.

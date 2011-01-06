@@ -2,7 +2,7 @@ CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitor.o Transform.o Geometry.o State.o
 
 # Generic rules
 .cc.o: $<

@@ -6,9 +6,9 @@
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
  */
-BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight) {
+BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight) : RVisitor(&ShaderManager), RootNode(string("GlobalLight")) {
 	// Initialize Glut and our Window
-	char *argv[] = { "BaseApplication" };
+	char* argv[] = { "BaseApplication" };
 	int argc = 1;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL);
@@ -32,7 +32,13 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 		exit(1);
 	}
 
+	// Initialize the MeshLoader
+	this->MeshLoader.AddMeshLoader(new MeshLoaderObj());
+
 	this->SetupOpenGL();
+
+	// Initialize the Scenegraph
+	this->RootNode.AddChild(new Camera("GlobalCamera"));
 
 	this->FrameCounter = 0;
 
@@ -43,9 +49,8 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
  * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop
  */
 void BaseApplication::Start() {
-	this->Init();
+	this->Init(this->MeshLoader);
 
-	// Start Application
 	glutMainLoop();
 }
 
@@ -114,7 +119,7 @@ void BaseApplication::RenderBase() {
 	// Clear the window with current clearing (=background) color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	this->Render();
+	this->Render(&this->RVisitor, &this->RootNode);
 
 	// Perform the buffer swap to display the back buffer
 	glutSwapBuffers();

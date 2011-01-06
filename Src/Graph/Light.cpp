@@ -1,52 +1,132 @@
 #include "Light.hpp"
 
-Light::Light() { Init(); };
+/** 
+* \brief Create a default light object.
+* The light will be positioned at the origin, pointing down -z axis
+* having the y-axis as the up vector. The light has a white ambient
+* light, no diffuse light and no specular light
+*/
+Light::Light() : CompositeNode() { 
+	Init();
+};
 
-Light::Light( const M3DVector3f pos, const M3DVector3f dir, Node* parent) : CompositeNode() 
+/** 
+ *\brief Create a named default light object.
+* The light will be positioned at the origin, pointing down -z axis
+* having the y-axis as the up vector. The light has a white ambient
+* light, no diffuse light and no specular light
+*/
+Light::Light(string Name) : CompositeNode(Name) {
+	Init();
+};
+
+/** 
+* \brief Create a light and initialize the position and direction of it
+* The light has a white ambient
+* light, no diffuse light and no specular light
+*
+* @param M3DVector3f position
+* @param M3DVector3f direction
+*/
+Light::Light( const M3DVector3f pos, const M3DVector3f dir) : CompositeNode() 
 {
   _frame.SetOrigin( pos );
   _frame.SetForwardVector( dir );
   Init();
 }
 
+/** \brief initialize light component vectors. Ambient is white, all the others will be black */
 void Light::Init() 
 {
   m3dLoadVector4( _diffuse,  0.0f, 0.0f, 0.0f, 0.0f );
-  m3dLoadVector4( _ambient,  0.0f, 0.0f, 0.0f, 0.0f );
+  m3dLoadVector4( _ambient,  1.0f, 1.0f, 1.0f, 1.0f );
   m3dLoadVector4( _specular, 0.0f, 0.0f, 0.0f, 0.0f );
 }
 
+/** \brief Accept a visitor. It calls VisitLight on it's Visitor
+ * \param NodeVisitor* visitor who visits us
+ */
 void Light::Accept( NodeVisitor* visitor ) 
 { 
    DLOG(INFO) << "Light accepted visitor\n";
    visitor->VisitLight( this ); 
 }
 
+/**
+* \brief Set the direction of the light.
+* @param M3DVector3f direction to set (XYZ)
+*/
+void Light::SetDirection( const M3DVector3f dir ) {
+	_frame.SetForwardVector( dir );
+}
 
-void Light::SetDirection( const M3DVector3f dir ) { _frame.SetForwardVector( dir ); }
-void Light::SetPostition( const M3DVector3f pos ) { _frame.SetOrigin( pos ); }
+/**
+* \brief Set the position/origin of the light.
+* @param M3DVector3f position to set (XYZ)
+*/
+void Light::SetPostition( const M3DVector3f pos ) {
+	_frame.SetOrigin( pos );
+}
 
-void Light::SetDiffuse ( const M3DVector4f v ) { m3dCopyVector4( _diffuse, v ); }
-void Light::SetAmbient ( const M3DVector4f v ) { m3dCopyVector4( _ambient, v ); }
-void Light::SetSpecular( const M3DVector4f v ) { m3dCopyVector4( _specular, v ); }
+/**
+* \brief Set the ambient light component.
+* @param M3DVector4f  RGBA
+*/
+void Light::SetAmbient ( const M3DVector4f v ) { 
+	m3dCopyVector4( _ambient, v );
+}
 
-void Light::GetDiffuse ( M3DVector4f v ) const { m3dCopyVector4( v, _diffuse ); }
-void Light::GetAmbient ( M3DVector4f v ) const { m3dCopyVector4( v, _ambient ); } 
+/**
+* \brief Set the diffuse light component.
+* @param M3DVector4f  RGBA
+*/
+void Light::SetDiffuse ( const M3DVector4f v ) { 
+	m3dCopyVector4( _diffuse, v );
+}
+
+/**
+* \brief Set the specular light component.
+* @param M3DVector4f  RGBA
+*/
+void Light::SetSpecular( const M3DVector4f v ) {
+	m3dCopyVector4( _specular, v );
+}
+
+/**
+* \brief Get the lights position/origin.
+* @param M3DVector3f a vector to assign the position to.
+*/
+void Light::GetPosition( M3DVector3f pos ) const {
+	_frame.GetOrigin( pos );
+}
+
+/**
+* \brief Get the lights direction.
+* @param M3DVector3f a vector to assign the direction to.
+*/
+void Light::GetDirection( M3DVector3f dir ) const {
+	_frame.GetForwardVector( dir );
+}
+
+/**
+* \brief Get the light's ambient component.
+* @param M3DVector3f a vector to assign the component to.
+*/
+void Light::GetAmbient ( M3DVector4f v ) const {
+	m3dCopyVector4( v, _ambient );
+} 
+
+/**
+* \brief Get the light's diffuse component.
+* @param M3DVector3f a vector to assign the component to.
+*/
+void Light::GetDiffuse ( M3DVector4f v ) const {
+	m3dCopyVector4( v, _diffuse );
+}
+
+/**
+* \brief Get the light's specular component.
+* @param M3DVector3f a vector to assign the component to.
+*/
 void Light::GetSpecular( M3DVector4f v ) const { m3dCopyVector4( v, _specular ); }
-
-void Light::GetPosition( M3DVector3f pos ) const { _frame.GetOrigin( pos ); }
-
-// REMOVE
-// GLfloat* Light::GetPosition() const
-// {
-//   GLfloat* pos = new GLfloat[3];
-//   pos[0] = _frame.GetOriginX();
-//   pos[1] = _frame.GetOriginY();
-//   pos[2] = _frame.GetOriginZ();
-
-//   return pos;
-// }
-
-void Light::GetDirection( M3DVector3f dir ) const { _frame.GetForwardVector( dir ); }
-
 
