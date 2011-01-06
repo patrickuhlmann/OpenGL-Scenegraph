@@ -79,7 +79,7 @@ void RenderVisitor::VisitGeometry( Geometry* g )
   triangles.End();
 
   // load shader program
-  _shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
+  _shaderManager->UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
 				_transformPipeline.GetModelViewMatrix(),
 				_transformPipeline.GetProjectionMatrix(),
 				lightPos, color);
