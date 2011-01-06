@@ -11,7 +11,7 @@ using namespace std;
  */
 class Node {
 public:
-  /** Destructor. free name */
+  /** \brief Destructor. free name */
   virtual ~Node() {
     if (_name)
       delete _name;

@@ -28,6 +28,10 @@ clean:
 doc:
 	doxygen Doxyfile
 
+AllCode: UpdateVisitor.o Transform.o RenderVisitor.o Light.o Group.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o
+
+AllTests: TestMeshLoaders TestNode
+
 TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Mesh.o math3d.o Material.o
 	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestMeshLoaders.cpp math3d.o Mesh.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Material.o -o Tests/TestMeshLoaders
 	./Tests/TestMeshLoaders
@@ -53,9 +57,6 @@ math3d.o: Src/Include/math3d.h Src/Include/math3d.cpp
 
 GLBatch.o: Src/Include/GLBatch.cpp
 	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
-
-glew.o: Src/Include/glew.c
-	$(CXX) -c $(CXXFLAGS) Src/Include/$*.c
 
 GLShaderManager.o: Src/Include/GLShaderManager.cpp
 	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
@@ -113,4 +114,3 @@ Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
 
 UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
-
