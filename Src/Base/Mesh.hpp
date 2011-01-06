@@ -66,6 +66,7 @@ public:
    const float* GetVertex( int ) const;
    const float* GetNormal( int ) const;
    const float* GetTextureCoord( int ) const;
+   const Triangle GetTriangle(int i) const;
 
    const string& GetName() const;
 

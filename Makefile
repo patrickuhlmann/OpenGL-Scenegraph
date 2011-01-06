@@ -28,7 +28,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o RenderVisitor.o Light.o Group.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o
+AllCode: UpdateVisitor.o Transform.o RenderVisitor.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -102,9 +102,6 @@ Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Geometry.o: Src/Graph/Geometry.cpp Src/Graph/Geometry.hpp
-	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
-
-Group.o: Src/Graph/Group.cpp Src/Graph/Group.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Light.o: Src/Graph/Light.cpp Src/Graph/Light.hpp
