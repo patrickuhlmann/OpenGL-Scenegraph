@@ -24,14 +24,13 @@ TEST_F(TestMeshLoaders, test_TestMeshLoaders)
 	//Mesh* m = l.Load("Objects/gourd.obj");
 	//Mesh* m = l.Load("Objects/icosahedron.obj");
 	//Mesh* m = l.Load("Objects/octahedron.obj");
-	//Mesh* m = l.Load("Objects/pyramid.obj");
 	//Mesh* m = l.Load("Objects/teapot.obj");
-	//Mesh* m = l.Load("Objects/tetrahedron.obj");
+	Mesh* m = l.Load("Objects/tetrahedron.obj");
 	//Mesh* m = l.Load("Objects/dolphins.obj");
 	//Mesh* m = l.Load("Objects/rose+vase.obj");
 
 	// Convex Triangulation
-	Mesh* m = l.Load("Objects/shuttle.obj");
+	//Mesh* m = l.Load("Objects/shuttle.obj");
 	//Mesh* m = l.Load("Objects/humanoid_quad.obj");
 	//Mesh* m = l.Load("Objects/power_lines.obj");
 	//Mesh* m = l.Load("Objects/roi.obj");

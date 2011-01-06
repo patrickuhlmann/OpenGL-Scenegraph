@@ -64,6 +64,13 @@ protected:
 	_name = 0;
   };
 
+  /** \brief Creates a node with the specified name which is not dirty and has no parent */
+  Node(string name) {
+	_dirty = false;
+	_parent = 0;
+	_name = new string(name);
+  };
+
   /** \brief Pointer to the Parent Node of this Node */
   Node* _parent;
 

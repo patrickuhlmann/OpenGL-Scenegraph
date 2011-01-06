@@ -30,7 +30,7 @@ doc:
 
 AllCode: UpdateVisitor.o Transform.o RenderVisitor.o Light.o Group.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o
 
-AllTests: TestMeshLoaders TestNode
+AllTests: TestMeshLoaders TestNode TestCompositeNode
 
 TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Mesh.o math3d.o Material.o
 	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestMeshLoaders.cpp math3d.o Mesh.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Material.o -o Tests/TestMeshLoaders
@@ -39,6 +39,10 @@ TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoa
 TestNode: Tests/TestNode.cpp Src/Graph/Node.hpp
 	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestNode.cpp -o Tests/TestNode
 	./Tests/TestNode
+
+TestCompositeNode: Tests/TestCompositeNode.cpp Src/Graph/Node.hpp Src/Graph/CompositeNode.hpp
+	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestCompositeNode.cpp -o Tests/TestCompositeNode
+	./Tests/TestCompositeNode
 
 MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
