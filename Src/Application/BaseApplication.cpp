@@ -8,7 +8,7 @@
  */
 BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight) {
 	// Initialize Glut and our Window
-	char *argv[] = {"BaseApplication"};
+	char *argv[] = { "BaseApplication" };
 	int argc = 1;
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH | GLUT_STENCIL);

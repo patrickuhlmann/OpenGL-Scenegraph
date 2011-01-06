@@ -56,9 +56,10 @@ public:
 
     NodeIterator it;
     for (it=_children.begin(); it != _children.end(); it++) {
-		if (reinterpret_cast<CompositeNode*>((*it)))
-			if (reinterpret_cast<CompositeNode*>((*it))->GetByName(Name))
-		  		return *it;
+		if (reinterpret_cast<CompositeNode*>((*it))) {
+			if (Node* n = reinterpret_cast<CompositeNode*>((*it))->GetByName(Name))
+		  		return n;
+		}
 	}
 
     return 0;

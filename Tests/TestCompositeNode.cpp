@@ -2,6 +2,12 @@
 #include "../Src/Graph/CompositeNode.hpp"
 
 class DummyNode : public CompositeNode {
+public:
+	DummyNode() : CompositeNode() { }
+
+	DummyNode(string name) : CompositeNode(name) {
+
+	}
 };
 
 class TestCompositeNode : public ::testing::Test {
@@ -109,21 +115,21 @@ TEST_F(TestCompositeNode, test_TestGetChildrenCount)
 
 TEST_F(TestCompositeNode, test_TestGetByName)
 {
-	/*CompositeNode* n = new DummyNode("1");
+	CompositeNode* n = new DummyNode(string("1"));
 	CompositeNode* n2 = new DummyNode("2");
 	CompositeNode* n3 = new DummyNode("3");
 
 	n->AddChild(n2);
 	n2->AddChild(n3);
 
-	EXPECT_EQ(n->GetByName("2"), n2);
-	EXPECT_EQ(n->GetByName("3"), n3);
-	EXPECT_EQ(n->GetByName("1"), n);
-	EXPECT_EQ(n2->GetByName("1"), 0);
+	EXPECT_TRUE(n->GetByName("2") == n2);
+	EXPECT_TRUE(n->GetByName("3") == n3);
+	EXPECT_TRUE(n->GetByName("1") == n);
+	EXPECT_TRUE(n2->GetByName("1") == 0);
 
 	delete n3;
 	delete n2;
-	delete n;*/
+	delete n;
 }
 
 // Initialization and entry point
