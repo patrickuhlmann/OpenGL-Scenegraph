@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <map>
 #include "../Graph/Material.hpp"
+#include <cmath>
 
 const double PI = 3.1415926;
 
