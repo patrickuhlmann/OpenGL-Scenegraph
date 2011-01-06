@@ -42,11 +42,12 @@ void RenderVisitor::VisitTransform( Transform* t )
 
 void RenderVisitor::VisitGeometry( Geometry* g ) 
 {
+   DLOG(INFO) << "RenderVisitor::VisitGeometry()\n";
   GLTriangleBatch triangles;
-  const Mesh* mesh = g->GetMesh(); // Should not be dependent upon Mesh???
+  const Mesh* mesh = g->GetMesh();
 
   TriangleIteratorConst it  = mesh->GetTriangleIteratorConst(); 
-  TriangleIteratorConst end    = mesh->GetTriangleIteratorEndConst();
+  TriangleIteratorConst end = mesh->GetTriangleIteratorEndConst();
   
   M3DVector3f lightPos;   // array of 3 float (not GLfloat)
   M3DVector4f color;      // array of 4 =||=
@@ -58,10 +59,14 @@ void RenderVisitor::VisitGeometry( Geometry* g )
   // create a triangle mesh and give the initial size
   triangles.BeginMesh( mesh->GetVertexCount() );
   
+  DLOG(INFO) << "mesh->GetVertexCount() == " << mesh->GetVertexCount() << endl;
+
+  M3DVector3f vertices[3];
+  M3DVector3f normals[3];
+  M3DVector2f texCoords[3];
+  
   while ( it != end ) {
-    M3DVector3f vertices[3];
-    M3DVector3f normals[3];
-    M3DVector2f texCoords[3];
+
 
     CopyM3DVector3f(mesh->GetVertex( (*it).vert1 ), vertices[0]);
     CopyM3DVector3f(mesh->GetVertex( (*it).vert2 ), vertices[1]);
@@ -76,8 +81,20 @@ void RenderVisitor::VisitGeometry( Geometry* g )
     CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), texCoords[2]);
 
     triangles.AddTriangle( vertices, normals, texCoords );
+    
+    DLOG(INFO) << "vertices[0]: " << vertices[0] << endl;
+    DLOG(INFO) << "vertices[1]: " << vertices[1] << endl;
+    DLOG(INFO) << "vertices[2]: " << vertices[2] << endl;
 
-	it++;
+    DLOG(INFO) << "normals[0]: " << normals[0] << endl;
+    DLOG(INFO) << "normals[1]: " << normals[1] << endl;
+    DLOG(INFO) << "normals[2]: " << normals[2] << endl;
+
+    DLOG(INFO) << "texCoords[0]: " << texCoords[0] << endl;
+    DLOG(INFO) << "texCoords[0]: " << texCoords[1] << endl;
+    DLOG(INFO) << "texCoords[0]: " << texCoords[2] << endl;
+
+    ++it;
   }
 
   triangles.End();
@@ -89,6 +106,7 @@ void RenderVisitor::VisitGeometry( Geometry* g )
 				lightPos, color);
 
   triangles.Draw();
+  DLOG(INFO) << "triangles has been drawn\n";
 }
 
 void RenderVisitor::VisitLight( Light* l )

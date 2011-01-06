@@ -13,13 +13,25 @@ Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
   //_frame.GetCameraMatrix( _viewMatrix );
 }
 
-void Camera::Accept( NodeVisitor* visitor ) { visitor->VisitCamera( this ); }
+void Camera::Accept( NodeVisitor* visitor ) 
+{ 
+   DLOG(INFO) << "Camera accepted visitor\n";
+   visitor->VisitCamera( this ); 
+}
 
 // TODO: update frustum???
-void Camera::SetPosition( const M3DVector3f origin ) { _frame.SetOrigin( origin ); }
+void Camera::SetPosition( const M3DVector3f origin ) 
+{ 
+   _frame.SetOrigin( origin ); 
+   // _viewFrustum.Transform( _frame );
+}
 
 // TODO: update frustum???
-void Camera::LookAt( const M3DVector3f direction ) { _frame.SetForwardVector( direction ); }
+void Camera::LookAt( const M3DVector3f direction ) 
+{ 
+   _frame.SetForwardVector( direction ); 
+   //_viewFrustum.Transform( _frame );
+}
 
 void Camera::GetViewMatrix( M3DMatrix44f m ) const 
 { _frame.GetCameraMatrix( m ); }

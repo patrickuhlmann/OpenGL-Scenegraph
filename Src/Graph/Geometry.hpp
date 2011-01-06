@@ -2,7 +2,7 @@
 
 #include "Node.hpp"
 #include "../Base/Mesh.hpp"
-#include "NodeVisitor.hpp"
+//#include "NodeVisitor.hpp"
 #include "State.hpp"
 
 /**
@@ -10,8 +10,8 @@
  */
 class Geometry : public Node {
 public:
-  Geometry() { }; // accept geometry without mesh?
-  Geometry( Mesh* );
+  Geometry(); // accept geometry without mesh?
+   //Geometry( Mesh* );
   ~Geometry(); // Delete mesh?
 
   /** Accept a visitor */

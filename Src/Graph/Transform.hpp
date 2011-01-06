@@ -5,6 +5,7 @@
 
 class Transform : public CompositeNode {
 public:
+   Transform() { m3dLoadIdentity44( _matrix ); };
    Transform( const M3DMatrix44f& m ) { m3dCopyMatrix44(_matrix, m); };
    Transform( const M3DMatrix44f& m, Node* parent ) : CompositeNode() { m3dCopyMatrix44(_matrix, m); };
 
