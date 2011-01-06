@@ -34,6 +34,8 @@ public:
    */
   Camera( const M3DVector3f, const M3DVector3f, Node* );
 
+   ~Camera() { DLOG(INFO) << "DELETING CAMERA!\n!"; }
+
   /** Accept a visitor */
   virtual void Accept( NodeVisitor* );
 

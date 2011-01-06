@@ -17,6 +17,9 @@ public:
       // Transform* t2 = new Transform();
       // Transform* t3 = new Transform();
 
+      glPolygonMode(GL_FRONT, GL_LINE);
+      glPolygonMode(GL_BACK, GL_LINE);
+
       MeshFileLoader mfl;
       mfl.AddMeshLoader( new MeshLoaderObj() );
       m = mfl.Load("Objects/tetrahedron.obj");
@@ -27,19 +30,23 @@ public:
       l.SetAmbient( amb );
 
       M3DVector3f pos;
-      m3dLoadVector3( pos, 0.0f, 0.0f, 4.0f );
+      m3dLoadVector3( pos, 0.0f, 0.0f, 20.0f );
       c.SetPosition( pos );
-      
-      l.Add( &c );
+      c.SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
+
+      l.AddChild( &c );
+      l.SetName("Light1");
+      c.SetName("Camera1");
       // c.Add( t1 );
       // c.Add( t2 );
       // c.Add( t3 );
-      c.Add( &g );
+       c.AddChild( &g );
      
    };
 
    void Render()
    { 
+      DLOG(INFO) << "Render()\n";
       r.Traverse( &l );
    };
    

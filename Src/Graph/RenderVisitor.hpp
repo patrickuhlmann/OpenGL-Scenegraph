@@ -95,6 +95,9 @@ public:
    */
   virtual void Traverse( CompositeNode* );
 
+
+   void DrawOpenGL();
+   
 private:
 
   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
