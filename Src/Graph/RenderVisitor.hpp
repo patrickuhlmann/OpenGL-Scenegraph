@@ -100,7 +100,7 @@ private:
   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
   GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
   GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
-  GLShaderManager _shaderManager;           /**< Helper object for managing shader programs */
+  GLShaderManager* _shaderManager;           /**< Helper object for managing shader programs */
   Light _light;                           /**< Reference to a single light. We only support
 					       one light per scene right now */
 
