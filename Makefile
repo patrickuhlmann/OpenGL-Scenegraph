@@ -32,6 +32,10 @@ TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoa
 	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestMeshLoaders.cpp math3d.o Mesh.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Material.o -o Tests/TestMeshLoaders
 	./Tests/TestMeshLoaders
 
+TestNode: Tests/TestNode.cpp Src/Graph/Node.hpp
+	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestNode.cpp -o Tests/TestNode
+	./Tests/TestNode
+
 MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
 
