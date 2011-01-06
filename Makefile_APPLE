@@ -89,6 +89,12 @@ SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
 SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
 	$(CXX) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
 
+TestGraphApp.o: Src/TestGraphApp.cpp
+	$(CXX) -c $(CXXFLAGS) Src/$*.cpp
+
+TestGraphApp: Src/TestGraphApp.cpp $(GRAPHICPROGO) TestGraphApp.o
+        $(CXX) $(GRAPHICPROGO) TestGraphApp.o -o TestGraphApp $(LDFLAGS)
+
 Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
