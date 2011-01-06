@@ -9,14 +9,14 @@ typedef NodeList::iterator NodeIterator;
 class CompositeNode : public Node {
 public:
   virtual Node* GetByName(string Name) {
-    if (this->_name == Name)
+    /*if (this->_name == Name)
        return this;
 
     NodeIterator it;
     for (it=_children.begin(); it != _children.end(); it++) {
-		if (*it._name == Name)
+		if ((*it)->_name == Name)
 		  return *it;
-	}
+	}*/
 
     return 0;
   }
