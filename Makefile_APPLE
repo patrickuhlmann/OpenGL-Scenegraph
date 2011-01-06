@@ -3,6 +3,8 @@ CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -lm -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
 GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
+GRAPHO = RenderVisitor.o Light.o Camera.o Geometry.o Transform.o Mesh.o  State.o Material.o math3d.o
+
 
 # Generic rules
 .cc.o: $<
@@ -24,6 +26,7 @@ clean:
 	rm -rf Tests/TestMeshLoaders
 	rm -rf gmon.out
 	rm -rf SkeletonApp
+	rm -rf TestGraphApp
 
 doc:
 	doxygen Doxyfile
@@ -92,8 +95,8 @@ SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
 TestGraphApp.o: Src/TestGraphApp.cpp
 	$(CXX) -c $(CXXFLAGS) Src/$*.cpp
 
-TestGraphApp: Src/TestGraphApp.cpp $(GRAPHICPROGO) TestGraphApp.o
-        $(CXX) $(GRAPHICPROGO) TestGraphApp.o -o TestGraphApp $(LDFLAGS)
+TestGraphApp: Src/TestGraphApp.cpp $(GRAPHICPROGO) $(GRAPHO) TestGraphApp.o
+	$(CXX) $(GRAPHICPROGO) $(GRAPHO) TestGraphApp.o -o TestGraphApp $(LDFLAGS)
 
 Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp

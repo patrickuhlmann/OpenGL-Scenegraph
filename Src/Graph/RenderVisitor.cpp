@@ -19,11 +19,15 @@ RenderVisitor::RenderVisitor( GLShaderManager* gm )
 
 void RenderVisitor::Traverse( CompositeNode* c )
 {
-  NodeIterator it = c->GetNodeIterator();
+  NodeIterator it  = c->GetNodeIterator();
   NodeIterator end = c->GetNodeIteratorEnd();
 
-  while ( it != end ) 
-    (*it)->Accept( this );
+  DLOG(INFO) << "RenderVisitor about to traverse node\n";
+
+  while ( it != end ) {
+     (*it)->Accept( this );
+     ++it;
+  }
 }
 
 void RenderVisitor::VisitTransform( Transform* t )

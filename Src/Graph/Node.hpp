@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glog/logging.h>
 #include "NodeVisitor.hpp"
 #include <string>
 
