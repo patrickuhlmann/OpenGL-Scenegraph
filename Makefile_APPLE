@@ -3,7 +3,7 @@ CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -lm -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
 GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
-GRAPHO = RenderVisitor.o Light.o Camera.o Geometry.o Transform.o Mesh.o  State.o Material.o math3d.o
+GRAPHO = RenderVisitor.o Light.o Camera.o Geometry.o Transform.o Mesh.o State.o Material.o math3d.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o
 
 
 # Generic rules
