@@ -24,14 +24,19 @@ class RenderVisitor : public NodeVisitor {
 public:
 
   /**
-   * Create a default RenderVisitor.
+   * Create a RenderVisitor.
    * 
    * Loads both modelview and projection matrices with identity matrices.
    * The matrices gets loaded into at helper object, GLGeometryTransform.
    * The shader program manager gets initialized so that the stock 
    * programs are available.
+   * You have to provide a GLShaderManager that has been initialized
+   * and glew must also be initialized. 
+   *
+   * @see GLShaderManager
+   * @param GLShaderManager*  Pointer to a shadermanager object.
    */
-  RenderVisitor();
+  RenderVisitor( GLShaderManager* );
   
   /**
    * Get transformation data.

@@ -9,12 +9,12 @@ void CopyM3DVector2f(const float* source, M3DVector3f dest) {
 }
 
 
-RenderVisitor::RenderVisitor()
+RenderVisitor::RenderVisitor( GLShaderManager* gm )
 {
-  _shaderManager.InitializeStockShaders();
-  _modelViewMatrix.LoadIdentity();
-  _projectionMatrix.LoadIdentity();
-  _transformPipeline.SetMatrixStacks( _modelViewMatrix, _projectionMatrix );
+   _shaderManager = gm;
+   _modelViewMatrix.LoadIdentity();
+   _projectionMatrix.LoadIdentity();
+   _transformPipeline.SetMatrixStacks( _modelViewMatrix, _projectionMatrix );
 }
 
 void RenderVisitor::Traverse( CompositeNode* c )
