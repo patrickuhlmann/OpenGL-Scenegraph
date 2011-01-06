@@ -22,6 +22,7 @@ public:
 
 	n->SetParent(this);
 	_children.push_back( n ); 
+        //DLOG(INFO) << "Children count: " << _children.size() << endl;
   };
 
   /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and it's parent is set to 0 */
