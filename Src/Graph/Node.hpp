@@ -11,7 +11,7 @@ using namespace std;
  */
 class Node {
 public:
-  /** Destructor. free name */
+  /** \brief Destructor. free name */
   virtual ~Node() {
     if (_name)
       delete _name;
@@ -62,6 +62,13 @@ protected:
 	_dirty = false;
 	_parent = 0;
 	_name = 0;
+  };
+
+  /** \brief Creates a node with the specified name which is not dirty and has no parent */
+  Node(string name) {
+	_dirty = false;
+	_parent = 0;
+	_name = new string(name);
   };
 
   /** \brief Pointer to the Parent Node of this Node */
