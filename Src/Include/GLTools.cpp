@@ -47,6 +47,12 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #include <unistd.h>
 #endif
 
+// Windows
+#ifdef WIN32
+#include <stdio.h>
+#include <stdlib.h>
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // Get the OpenGL version number
 void gltGetOpenGLVersion(GLint &nMajor, GLint &nMinor)

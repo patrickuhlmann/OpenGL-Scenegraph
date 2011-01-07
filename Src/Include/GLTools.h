@@ -31,6 +31,8 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #ifndef __GLTOOLS__LIBRARY
 #define __GLTOOLS__LIBRARY
 
+// to prevent errors on windows when using glog
+#define NOGDI
 
 // There is a static block allocated for loading shaders to 
 // prevent heap fragmentation

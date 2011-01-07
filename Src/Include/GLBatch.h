@@ -32,6 +32,9 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #ifndef __GL_BATCH__
 #define __GL_BATCH__
 
+// to prevent errors on windows when using glog
+#define NOGDI
+
 // Bring in OpenGL 
 // Windows
 #ifdef WIN32

@@ -47,3 +47,8 @@ void UpdateVisitor::SetMaterial ( const Material& m ) {
 
 	_material = new Material(m);
 }
+
+// TODO: implement
+void UpdateVisitor::Traverse( CompositeNode* c ) {
+
+}

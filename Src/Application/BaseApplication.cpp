@@ -89,9 +89,8 @@ void BaseApplication::SetupOpenGL() {
  * \brief Check if there was an error. If there was one we log it to the console
  */
 void BaseApplication::CheckOpenGLError() {
-	GLenum err;
+	GLenum err = glGetError();
 	while (err != GL_NO_ERROR) {
-		err = glGetError();
 		switch (err) {
 			case GL_INVALID_ENUM:
 				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": enum value was out of Range" << endl;
@@ -102,6 +101,7 @@ void BaseApplication::CheckOpenGLError() {
 			case GL_OUT_OF_MEMORY:
 				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": not enough memory to execute the command" << endl;
 		}
+		err = glGetError();
 	}
 }
 

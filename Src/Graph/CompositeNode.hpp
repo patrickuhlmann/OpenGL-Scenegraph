@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Node.hpp"
 #include <list>
 #include <algorithm>
-#include "Node.hpp"
 
 typedef std::list< Node* > NodeList;
 typedef NodeList::iterator NodeIterator;

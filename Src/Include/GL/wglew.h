@@ -56,6 +56,9 @@
 #define __wglew_h__
 #define __WGLEW_H__
 
+// to prevent errors on windows when using glog
+#define NOGDI
+
 #ifdef __wglext_h_
 #error wglext.h included before wglew.h
 #endif
