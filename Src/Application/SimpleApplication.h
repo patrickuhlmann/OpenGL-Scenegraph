@@ -11,9 +11,9 @@ class SimpleApplication : public BaseApplication {
 
 	public:
 		SimpleApplication(string Title, int WindowWidth, int WindowHeight);
-		virtual void Init(MeshFileLoader MeshLoader);
-		virtual void Update();
-		virtual void Render(RenderVisitor* RVisitor, Node* RootNode);
+		virtual void Init(Light* RootNode, MeshFileLoader* MeshLoader);
+		virtual void Update(Light* RootNode);
+		virtual void Render(RenderVisitor* RVisitor, Light* RootNode);
 		virtual void Resize(int NewWidth, int NewHeight);
 		virtual void HandleKeys(enuKey Code);
 		static  void HandleKeysS(enuKey Code, int x, int y);

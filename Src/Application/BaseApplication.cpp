@@ -49,7 +49,7 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
  * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop
  */
 void BaseApplication::Start() {
-	this->Init(this->MeshLoader);
+	this->Init(&this->RootNode, &this->MeshLoader);
 
 	glutMainLoop();
 }
@@ -114,7 +114,7 @@ void BaseApplication::RenderBase() {
 	if (this->PauseFlag)
 		return;
 
-	this->Update();
+	this->Update(&this->RootNode);
 			
 	// Clear the window with current clearing (=background) color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

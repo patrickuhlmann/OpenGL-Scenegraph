@@ -62,11 +62,11 @@ class BaseApplication {
 		void Start();
 		virtual int GetFrameCounter();
 		/** \brief This function is called only once before the first update happens to initialize everything we want */
-		virtual void Init(MeshFileLoader MeshLoader) = 0;
+		virtual void Init(Light* RootNode, MeshFileLoader* MeshLoader) = 0;
 		/** \brief This function is called always before Render. You can do calculations for the next frame in this function */
-		virtual void Update() = 0;
+		virtual void Update(Light* RootNode) = 0;
 		/** \brief This function is called everytime we draw a frame. You need to draw everything you want to be on the next frame */
-		virtual void Render(RenderVisitor* RVisitor, Node* RootNode) = 0;
+		virtual void Render(RenderVisitor* RVisitor, Light* RootNode) = 0;
 		static void RenderS();
 		/** \brief This function is called whenever we change the size of the window (which includes one call when it is created the first time) */
 		virtual void Resize(int NewWidth, int NewHeight) = 0;

@@ -17,7 +17,7 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
  *
  * \param MeshFileLoader MeshLoader that can be used to Load Meshs from Files
  */
-void SimpleApplication::Init(MeshFileLoader MeshLoader) {
+void SimpleApplication::Init(Light* RootNode, MeshFileLoader* MeshLoader) {
 
 }
 
@@ -25,7 +25,7 @@ void SimpleApplication::Init(MeshFileLoader MeshLoader) {
  * \brief This function is called always before Render. You can do calculations for the next frame in this function
  * Empty implementation
  */
-void SimpleApplication::Update() {
+void SimpleApplication::Update(Light* RootNode) {
 
 }
 
@@ -36,7 +36,7 @@ void SimpleApplication::Update() {
  * \param RenderVisitor RVisitor to visit and render the Scenegraph
  * \param Node* RootNode of the Scenegraph
  */
-void SimpleApplication::Render(RenderVisitor* RVisitor, Node* RootNode) {
+void SimpleApplication::Render(RenderVisitor* RVisitor, Light* RootNode) {
 
 }
 
