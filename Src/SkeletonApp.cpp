@@ -10,13 +10,13 @@ SkeletonApp::SkeletonApp() : SimpleApplication("Skeleton", 800, 600) {
 void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	//Mesh* M = MeshLoader->Load("Objects/humanoid_tri.obj");
 	//Mesh* M = MeshLoader->Load("Objects/cube.obj");
-	Mesh* M = MeshLoader->Load("Objects/gourd.obj");
+	//Mesh* M = MeshLoader->Load("Objects/gourd.obj");
 	//Mesh* M = MeshLoader->Load("Objects/icosahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/octahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/tetrahedron.obj");
 
 	// Visible to big
-	// Mesh* M = MeshLoader->Load("Objects/rose+vase.obj");
+	Mesh* M = MeshLoader->Load("Objects/rose+vase.obj");
 	//Mesh* M = MeshLoader->Load("Objects/teapot.obj");
 
 	// Invisible	
@@ -29,7 +29,7 @@ void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	l->SetAmbient( color );
 
 	M3DVector3f pos;
-	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
+	m3dLoadVector3( pos, 0.0f, 0.0f, 100.0f );
 
 	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
     c->SetPosition( pos );

@@ -110,6 +110,23 @@ void DrawTriangle(const float* Vertex1, const float* Vertex2, const float* Verte
 	glEnd();
 }
 
+void DrawPoint(const float* Vertex, const float* RGBColor) {
+	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
+
+	glBegin(GL_POINTS);
+		glVertex2f(Vertex[0], Vertex[1]);
+	glEnd();
+}
+
+void DrawLine(const float* VertexStart, const float* VertexEnd, const float* RGBColor) {
+	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
+
+	glBegin(GL_LINES);
+		glVertex2f(VertexStart[0], VertexStart[1]);
+		glVertex2f(VertexEnd[0], VertexEnd[1]);
+	glEnd();
+}
+
 /**
 * Render a geometry.
 *
@@ -125,6 +142,8 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 	DLOG(INFO) << "Geometry accepted visitor" << endl;
 
 	const Mesh* M = g->GetMesh();
+
+	glShadeModel(GL_SMOOTH);
 
 	int TriangleIndex = 0;
 	for (TriangleIteratorConst it = M->GetTriangleIteratorConst(); it != M->GetTriangleIteratorEndConst(); ++it) {
