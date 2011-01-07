@@ -41,6 +41,42 @@ void RenderVisitorOpenGL1::TraverseChildren(CompositeNode* c) {
 void RenderVisitorOpenGL1::VisitLight( Light* l )
 {
 	DLOG(INFO) << "Ligth accepted visitor" << endl;
+
+	glEnable(GL_LIGHTING);
+
+	// Global Light
+	GLfloat ambientLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
+
+	// One Directional Light
+	GLfloat ambientLight0[] = { 0.3f, 0.3f, 0.3f, 1.0f };
+	GLfloat diffuseLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f};
+
+	glLightfv(GL_LIGHT0,GL_AMBIENT, ambientLight0);
+	glLightfv(GL_LIGHT0,GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+
+	glEnable(GL_LIGHT0);
+	GLfloat lightPos[] = { -50.f, 50.0f, 100.0f, 1.0f };
+	glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
+	
+	// One Spot Light
+	GLfloat lightPos1[] = { 0.0f, 0.0f, 75.0f, 1.0f };
+	GLfloat specular1[] = { 1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat ambientLight1[] = { 0.5f, 0.5f, 0.5f, 1.0f};
+	GLfloat spotDir1[] = { 0.0f, 0.0f, -1.0f };
+
+	glLightfv(GL_LIGHT1,GL_DIFFUSE,ambientLight1);
+	glLightfv(GL_LIGHT1,GL_SPECULAR,specular1);
+	glLightfv(GL_LIGHT1,GL_POSITION,lightPos1);
+	glLightfv(GL_LIGHT1,GL_SPOT_DIRECTION,spotDir1);
+	// Specific spot effects
+	// Cut-off angle is 60 degrees
+	glLightf(GL_LIGHT1,GL_SPOT_CUTOFF,60.0f);
+	// Enable this light in particular
+	glEnable(GL_LIGHT1);
+
 	_light = *l;
 	TraverseChildren(l);
 }
@@ -100,13 +136,14 @@ void CopyM3DVector2f(const float* source, M3DVector3f dest) {
 	memcpy(dest, source, sizeof(M3DVector2f));
 }
 
-void DrawTriangle(const float* Vertex1, const float* Vertex2, const float* Vertex3, const float* RGBColor){
+void DrawTriangle(const float* Vertex1, const float* Vertex2, const float* Vertex3, const float* Normal, const float* RGBColor){
 	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
 
 	glBegin(GL_TRIANGLES);
-			glVertex2f(Vertex1[0], Vertex1[1]);
- 			glVertex2f(Vertex2[0], Vertex2[1]);
- 			glVertex2f(Vertex3[0], Vertex3[1]);
+			glNormal3f(Normal[0], Normal[1], Normal[2]);
+			glVertex3f(Vertex1[0], Vertex1[1], Vertex1[2]);
+ 			glVertex3f(Vertex2[0], Vertex2[1], Vertex2[2]);
+ 			glVertex3f(Vertex3[0], Vertex3[1], Vertex3[2]);
 	glEnd();
 }
 
@@ -150,11 +187,20 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 		const float* Vertex1 = M->GetVertex((*it).vert1);
 		const float* Vertex2 = M->GetVertex((*it).vert2);
 		const float* Vertex3 = M->GetVertex((*it).vert3);
+		const float* Normal = M->GetNormal(TriangleIndex);
 
 		Material m = M->GetMaterial(TriangleIndex);
 		const float* Color = m.GetAmbientLight();
 
-		DrawTriangle(Vertex1, Vertex2, Vertex3, Color);
+		// ambient and diffuse depending on material color
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+
+		// for specular highlight
+		glMaterialfv(GL_FRONT, GL_SPECULAR, m.GetSpecularLight());
+		glMateriali(GL_FRONT,GL_SHININESS, m.GetShininess());
+
+		DrawTriangle(Vertex1, Vertex2, Vertex3, Normal, Color);
 
 		TriangleIndex++;
 	}
