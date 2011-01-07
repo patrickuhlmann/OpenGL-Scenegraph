@@ -18,6 +18,7 @@ class MeshLoader {
 		vector<IMeshLoader*> Loaders;
 
 	public:
+                ~MeshLoader();
 		virtual Mesh* Load(istream& Stream);
 		virtual void AddMeshLoader(IMeshLoader* Loader);
 };

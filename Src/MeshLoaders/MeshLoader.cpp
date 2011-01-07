@@ -3,8 +3,10 @@
 /**
  * \brief Delete all the Added Loaders
  */
-MeshLoader::~MeshLoder() {
-	for (vector<IMeshLoader*>::iterator it = this->Loaders.begin(); it != this->Loaders.end(); ++it) {
+MeshLoader::~MeshLoader() {
+	for (vector<IMeshLoader*>::iterator it = this->Loaders.begin();
+             it != this->Loaders.end(); ++it)
+        {
 		delete *it;
 	}
 }
