@@ -30,9 +30,9 @@ public:
    * a direction and set a node as a parent.
    * The y axis will be used as up vector.
    *
-   * @param M3DVector3f the position of the camera.
-   * @param M3DVector3f the direction of the camera.
-   * @param Node        a pointer to the parent node.
+   * @param pos the position of the camera.
+   * @param dir the direction of the camera.
+   * @param parent        a pointer to the parent node.
    */
   Camera( const M3DVector3f, const M3DVector3f, Node* );
 
@@ -62,22 +62,22 @@ public:
    /** 
    * Set the perspective projection in the frustum.
    *
-   * @param GLfloat field of vision.
-   * @param GLfloat aspect ratio.
-   * @param GLfloat near clipping plane.
-   * @param GLfloat far clipping plane.
+   * @param fFov field of vision.
+   * @param fAspect aspect ratio.
+   * @param fNear clipping plane.
+   * @param fFar clipping plane.
    */
   void SetPerspective(GLfloat fFov, GLfloat fAspect, GLfloat fNear, GLfloat fFar);
 
   /**
    * Set the orthographic projection of the frustum.
    * 
-   * @param GLfloat minimum x.
-   * @param GLfloat maximum x.
-   * @param GLfloat minimum y.
-   * @param GLfloat maximum y.
-   * @param GLfloat minimum z.
-   * @param GLfloat maximum z.
+   * @param xMin minimum x.
+   * @param xMax maximum x.
+   * @param yMin minimum y.
+   * @param yMax maximum y.
+   * @param zMin minimum z.
+   * @param zMax maximum z.
    */
   void SetOrthographic(GLfloat xMin, GLfloat xMax, 
 		       GLfloat yMin, GLfloat yMax,

@@ -2,6 +2,10 @@
 
 using namespace std;
 
+/**
+ * \brief Go through the whole string and remove all line breaks (n) and tabs (t)
+ * \param str to go through
+ */
 void RemoveLineBreaks(string& str) {
 	for (int i=0; i<str.size(); i++) {
 		if (str[i] == '\t' || str[i] == '\n') {
@@ -14,7 +18,7 @@ void RemoveLineBreaks(string& str) {
 /**
  *	\brief Load a Mesh from a Obj file
  *	
- *	\param Name path to a file
+ *	\param Stream to load a mesh from
  *  \return Mesh if successfull, 0 otherwise
  */
 Mesh* MeshLoaderObj::Load(istream& Stream) {
@@ -25,9 +29,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 	// Material initialize
 	M3DVector3f MatAmbient;
-	m3dLoadVector3(MatAmbient, 0.2f, 0.2f, 0.2f);
+	m3dLoadVector3(MatAmbient, 1.0f, 1.0f, 1.0f);
 	Material Mat("Proto", MatAmbient);
-	Mat.SetDiffuse(0.8f, 0.8f, 0.8f);
 	Mat.SetTransparency(1.0f);
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
@@ -151,7 +154,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 
 	// Add Texture for all Vertices
-	for (TriangleIterator it = M->_triangles.begin(); it != M->_triangles.end(); ++it) {
+	for (VertexVector::iterator it = M->_vertices.begin(); it != M->_vertices.end(); ++it) {
 		float* Texture = new float[2];
 		Texture[0] = 0;
 		Texture[1] = 0;
@@ -178,6 +181,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 /**
  * \brief Opens and Reads a Material File and places all material Information in the MaterialMap
+ * \param MaterialMap where we place Material Information
+ * \param FileName to read the material information from
  */
 // TODO:
 void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
@@ -299,7 +304,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 /**
  *	\brief Check if this is a Obj file
  *
- *	\param Name path to a file
+ *	\param Stream to read a object from
  *	\return true if it ends with .obj, false otherwise
  * TODO: just stupidly returns true
  */
@@ -372,7 +377,7 @@ void MeshLoaderObj::ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW, 
  * If it is not a triangle but something of a higher order we rollback the position in the stream to the beginning and
  * set the first entry of the triangle to INT_MIN
  *
- * \param Triangle where we should store the values
+ * \param t where we should store the values
  * \param Stream where we read from
  */
 void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
@@ -421,9 +426,15 @@ void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
 	}
 }
 
+/** \brief Determines the sign of the argument
+ * \param X to determine sign from
+ * \return -1 if smaller than 0, 1 otherwise
+ */
 int Sign(float X){ return(X<0 ? -1 : 1); }
 
 /** \brief One convexity test is to conceptually walk along the polygon edges and check if the sign of the change in x and y changes more than twice. If it does than the polygon is convex. That should also check for complex polygons as well.
+ * \param VList List containing the Index of the Vertices
+ * \param M Mesh containing the Vertices themselves
  */
 bool MeshLoaderObj::IsPolygonConvex(vector<int>& VList, Mesh* M) {
 	// If less than 4 points it's always convex
@@ -471,6 +482,9 @@ DLOG(INFO) << "YCh: " << YCh << endl;
 }
 
 /** \brief Reads in a lot of points and creates triangles out of them. It only accepts the basic format (like 1 2 3 4 5 6 7) to specify polygons. 
+ * TList to add the Triangles we find to
+ * Stream to read in the faces from
+ * M Mesh to get the Vertices from
  */
 bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* M) {
 	// Read in all the Vertices Indexes
@@ -503,11 +517,17 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* 
 	return Triangulate(TList, Vertices, M);
 }
 
+/**
+ * Easy Triangulation. Triangulate by finding the highest y-Coordinate, it's two nearest neighbors and drawing the lines. We then add the triangle and remove the highest point. When we have only three points left they are the last triangle and we quit
+ * \param TList to add the triangles to
+ * \param Vertices index of the Vertices
+ * \param M Mesh to get the Vertices
+ * \return true if the Triangulation was successful, false otherwise
+ */
 bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, Mesh* M) {
 	DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
 	TriangulationEasy++;
 
-	// Triangulate by finding the highest y-Coordinate, it's two nearest neighbors and drawing the lines. We then add the triangle and remove the highest point. When we have only three points left they are the last triangle and we quit
 	// TODO: normals correct?
 	while (Vertices.size() > 3) {
 		// find highest y-coordinate
@@ -572,11 +592,19 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, M
 	return true;
 }
 
-/** \brief A and B are vectors. The function returns the angle between A and B (http://www.euclideanspace.com/maths/algebra/vectors/angleBetween/index.htm) */
+/** \brief A and B are vectors. The function returns the angle between A and B (http://www.euclideanspace.com/maths/algebra/vectors/angleBetween/index.htm)
+ * \param A float array with 2 elements, will not be changed
+ * \param B float array with 2 elements, will not be changed
+ * \return the angle in radians */
 double AngleAToB(float* A, float* B) {
 	return atan2(B[1], B[0]) - atan2(A[1], A[0]);
 }
 
+/** \brief get the Vector between A and B
+ * \param A float Array with 3 elements, will not be changed
+ * \param B float Array with 3 elements, will not be changed
+ * \param Vector float Array with 3 elements, to store the result in
+ */
 void VectorFromAToB(float* A, float* B, float* Vector) {
 	Vector[0] = B[0] - A[0];
 	Vector[1] = B[1] - A[1];
@@ -584,7 +612,11 @@ void VectorFromAToB(float* A, float* B, float* Vector) {
 }
 
 /** \brief We start with one Vertex. Take the point p before and after. If the inner angle is less than 180 degrees it
-it's triangle is inside and we chop it away (otherwise we just go to the next point). We remove the Point p (the others stay!) and have a smaller Shape. We test if it is already concave and otherwise we chop away another piece. */
+it's triangle is inside and we chop it away (otherwise we just go to the next point). We remove the Point p (the others stay!) and have a smaller Shape. We test if it is already concave and otherwise we chop away another piece. 
+ * \param TList where w place the triangles we find
+ * \param VerticesIndices indices for the Vertices
+ * \param M Mesh with the Vertices
+ */
 bool MeshLoaderObj::TriangulateConcave(vector<Triangle>& TList, vector<int>& VerticesIndices, Mesh* M) {
 	TriangulationHard++;
 
@@ -610,6 +642,9 @@ bool MeshLoaderObj::TriangulateConcave(vector<Triangle>& TList, vector<int>& Ver
 }
 
 /** \brief Reads in a face. If it is a regular Triangle it just creates a triangle otherwise it tries to Triangulate the face so that we only have triangles at the end 
+ * \param Stream to read face from
+ * \param M Mesh to add the triangle
+ * \param Mat for the Face
  */
 void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material& Mat) {
 	Triangle t(0,0,0);

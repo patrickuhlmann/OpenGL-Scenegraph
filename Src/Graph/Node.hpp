@@ -17,12 +17,14 @@ public:
       delete _name;
   }
 
-  /** \brief Accept a visitor: Usually we call the appropriate method of the Visitor. For a TransformNode this could be visitor->VisitTransform */
-  virtual void Accept( NodeVisitor* ) {};
+  /** \brief Accept a visitor: Usually we call the appropriate method of the Visitor. For a TransformNode this could be visitor->VisitTransform
+   * \param Visitor for the Node
+   */
+  virtual void Accept( NodeVisitor* Visitor ) {};
 
   /** \brief Set the Parent of this Node. You cannot set yourself as parent
   *
-  * \param Node* Parent pointer to the parent node
+  * \param Parent pointer to the parent node
   */
   virtual void SetParent(Node* Parent) {
 	if (Parent == this)
@@ -38,7 +40,7 @@ public:
 
   /** \brief Set the name of this node
   *
-  * \param string Name of the node
+  * \param Name of the node
   */
   virtual void SetName(const string Name) {
     if (_name)
@@ -64,7 +66,9 @@ protected:
 	_name = 0;
   };
 
-  /** \brief Creates a node with the specified name which is not dirty and has no parent */
+  /** \brief Creates a node with the specified name which is not dirty and has no parent
+   * \param name of the Node
+   */
   Node(string name) {
 	_dirty = false;
 	_parent = 0;
