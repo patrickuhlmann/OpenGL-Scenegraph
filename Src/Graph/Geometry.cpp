@@ -3,7 +3,7 @@
 Geometry::Geometry() {};
 //Geometry::Geometry( Mesh* mesh) : Node(), _mesh( mesh ) {}
 
-Geometry::~Geometry() {};
+Geometry::~Geometry() { DLOG(INFO) << "~Geometry()\n"; };
 
 void Geometry::Accept( NodeVisitor* visitor ) 
 {
