@@ -29,9 +29,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 	// Material initialize
 	M3DVector3f MatAmbient;
-	m3dLoadVector3(MatAmbient, 0.2f, 0.2f, 0.2f);
+	m3dLoadVector3(MatAmbient, 1.0f, 1.0f, 1.0f);
 	Material Mat("Proto", MatAmbient);
-	Mat.SetDiffuse(0.8f, 0.8f, 0.8f);
 	Mat.SetTransparency(1.0f);
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
@@ -155,7 +154,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 
 	// Add Texture for all Vertices
-	for (TriangleIterator it = M->_triangles.begin(); it != M->_triangles.end(); ++it) {
+	for (VertexVector::iterator it = M->_vertices.begin(); it != M->_vertices.end(); ++it) {
 		float* Texture = new float[2];
 		Texture[0] = 0;
 		Texture[1] = 0;

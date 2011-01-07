@@ -1,31 +1,51 @@
 #include "Mesh.hpp"
 
-Mesh::Mesh() {}
-Mesh::Mesh( const char* file ) {}
-  
-/*Mesh::VertexIterator GetVertexIterator() {}
-Mesh::VertexIterator GetVertexIteratorEnd() {}
+/**
+ * \brief Create an empty mesh with the name Dummy
+ */
+Mesh::Mesh() : _name("Dummy") {}
 
-Mesh::NormalIterator GetNormalIterator() {}
-Mesh::NormalIterator GetNormalIteratorEnd() {}
+/**
+ * \brief Get the Vertex at position i
+ * \param i index of the Vertex to get
+ * \return pointer to the vertex (XYZ)
+ */
+const float* Mesh::GetVertex( int i ) const {
+	return _vertices.at(i);
+}
 
-Mesh::ColorIterator  GetColorIterator() {}
-Mesh::ColorIterator  GetColorIteratorEnd() {}
+/**
+ * \brief Get the Normal at position i
+ * \param i index of the Normal to get
+ * \return pointer to the normal (XYZ)
+ */
+const float* Mesh::GetNormal( int i ) const {
+	return _normals.at(i);
+}
 
-Mesh::TextureIterator GetTextureCoordIterator() {}
-Mesh::TextureIterator GetTextureCoordIteratorEnd() {}*/
+/**
+ * \brief Get the TextureCoordinates at position i
+ * \param i index of the TextureCoordinates
+ * \return pointer to the TextureCoordinates (ST)
+ */
+const float* Mesh::GetTextureCoord( int i ) const {
+	return _textureCoords.at(i);
+}
 
-const float* Mesh::GetVertex( int i ) const { return _vertices.at(i); }
+const Triangle Mesh::GetTriangle(int i) const {
+	return _triangles.at(i);
+}
 
-const float* Mesh::GetNormal( int i ) const { return _normals.at(i); }
+const Material Mesh::GetMaterial(int i) const {
+	return _material.at(i);
+}
+
 
 const string& Mesh::GetName() const {
 	return _name;
 }
 
-const float* Mesh::GetTextureCoord( int i ) const { return _textureCoords.at(i); }
 
-const Triangle Mesh::GetTriangle(int i) const { return _triangles.at(i); }
 
 int Mesh::GetVertexCount() const { return _vertices.size(); }
 

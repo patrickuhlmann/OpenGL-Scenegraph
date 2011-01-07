@@ -10,6 +10,7 @@ Material::Material(const string& Name, const M3DVector3f& AmbientLight) {
 	_useDiffuse = false;
 	_useSpecular = false;
 	_name = Name;
+	_shine = 0;
 }
 
 /** \brief Copy constructor to copy the properties of another Material. These properties are completly independent of the original 

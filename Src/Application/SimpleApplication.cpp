@@ -15,7 +15,8 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
  * \brief This function is called only once before the first update happens to initialize everything we want
  * Empty Implementation
  *
- * \param MeshFileLoader MeshLoader that can be used to Load Meshs from Files
+ * \param RootNode of the Scenegraph
+ * \param MeshLoader that can be used to Load Meshs from Files
  */
 void SimpleApplication::Init(Light* RootNode, MeshFileLoader* MeshLoader) {
 
@@ -24,6 +25,7 @@ void SimpleApplication::Init(Light* RootNode, MeshFileLoader* MeshLoader) {
 /**
  * \brief This function is called always before Render. You can do calculations for the next frame in this function
  * Empty implementation
+ * \param RootNode of the Scenegraph
  */
 void SimpleApplication::Update(Light* RootNode) {
 
@@ -33,8 +35,8 @@ void SimpleApplication::Update(Light* RootNode) {
  * \brief This function is called everytime we draw a frame. You need to draw everything you want to be on the next frame
  * Empty implementation
  *
- * \param RenderVisitor RVisitor to visit and render the Scenegraph
- * \param Node* RootNode of the Scenegraph
+ * \param RVisitor to visit and render the Scenegraph
+ * \param RootNode of the Scenegraph
  */
 void SimpleApplication::Render(RenderVisitor* RVisitor, Light* RootNode) {
 
@@ -43,6 +45,8 @@ void SimpleApplication::Render(RenderVisitor* RVisitor, Light* RootNode) {
 /**
  * \brief This function is called whenever we change the size of the window (which includes one call when it is created the first time).
  * Empty Implementation
+ * \param NewWidth of the Window
+ * \param NewHeight of the Window
  */
 void SimpleApplication::Resize(int NewWidth, int NewHeight) {
 
@@ -50,6 +54,9 @@ void SimpleApplication::Resize(int NewWidth, int NewHeight) {
 
 /**
  * \brief needs to be static as it is the callback function for key inputs which will be called from glut. Just redirects the call to the HandleKeys method of the most recently created real instance of SimpleApplication
+ * \param Code of the pressed key
+ * \param x position of the mouse
+ * \param y position of the mouse
  */
 void SimpleApplication::HandleKeysS(enuKey Code, int x, int y) {
 	reinterpret_cast<SimpleApplication*>(Instance)->HandleKeysSimple(Code);
@@ -58,6 +65,7 @@ void SimpleApplication::HandleKeysS(enuKey Code, int x, int y) {
 /**
  * \brief Method which gets the Key Events from Glut. Here we handle the SimpleApplication Inputs
  * at the end we call the HandleKeys method
+ * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeysSimple(enuKey Code) {
 	if (Code == APP_KEY_ESC) {
@@ -76,6 +84,7 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
 /**
  * \brief Method which gets the Key Events from Glut. Here we can handle all inputs
  * Default Implementation: Empty
+ * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeys(enuKey Code) {
 

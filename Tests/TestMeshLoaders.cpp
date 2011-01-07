@@ -96,6 +96,16 @@ TEST_F(TestMeshLoaders, test_TestMeshLoaderObjTetrahedron)
 	c = m->GetTextureCoord(3);
 	ASSERT_FLOAT_EQ(c[0], 0.00f);
 	ASSERT_FLOAT_EQ(c[1], 0.00f);
+
+	// Test the Materials
+	Material Mat = m->GetMaterial(0);
+	EXPECT_EQ(Mat.GetShininess(), 0);
+	Mat = m->GetMaterial(1);
+	EXPECT_EQ(Mat.GetShininess(), 0);
+	Mat = m->GetMaterial(2);
+	EXPECT_EQ(Mat.GetShininess(), 0);
+	Mat = m->GetMaterial(3);
+	EXPECT_EQ(Mat.GetShininess(), 0);
 }
 
 // Initialization and entry point
