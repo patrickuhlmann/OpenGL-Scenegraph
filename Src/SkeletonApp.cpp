@@ -34,12 +34,34 @@ void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	M3DVector3f pos;
 	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
 
+	// Init Camera
 	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
     c->SetPosition( pos );
     c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
-	c->AddChild(new Geometry(Gourd, "Gourd"));
-	c->AddChild(new Geometry(Humanoid, "Humanoid"));
-	c->AddChild(new Geometry(Cube, "Cube"));
+
+	// Build Up Scenegraph
+	c->AddChild(
+		(new Transform(string("GourdTransform")))->AddChild(
+			(new Geometry(Gourd, string("Gourd")))
+	));
+	c->AddChild(
+		(new Transform(string("HumanoidTransform")))->AddChild(
+			(new Geometry(Humanoid, "Humanoid")))
+	);
+	c->AddChild(
+		(new Transform(string("CubeTransform")))->AddChild(
+			(new Geometry(Cube, "Cube")))
+	);
+
+	Transform* t = reinterpret_cast<Transform*>(l->GetByName("HumanoidTransform"));
+	t->Translate(-5.0f, 0.0f, 0.0f);
+
+	t = reinterpret_cast<Transform*>(l->GetByName("CubeTransform"));
+	t->Translate(2.0f, 0.0f, 0.0f);
+	t->Scale(1.6f, 1.2f, 1.2f);
+
+	t = reinterpret_cast<Transform*>(l->GetByName("GourdTransform"));
+	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, Light* l)

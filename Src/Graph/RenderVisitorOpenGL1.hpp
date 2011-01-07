@@ -30,22 +30,8 @@ public:
 	virtual void VisitLight( Light* l);
 	virtual void VisitCamera( Camera* c );
 	virtual void VisitGeometry( Geometry* );
+	virtual void VisitTransform( Transform* t);
 
-
-
-
-
-
-  /**
-   * Get transformation data.
-   *
-   * @see Transform.
-   * @param t Node to Visit
-   */
-  virtual void VisitTransform( Transform* t);
-
-   void DrawOpenGL();
-   
 private:
    GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
   GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */

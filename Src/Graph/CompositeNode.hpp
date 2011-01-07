@@ -22,14 +22,16 @@ public:
   * be at the place where it was added the last
   *
   * \param n to add as child
+  * \param return point to itself for easy call chaining
   */
-  virtual void AddChild( Node* n ) {
+  CompositeNode* AddChild( Node* n ) {
     if (n->GetParent())
 		reinterpret_cast<CompositeNode*>(n->GetParent())->RemoveChild(n);
 
 	n->SetParent(this);
 	_children.push_back( n ); 
-        //DLOG(INFO) << "Children count: " << _children.size() << endl;
+
+	return this;
   };
 
   /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and it's parent is set to 0 */

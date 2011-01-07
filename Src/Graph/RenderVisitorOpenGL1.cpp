@@ -160,38 +160,19 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-void RenderVisitorOpenGL1::DrawOpenGL()
-{
-   DLOG(INFO) << "DrawOpenGL\n";
-
-   M3DVector3f lightPos;   // array of 3 float (not GLfloat)
-   M3DVector4f color;      // array of 4 =||=
- 
-   // set light position and diffuse light color
-   _light.GetDiffuse( color );
-   _light.GetPosition( lightPos );
-}
-
+/**
+* Get transformation data.
+*/
 void RenderVisitorOpenGL1::VisitTransform( Transform* t )
 {
 	DLOG(INFO) << "Transform accepted visitor" << endl;
-  _modelViewMatrix.PushMatrix(); // save current matrix
-  _modelViewMatrix.MultMatrix( t->GetMatrix() );
+	_modelViewMatrix.PushMatrix(); // save current matrix
+	_modelViewMatrix.MultMatrix( t->GetMatrix() );
 
-  TraverseChildren( t );
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf( _modelViewMatrix.GetMatrix() );
 
-  _modelViewMatrix.PopMatrix(); // restore matrix
+	TraverseChildren(t);
+
+	_modelViewMatrix.PopMatrix(); // restore matrix
 }
