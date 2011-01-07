@@ -33,6 +33,8 @@ class Mesh {
 		const Triangle& GetTriangle(int i) const;
 		const Material& GetMaterial(int i) const;
 
+		void Scale(float Factor);
+
 		int GetVertexCount() const;
 		int GetTriangleCount() const;
 

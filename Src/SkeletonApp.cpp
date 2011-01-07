@@ -8,19 +8,22 @@ SkeletonApp::SkeletonApp() : SimpleApplication("Skeleton", 800, 600) {
 }
 
 void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
-	//Mesh* M = MeshLoader->Load("Objects/humanoid_tri.obj");
-	//Mesh* M = MeshLoader->Load("Objects/cube.obj");
-	//Mesh* M = MeshLoader->Load("Objects/gourd.obj");
+	Mesh* Humanoid = MeshLoader->Load("Objects/humanoid_tri.obj");
+	Humanoid->Scale(0.5f);
+	Mesh* Cube = MeshLoader->Load("Objects/cube.obj");
+	Mesh* Gourd = MeshLoader->Load("Objects/gourd.obj");
 	//Mesh* M = MeshLoader->Load("Objects/icosahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/octahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/tetrahedron.obj");
 
-	// Visible to big
-	Mesh* M = MeshLoader->Load("Objects/rose+vase.obj");
-	//Mesh* M = MeshLoader->Load("Objects/teapot.obj");
+	//Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
+	//Rose->Scale(0.05f);
 
-	// Invisible	
-	// Mesh* M = MeshLoader->Load("Objects/dolphins.obj");
+	//Mesh* Teapot = MeshLoader->Load("Objects/teapot.obj");
+	//Teapot->Scale(0.05f);
+	
+	//Mesh* Dolphins = MeshLoader->Load("Objects/dolphins.obj");
+	//Dolphins->Scale(0.01f);
 
 
 	M3DVector4f color;
@@ -29,12 +32,14 @@ void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	l->SetAmbient( color );
 
 	M3DVector3f pos;
-	m3dLoadVector3( pos, 0.0f, 0.0f, 100.0f );
+	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
 
 	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
     c->SetPosition( pos );
     c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
-	c->AddChild(new Geometry(M));
+	c->AddChild(new Geometry(Gourd, "Gourd"));
+	c->AddChild(new Geometry(Humanoid, "Humanoid"));
+	c->AddChild(new Geometry(Cube, "Cube"));
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, Light* l)

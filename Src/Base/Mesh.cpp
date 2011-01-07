@@ -67,6 +67,14 @@ const Material& Mesh::GetMaterial(int i) const {
 	return _material.at(i);
 }
 
+void Mesh::Scale(float Factor) {
+	for (VertexVector::iterator it = _vertices.begin(); it != _vertices.end(); ++it) {
+		(*it)[0] = (*it)[0] * Factor;
+		(*it)[1] = (*it)[1] * Factor;
+		(*it)[2] = (*it)[2] * Factor;
+	}
+}
+
 /**
  * \brief Get the Number of Vertices in this Mesh
  * \return Number of Vertices
