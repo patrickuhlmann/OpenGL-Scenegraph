@@ -7,56 +7,60 @@
 
 class TestGraphApp : public SimpleApplication {
 public:
-   TestGraphApp() : SimpleApplication("TestGraph", 800, 600),
-                    r( &ShaderManager )
-   {};
+   TestGraphApp( ) : SimpleApplication("TestGraph", 800, 600) { /* */ };
 
-   void Init()
+   void Init( Light* l, MeshFileLoader* mfl )
    {
-      // Transform* t1 = new Transform();
-      // Transform* t2 = new Transform();
-      // Transform* t3 = new Transform();
-
-      glPolygonMode(GL_FRONT, GL_LINE);
-      glPolygonMode(GL_BACK, GL_LINE);
-
-      MeshFileLoader mfl;
-      mfl.AddMeshLoader( new MeshLoaderObj() );
-      m = mfl.Load("Objects/tetrahedron.obj");
+      m = mfl->Load("Objects/cube.obj");
       g.SetMesh( m );
       
-      M3DVector4f amb;
-      m3dLoadVector4( amb, 128.0f, 128.0f, 128.0f, 0.0f );
-      l.SetAmbient( amb );
+      M3DVector4f color;
+      m3dLoadVector4( color, 0.0f, 1.0f, 0.0f, 1.0f );
+      l->SetDiffuse( color );
+      l->SetAmbient( color );
 
       M3DVector3f pos;
-      m3dLoadVector3( pos, 0.0f, 0.0f, 20.0f );
-      c.SetPosition( pos );
-      c.SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
-
-      l.AddChild( &c );
-      l.SetName("Light1");
-      c.SetName("Camera1");
-      // c.Add( t1 );
-      // c.Add( t2 );
-      // c.Add( t3 );
-       c.AddChild( &g );
+      m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
+      Node* n = l->GetByName("GlobalCamera");
+      if (!n) {
+         DLOG(ERROR) << "GlobalCamera not found!\n";
+         exit( 1 );
+      }
+      c = dynamic_cast<Camera*>( n );
+      if (!c) {
+         DLOG(ERROR) << "Cast failed!\n";
+         exit( 1 );
+      }
+      c->SetPosition( pos );
+      c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
+      c->AddChild( &g );
      
    };
 
-   void Render()
+   void Render( RenderVisitor* r, Light* l)
    { 
-      DLOG(INFO) << "Render()\n";
-      r.Traverse( &l );
+      // DLOG(INFO) << "Render()\n";
+      r->Traverse( l );
+      // DLOG(INFO) << "End of Render()\n";
    };
    
+   void Update( Light* l )
+   {
+      DLOG(INFO) << "Update()\n";
+   };
+
+   void Resize( int w, int h )
+   {
+      DLOG(INFO) << "Resize()\n";
+   };
+
 private:
-   Light l;
-   Camera c;
+   // Light l;
+    Camera* c;
    Transform t;
    Mesh* m;
    Geometry g;
-   RenderVisitor r;
+   // RenderVisitor r;
 };
 
 int main( int argc, char** argv )
