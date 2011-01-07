@@ -3,6 +3,7 @@
 #include "NodeVisitor.hpp"
 #include "../Include/GLMatrixStack.h"
 #include "../Include/GLTriangleBatch.h"
+#include "../Include/GLBatch.h" 
 #include "../Include/GLGeometryTransform.h"
 #include "../Include/GLShaderManager.h"
 #include "Light.hpp"
@@ -99,8 +100,7 @@ public:
    void DrawOpenGL();
    
 private:
-
-  GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
+   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
   GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
   GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
   GLShaderManager* _shaderManager;           /**< Helper object for managing shader programs */
