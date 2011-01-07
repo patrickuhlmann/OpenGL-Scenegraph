@@ -10,6 +10,13 @@ typedef NodeList::iterator NodeIterator;
 /** \brief This is a abstract base class for all nodes that can have children. It provides methods to Add and Remove children as well as searching for them */
 class CompositeNode : public Node {
 public:
+  /** \brief Delete all the Children */
+  ~CompositeNode() {
+	for (NodeIterator it = _children.begin(); it != _children.end(); it++) {
+	  delete *it;
+	}
+  }
+
   /** \brief Add a Node as Child. This method will automatically set this node as the parent of the child.
   * If it had another parent before it will remove the node from that Parent (so the node will always just
   * be at the place where it was added the last
@@ -28,7 +35,7 @@ public:
   /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and it's parent is set to 0 */
   virtual void RemoveChild( Node* n ) {
 	int SizeBefore = _children.size();
-	_children.remove( n );
+	_children.remove(n);
 
 	if (_children.size() < SizeBefore)
 		n->SetParent(0);

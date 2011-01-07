@@ -17,7 +17,6 @@ typedef vector<Triangle> TriangleVector;
 typedef vector<float*> TextureCoordVector;
 typedef vector<Material> MaterialVector;
 
-typedef TriangleVector::iterator TriangleIterator;
 typedef TriangleVector::const_iterator TriangleIteratorConst;
 
 /**
@@ -26,30 +25,35 @@ typedef TriangleVector::const_iterator TriangleIteratorConst;
 class Mesh {
 	public: 
 		Mesh();
+		~Mesh();
 
 		const float* GetVertex(int i) const;
 		const float* GetNormal(int i) const;
 		const float* GetTextureCoord(int i) const;
-		const Triangle GetTriangle(int i) const;
-		const Material GetMaterial(int i) const;
+		const Triangle& GetTriangle(int i) const;
+		const Material& GetMaterial(int i) const;
 
-   TriangleIterator GetTriangleIterator();
-   TriangleIteratorConst GetTriangleIteratorConst() const;
-   TriangleIterator GetTriangleIteratorEnd();
-   TriangleIteratorConst GetTriangleIteratorEndConst() const;
+		int GetVertexCount() const;
+		int GetTriangleCount() const;
 
-   const string& GetName() const;
+   		const string& GetName() const;
 
-   int GetVertexCount() const;
-   int GetTriangleCount() const;
+		TriangleIteratorConst GetTriangleIteratorConst() const;
+		TriangleIteratorConst GetTriangleIteratorEndConst() const;
 
 private:
-  VertexVector   _vertices;  // XYZ
-  NormalVector   _normals;   // one normal per vertex
-  TriangleVector _triangles; // indexes for vertex vector
-  MaterialVector _material;  // for material
-  TextureCoordVector  _textureCoords; // can be set to all zeroes by default
-  string _name;	// name of the mesh for example name of the file where it was loaded from
+	/** \brief Vector of Vertices (XYZ) */
+	VertexVector   _vertices;
+	/** \brief Vector of Normals (XYZ), should be one per Vertex */
+	NormalVector   _normals;
+	/** \brief Triangles (Index of 3 Vertices) */
+	TriangleVector _triangles;
+	/** \brief Vector of Materials, should be one per Triangle */
+	MaterialVector _material;
+	/** \brief Vector of TextureCoordinates, should be one per Vertex */
+	TextureCoordVector  _textureCoords;
+	/** \brief Name of the Mesh */
+	string _name;
 
 friend class MeshLoaderObj;
 friend class MeshFileLoader;
