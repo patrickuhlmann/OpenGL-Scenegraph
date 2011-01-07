@@ -1,8 +1,8 @@
 #include "Material.hpp"
 
 /** Creates a material which has only a AmbientLight and a name. There is no Diffuse or Specular light. The Alpha Value of the object is set to 1 (visible)
-*	\param AmbientLight float array containing three elements for red, green and blue component of the light
 *	\param Name of the Material
+*	\param AmbientLight float array containing three elements for red, green and blue component of the light
 */
 Material::Material(const string& Name, const M3DVector3f& AmbientLight) {
 	m3dCopyVector3(_ambient, AmbientLight);
@@ -14,19 +14,19 @@ Material::Material(const string& Name, const M3DVector3f& AmbientLight) {
 
 /** \brief Copy constructor to copy the properties of another Material. These properties are completly independent of the original 
 *
-* \param Material m to copy the properties from
+* \param m to copy the properties from
 */
 Material::Material( const Material& m ) { Copy( m ); }
 
 /** \brief Just copies all properties. These properties are completly independent of the original 
 *
-* \param Material m to assign to our class
+* \param m to assign to our class
 */
 void Material::operator= ( const Material& m ) { Copy( m ); }
 
 /** \brief Helper Method to copy a material. It just makes a copy of all properties 
 *
-* \param Material other to copy the properties from
+* \param other to copy the properties from
 */
 void Material::Copy( const Material& other )
 {
@@ -42,7 +42,7 @@ void Material::Copy( const Material& other )
 
 /** \brief Sets the Ambient Light of the Material (Ambient is the Light which is always present. No matter how far away or in which direction the viewer is.
 *
-* \param M3dVector3f AmbientLight float array containing three elements for red, green and blue component of the light
+* \param AmbientLight float array containing three elements for red, green and blue component of the light
 */
 void Material::SetAmbient(const M3DVector3f& AmbientLight )
 {
@@ -61,7 +61,7 @@ void Material::SetAmbient(GLfloat r, GLfloat g, GLfloat b) {
 
 /** \brief Sets the Diffuse Light of the Material (Diffuse is the light which is dependent of the viewing direction of the user
 *
-* \param M3dVector3f DiffuseLight float array containing three elements for red, green and blue component of the light
+* \param DiffuseLight float array containing three elements for red, green and blue component of the light
 */
 void Material::SetDiffuse(const M3DVector3f& DiffuseLight)
 {
@@ -116,7 +116,7 @@ void Material::RemoveSpecular() {
 
 /** \brief Sets the Alpha value of the object
 *
-* \param GLflaot a 0 is invisible, 1 is solid visible, values between are partly visible. The background can be seen through
+* \param a 0 is invisible, 1 is solid visible, values between are partly visible. The background can be seen through
 */
 void Material::SetTransparency( GLfloat a ) { 
 	_transparency = a;

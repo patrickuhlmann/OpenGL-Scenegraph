@@ -24,14 +24,14 @@ public:
    * current transformation matrix with the visitor's.
    *
    * @see Transform.
-   * @param Transform*
+   * @param t Node to visit
    */
   virtual void VisitTransform( Transform* );
 
   /**
    * 
    * @see Geometry
-   * @param Geometry*    
+   * @param g Node to visit  
    */
   virtual void VisitGeometry( Geometry* );
 
@@ -42,7 +42,7 @@ public:
    * applicable to the light node.
    *
    * @see Light
-   * @param Light*     
+   * @param l Node to visit   
    */
   virtual void VisitLight( Light* );
 
@@ -50,7 +50,7 @@ public:
    * Visit a group having a number of children.
    *
    * @see Group
-   * @param Group*    
+   * @param g Node to visit  
    */
   virtual void VisitGroup( Group* );
 
@@ -61,7 +61,7 @@ public:
    * accumulated.
    *
    * @see Camera
-   * @param Camera*    
+   * @param c Node to Visit
    */
   virtual void VisitCamera( Camera* );
   
@@ -75,10 +75,10 @@ private:
 
   /**
    * Traverse a composite.
-   * @param CompositeNode*
+   * @param c Node to Traverse
    * @see CompositeNode
    */
-  virtual void Traverse( CompositeNode* );
+  virtual void Traverse( CompositeNode* c );
 
   M3DMatrix44f _transform;
   M3DVector3f  _direction;

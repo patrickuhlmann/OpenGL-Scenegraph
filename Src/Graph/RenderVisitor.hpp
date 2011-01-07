@@ -34,17 +34,17 @@ public:
    * and glew must also be initialized. 
    *
    * @see GLShaderManager
-   * @param GLShaderManager*  Pointer to a shadermanager object.
+   * @param gm Pointer to a shadermanager object.
    */
-  RenderVisitor( GLShaderManager* );
+  RenderVisitor( GLShaderManager* gm );
   
   /**
    * Get transformation data.
    *
    * @see Transform.
-   * @param Transform*
+   * @param t Node to Visit
    */
-  virtual void VisitTransform( Transform* );
+  virtual void VisitTransform( Transform* t);
 
   /**
    * Render a geometry.
@@ -53,8 +53,8 @@ public:
    * since we only support one light and only the diffuse
    * version.
    *
-   * @see Transform
-   * @param Geometry*    
+   * @see Geometry
+   * @param g Node to visit   
    */
   virtual void VisitGeometry( Geometry* );
 
@@ -62,17 +62,9 @@ public:
    * Get information about lighting in the scene.
    *
    * @see Light
-   * @param Light*     
+   * @param l Node to visit     
    */
-  virtual void VisitLight( Light* );
-
-  /**
-   * Visit a group having a number of children.
-   *
-   * @see Group
-   * @param Group*    
-   */
-  // TODO: what is group: virtual void VisitGroup( Group* );
+  virtual void VisitLight( Light* l);
 
   /**
    * Get transformations for viewing space and projection.
@@ -81,19 +73,19 @@ public:
    * accumulated.
    *
    * @see Camera
-   * @param Camera*    
+   * @param c Node to visit
    */
-  virtual void VisitCamera( Camera* );
+  virtual void VisitCamera( Camera* c );
   
 
 
 
   /**
    * Traverse a composite.
-   * @param CompositeNode*
+   * @param \c Node to Traverse
    * @see CompositeNode
    */
-  virtual void Traverse( CompositeNode* );
+  virtual void Traverse( CompositeNode* c );
 
 
    void DrawOpenGL();

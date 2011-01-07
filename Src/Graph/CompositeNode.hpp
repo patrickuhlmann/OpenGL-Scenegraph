@@ -14,7 +14,7 @@ public:
   * If it had another parent before it will remove the node from that Parent (so the node will always just
   * be at the place where it was added the last
   *
-  * \param Node n to add as child
+  * \param n to add as child
   */
   virtual void AddChild( Node* n ) {
     if (n->GetParent())
