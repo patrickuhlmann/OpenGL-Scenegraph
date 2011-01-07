@@ -1,9 +1,18 @@
 #include "Geometry.hpp"
 
-Geometry::Geometry() {};
-//Geometry::Geometry( Mesh* mesh) : Node(), _mesh( mesh ) {}
+Geometry::Geometry(Mesh* M, const string& Name) : CompositeNode(Name) {
+	if (M == 0)
+		DLOG(WARNING) << "Try to initialize Geometry with null pointer!" << endl;
 
-Geometry::~Geometry() { DLOG(INFO) << "~Geometry()\n"; };
+	_mesh = M;
+};
+
+Geometry::~Geometry() {
+	if (_mesh)
+		delete _mesh;
+
+	DLOG(INFO) << "~Geometry()\n";
+};
 
 void Geometry::Accept( NodeVisitor* visitor ) 
 {

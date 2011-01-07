@@ -6,7 +6,7 @@
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decies how high the window will be (pixel)
  */
-SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) : BaseApplication(Title, WindowWidth, WindowHeight) {
+SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) : BaseApplication(Title, WindowWidth, WindowHeight, new RenderVisitorOpenGL1()) {
 	Input.AddGlobalListener(this->HandleKeysS);
 	atexit(this->ShutdownS);
 }
@@ -38,7 +38,7 @@ void SimpleApplication::Update(Light* RootNode) {
  * \param RVisitor to visit and render the Scenegraph
  * \param RootNode of the Scenegraph
  */
-void SimpleApplication::Render(RenderVisitor* RVisitor, Light* RootNode) {
+void SimpleApplication::Render(NodeVisitor* RenderVisitor, Light* RootNode) {
 
 }
 

@@ -10,4 +10,6 @@ class SkeletonApp : public SimpleApplication {
 
 	public:
 		SkeletonApp();
+		void Render(NodeVisitor* RenderVisitor, Light* l);
+		void Init( Light* l, MeshFileLoader* MeshLoader);
 };

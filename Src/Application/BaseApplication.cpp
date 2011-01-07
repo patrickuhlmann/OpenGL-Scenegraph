@@ -1,12 +1,16 @@
 #include "BaseApplication.h"
 
+BaseApplication::~BaseApplication() {
+	delete this->RenderVisitor;
+}
+
 /**
  * \brief Initialize Glut, Create Window, Setup Callback for Render, Resize and Keyboard Handler
  * \param Title Title which will be print to the titlebar of the window
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
  */
-BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight) : RVisitor(&ShaderManager), RootNode(string("GlobalLight")) {
+BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor) : RootNode(string("GlobalLight")) {
 	// Initialize Glut and our Window
 	char* argv[] = { "BaseApplication" };
 	int argc = 1;
@@ -34,6 +38,8 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 
 	// Initialize the MeshLoader
 	this->MeshLoader.AddMeshLoader(new MeshLoaderObj());
+
+	this->RenderVisitor = RenderVisitor;
 
 	this->SetupOpenGL();
 
@@ -81,8 +87,6 @@ void BaseApplication::SetupOpenGL() {
 
 	// Set Preference for Speed/Quality
 	void glHint(GLenum target, GLenum mode);*/
-
-	ShaderManager.InitializeStockShaders();
 }
 
 /**
@@ -119,7 +123,7 @@ void BaseApplication::RenderBase() {
 	// Clear the window with current clearing (=background) color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	this->Render(&this->RVisitor, &this->RootNode);
+	this->Render(this->RenderVisitor, &this->RootNode);
 
 	// Perform the buffer swap to display the back buffer
 	glutSwapBuffers();
