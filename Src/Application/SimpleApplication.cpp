@@ -2,11 +2,16 @@
 
 /**
  * \brief Initialize the Application which means it registres the Esc button to close the Application
+ * An application is created with a scene graph with default global camera and light.
+ * The global light is the root node of the graph.
  * \param Title Title which you can see in the titlebar
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decies how high the window will be (pixel)
  */
-SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) : BaseApplication(Title, WindowWidth, WindowHeight, new RenderVisitorOpenGL1()) {
+SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) 
+   : BaseApplication(Title, WindowWidth, WindowHeight, new RenderVisitorOpenGL1()),
+     _light("GlobalLight"), _camera("GlobalCamera")
+{
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
 	glFrontFace(GL_CCW);
@@ -14,6 +19,12 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
 
 	Input.AddGlobalListener(this->HandleKeysS);
 	atexit(this->ShutdownS);
+
+        //_camera.SetParent( &_light );
+        _light.AddChild( &_camera );
+        _camera.SetPerspective( 45.0f,(GLfloat)WindowWidth/(GLfloat)WindowHeight,0.1f,100.0f );
+
+        RootNode.AddChild( &_light ); // Add the light to the scene
 }
 
 /**
@@ -23,7 +34,7 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
  * \param RootNode of the Scenegraph
  * \param MeshLoader that can be used to Load Meshs from Files
  */
-void SimpleApplication::Init(Light* RootNode, MeshFileLoader* MeshLoader) {
+void SimpleApplication::Init(CompositeNode* RootNode, MeshFileLoader* MeshLoader) {
 
 }
 
@@ -32,7 +43,7 @@ void SimpleApplication::Init(Light* RootNode, MeshFileLoader* MeshLoader) {
  * Empty implementation
  * \param RootNode of the Scenegraph
  */
-void SimpleApplication::Update(Light* RootNode) {
+void SimpleApplication::Update(CompositeNode* RootNode) {
 
 }
 
@@ -43,7 +54,7 @@ void SimpleApplication::Update(Light* RootNode) {
  * \param RVisitor to visit and render the Scenegraph
  * \param RootNode of the Scenegraph
  */
-void SimpleApplication::Render(NodeVisitor* RenderVisitor, Light* RootNode) {
+void SimpleApplication::Render(NodeVisitor* RenderVisitor, CompositeNode* RootNode) {
 
 }
 
@@ -73,15 +84,16 @@ void SimpleApplication::HandleKeysS(enuKey Code, int x, int y) {
  * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeysSimple(enuKey Code) {
+   DLOG(INFO) << "HandleKeysSimple() called\n";
 	if (Code == APP_KEY_ESC) {
-		exit(0);
+           exit(0);
 	} else if (Code == APP_KEY_P) {
 		this->PauseFlag = !this->PauseFlag;
 		if (this->PauseFlag)
 			this->Pause();
 		else
 			this->Continue();
-	}
+	} 
 
 	this->HandleKeys(Code);
 }
@@ -92,7 +104,40 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
  * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeys(enuKey Code) {
-
+   DLOG(INFO) << "HandleKeys() called\n";
+   switch( Code ) {
+      case APP_KEY_W :
+         DLOG(INFO) << "Moving Up\n";
+         _camera.MoveUp( STEP );
+         break;
+      case APP_KEY_S :
+         DLOG(INFO) << "Moving Down\n";
+         _camera.MoveDown( STEP );
+         break;
+      case APP_KEY_D :           /* TODO: handle shift and do rotatation */
+         DLOG(INFO) << "Moving Right\n";
+         _camera.MoveRight( STEP );
+         break;
+      case APP_KEY_A :
+         DLOG(INFO) << "Moving Left\n";
+         _camera.MoveLeft( STEP );
+         break;
+      case APP_KEY_I :
+         _camera.MoveForward( STEP );
+         break;
+      case APP_KEY_K :
+         _camera.MoveBackward( STEP );
+         break;
+      case APP_KEY_J :
+         _camera.RotateWorld( ANGLE, 0.0f, 0.1f, 0.0f );
+         break;
+      case APP_KEY_L:
+         _camera.RotateWorld( -ANGLE, 0.0f, 0.1f, 0.0f );
+         break;
+      default:
+         DLOG(INFO) << "HandleKeys()\n";
+         break;
+   }
 }
 
 /**
