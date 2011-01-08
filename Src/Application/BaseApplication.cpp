@@ -10,7 +10,7 @@ BaseApplication::~BaseApplication() {
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
  */
-BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor) : RootNode(string("GlobalLight")) {
+BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor) : RootNode(string("Root")) {
 	// Initialize Glut and our Window
 	char* argv[] = { "BaseApplication" };
 	int argc = 1;
@@ -44,7 +44,7 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->SetupOpenGL();
 
 	// Initialize the Scenegraph
-	this->RootNode.AddChild(new Camera("GlobalCamera"));
+	//this->RootNode.AddChild(Root); //new Camera("GlobalCamera"));
 
 	this->FrameCounter = 0;
 
