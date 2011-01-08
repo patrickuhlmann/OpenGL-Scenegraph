@@ -57,6 +57,8 @@ void State::SetMaterial( const Material& m ) {
 void State::Merge( const State& state )
 {
   StateVariableIterator enableIterator, enableEnd, disableIterator, disableEnd;
+
+  /* TODO: error in VS 2008
   enableIterator  = state._enables.begin();
   enableEnd       = state._enables.end();
   disableIterator = state._disables.begin();
@@ -66,8 +68,8 @@ void State::Merge( const State& state )
     _enables.insert( (*enableIterator) );
 
   while ( disableIterator != disableEnd )
-    _disables.insert( (*disableIterator) );
- 
+    _disables.insert( (*disableIterator) );*/
+
   _material = state._material;
 }
 

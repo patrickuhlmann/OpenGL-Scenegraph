@@ -1,0 +1,46 @@
+Culling
+=======
+glEnable(GL_CULL_FACE);
+glDisable(GL_CULL_FACE);
+
+Depth Test
+==========
+glEnable(GL_DEPTH_TEST);
+glDisable(GL_DEPTH_TEST);
+
+Lighting
+========
+glEnable(GL_LIGHTING);
+glDisable(GL_LIGHTING);
+
+Shading
+=======
+// Set color shading model to flat
+glShadeModel(GL_FLAT);
+glShadeModel(GL_SMOOTH);
+
+
+// Clockwise-wound polygons are front facing; this is reversed
+// because we are using triangle fans
+glFrontFace(GL_CW);
+
+// Size of a Point
+glPointSize(curSize);
+
+// Width of a Line
+void glLineWidth(GLfloat width);
+glGetFloatv(GL_LINE_WIDTH_RANGE,sizes);
+glGetFloatv(GL_LINE_WIDTH_GRANULARITY,&step);
+
+
+// Draw the back side as a wireframe only, or solid
+glPolygonMode(GL_BACK,GL_LINE);
+glPolygonMode(GL_BACK,GL_FILL);
+
+// If true any Vertices that follow are part of a border line, when fals the lines are internal. If we set the mode to GL_LINES the internal lines are not shown
+glEdgeFlag(bEdgeFlag);
+
+
+
+
+

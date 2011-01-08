@@ -2,7 +2,7 @@ CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitor.o Transform.o Geometry.o State.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o
 
 # Generic rules
 .cc.o: $<
@@ -22,13 +22,15 @@ clean:
 	rm -rf DoxygenWarnings.log
 	rm -rf doc/
 	rm -rf Tests/TestMeshLoaders
+	rm -rf Tests/TestCompositeNode
+	rm -rf Tests/TestNode
 	rm -rf gmon.out
 	rm -rf SkeletonApp
 
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o RenderVisitor.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -107,7 +109,10 @@ Geometry.o: Src/Graph/Geometry.cpp Src/Graph/Geometry.hpp
 Light.o: Src/Graph/Light.cpp Src/Graph/Light.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
-RenderVisitor.o: Src/Graph/RenderVisitor.cpp Src/Graph/RenderVisitor.hpp
+RenderVisitorOpenGL1.o: Src/Graph/RenderVisitorOpenGL1.cpp Src/Graph/RenderVisitorOpenGL1.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+RenderVisitorOpenGL2.o: Src/Graph/RenderVisitorOpenGL2.cpp Src/Graph/RenderVisitorOpenGL2.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp

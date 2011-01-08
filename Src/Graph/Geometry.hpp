@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Node.hpp"
+#include "CompositeNode.hpp"
 #include "../Base/Mesh.hpp"
-//#include "NodeVisitor.hpp"
 #include "State.hpp"
+#include <string>
+
+using namespace std;
 
 /**
  * A leaf node representing a graphical object.
  */
-class Geometry : public Node {
+class Geometry : public CompositeNode {
 public:
-  Geometry(); // accept geometry without mesh?
-   //Geometry( Mesh* );
-  ~Geometry(); // Delete mesh?
+	Geometry(Mesh* M, const string& Name = "");
+	~Geometry();
 
   /** Accept a visitor */
   void Accept( NodeVisitor* );
@@ -30,4 +31,5 @@ private:
   Mesh* _mesh;  /**< Pointer to a mesh */
   State _state; /**< State information */
   bool  _dirty; /**< Flag for checking update of bound */
+  string _name;
 };

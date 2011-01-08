@@ -45,6 +45,8 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 #ifndef __TRIANGLE_BATCH
 #define __TRIANGLE_BATCH 
 
+// to prevent errors on windows when using glog
+#define NOGDI
 
 // Bring in OpenGL 
 // Windows

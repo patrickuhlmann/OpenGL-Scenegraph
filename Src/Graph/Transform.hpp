@@ -1,13 +1,24 @@
 #pragma once
 
+#include <string>
 #include "../Include/math3d.h"
 #include "CompositeNode.hpp"
 
+using namespace std;
+
 class Transform : public CompositeNode {
 public:
-   Transform() { m3dLoadIdentity44( _matrix ); };
-   Transform( const M3DMatrix44f& m ) { m3dCopyMatrix44(_matrix, m); };
-   Transform( const M3DMatrix44f& m, Node* parent ) : CompositeNode() { m3dCopyMatrix44(_matrix, m); };
+	Transform(const string& Name) : CompositeNode(Name) { 
+		m3dLoadIdentity44( _matrix );
+	}
+
+	Transform(const M3DMatrix44f& m) : CompositeNode(string("")) { 
+		m3dCopyMatrix44(_matrix, m);
+	}
+
+	Transform() : CompositeNode(string("")) { 
+		m3dLoadIdentity44( _matrix ); 
+	}
 
    ~Transform();
 
@@ -15,6 +26,8 @@ public:
 
   void GetMatrix( M3DMatrix44f m ) const;
   const  M3DMatrix44f& GetMatrix() const;
+
+	void Reset();
   
   // transformations of matrix
   void Translate( float x, float y, float z );

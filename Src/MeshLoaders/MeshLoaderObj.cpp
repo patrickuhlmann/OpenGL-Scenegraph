@@ -64,21 +64,21 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		// Comments -> Ignore
 		if (Definition.compare("#") == 0) {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Comment - ignored" << endl;
+			//DLOG(INFO) << "Found Comment - ignored" << endl;
 
 
 		// Object Name
 		// o object name
 		} else if (Definition[0] == 'o') {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Object Name - ignored" << endl;
+			//DLOG(INFO) << "Found Object Name - ignored" << endl;
 
 
 		// Group Name
 		// g group name
 		} else if (Definition[0] == 'g') {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Group Name - ignored" << endl;
+			//DLOG(INFO) << "Found Group Name - ignored" << endl;
 
 
 		// Smooth Shading activate/deactivate
@@ -86,7 +86,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
   		// s off
 		} else if (Definition[0] == 's') {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Shading Properties - ignored" << endl;
+			//DLOG(INFO) << "Found Shading Properties - ignored" << endl;
 
 
 		// Reference External Material File
@@ -94,7 +94,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		} else if (Definition.compare("mtllib") == 0) {
 			string FileName;
 			getline(Stream, FileName, '\n');
-			DLOG(INFO) << "Found Reference to external Material file: " << FileName << endl;
+			//DLOG(INFO) << "Found Reference to external Material file: " << FileName << endl;
 			ReadMaterialFile(Materials, FileName);
 
 		// Material Group
@@ -108,7 +108,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 				DLOG(WARNING) << "Couldn't find a material in the material map: " << MatName << endl;
 			else
 				Mat = it->second;
-			DLOG(INFO) << "Found Material Group Definition: " << MatName << endl;
+			DLOG(INFO) << "Apply Material: " << MatName << endl;
 			
 
 		// Vertices, with (x,y,z[,w]) coordinates, w is optional.
@@ -117,14 +117,14 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			float* v = new float[3];
 			ReadVector4fTo3f(v, Stream, true, false);
 			M->_vertices.push_back(v);
-			DLOG(INFO) << "Found Vertex: " << v[0] << ", " << v[1] << ", " << v[2] << ", number: " << M->_vertices.size()-1 << endl;
+			//DLOG(INFO) << "Found Vertex: " << v[0] << ", " << v[1] << ", " << v[2] << ", number: " << M->_vertices.size()-1 << endl;
 
 
 		// Texture coordinates, in (u,v[,w]) coordinates, w is optional.
 		// vt 0.500 -1.352 [0.234]
 		} else if (Definition.compare("vt") == 0) {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Texture Coordinate - ignored" << endl;
+			//DLOG(INFO) << "Found Texture Coordinate - ignored" << endl;
 
 
 		// Normals in (x,y,z) form; normals might not be unit.
@@ -132,7 +132,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		// ignore as we calculate them ourselves so they are in the right order and not for a point but for the whole triangle
 		} else if (Definition.compare("vn") == 0) {
 			Stream.ignore(INT_MAX, '\n');
-			DLOG(INFO) << "Found Normal - ignored" << endl;
+			//DLOG(INFO) << "Found Normal - ignored" << endl;
 
 
 		// Face Definitions 
@@ -231,6 +231,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 			FirstMat = false;
 			Mat = Material(PrototypeMat);
 			getline(In, Mat._name, '\n');
+			RemoveLineBreaks(Mat._name);
 			DLOG(INFO) << "Found Material: " << Mat._name << endl;
 
 
@@ -238,7 +239,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		} else if (Definition.compare("Ka") == 0) {
 			In >> r >> g >> b;
 			Mat.SetAmbient(r, g, b);
-			DLOG(INFO) << "  Found Ambient Color (" << r << ", " << g << ", " << b << ")" << endl;
+			//DLOG(INFO) << "  Found Ambient Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
 
@@ -246,7 +247,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		} else if (Definition.compare("Kd") == 0) {
 			In >> r >> g >> b;
 			Mat.SetDiffuse(r, g, b);
-			DLOG(INFO) << "  Found Diffuse Color (" << r << ", " << g << ", " << b << ")" << endl;
+			//DLOG(INFO) << "  Found Diffuse Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
 
@@ -254,7 +255,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		} else if (Definition.compare("Ks") == 0) {
 			In >> r >> g >> b;
 			Mat.SetSpecular(r, g, b, 0);
-			DLOG(INFO) << "  Found Specular Color (" << r << ", " << g << ", " << b << ")" << endl;
+			//DLOG(INFO) << "  Found Specular Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
 
@@ -262,7 +263,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		} else if (Definition.compare("d") == 0 || Definition.compare("Tr") == 0) {
 			In >> r;
 			Mat.SetTransparency(r);
-			DLOG(INFO) << "  Found Alpha Value " << r << endl;
+			//DLOG(INFO) << "  Found Alpha Value " << r << endl;
 			In.ignore(INT_MAX, '\n');
 
 
@@ -270,24 +271,24 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		} else if (Definition.compare("Ns") == 0) {
 			In >> r;
 			Mat.SetSpecular(Mat.GetSpecularLight(), r);
-			DLOG(INFO) << "  Found Shininess Value " << r << endl;
+			//DLOG(INFO) << "  Found Shininess Value " << r << endl;
 			In.ignore(INT_MAX, '\n');
 
 
 		// Found Illumination Model
 		} else if (Definition.compare("illum") == 0) {
-			DLOG(INFO) << "  Found Illumination Model - ignored " << endl;
+			//DLOG(INFO) << "  Found Illumination Model - ignored " << endl;
 			In.ignore(INT_MAX, '\n');
 
 		// Found Texture Map
 		} else if (Definition.compare("map_Ka") == 0) {
-			DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
 			In.ignore(INT_MAX, '\n');
 
 
 		// Found Comment
 		} else if (Definition.compare("#") == 0) {
-			DLOG(INFO) << "  Found Comment - ignored" << endl;
+			//DLOG(INFO) << "  Found Comment - ignored" << endl;
 			In.ignore(INT_MAX, '\n');
 
 
@@ -297,6 +298,10 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 			DLOG(INFO) << "Found Unknown Definition " << Definition << endl;
 		}
 	}
+
+	// Insert the last material as well
+	if (!FirstMat)
+		MaterialMap.insert(mmsm::value_type(Mat._name, Mat));
 
 	In.close();
 }
@@ -419,7 +424,7 @@ void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
 		Stream.ignore(1);
 
 	if (Stream.peek() != '\n' && Stream.peek() != '\r') {
-		DLOG(WARNING) << "Face is not a Triangle but has more elements: We do Triangulation" << endl;
+		//DLOG(WARNING) << "Face is not a Triangle but has more elements: We do Triangulation" << endl;
 		Stream.seekg(startpos, ios::beg);
 		//Stream.ignore(INT_MAX, '\n');
 		t->vert1 = INT_MIN;
@@ -445,10 +450,10 @@ bool MeshLoaderObj::IsPolygonConvex(vector<int>& VList, Mesh* M) {
 	int XCh = 0;
 	int YCh = 0;
 
-DLOG(INFO) << "order: " << VList.size() << endl;
+//DLOG(INFO) << "order: " << VList.size() << endl;
 
 for (int i=0; i<VList.size(); i++) {
-	DLOG(INFO) << "point: " << M->_vertices[VList[i]][0] << ", " << M->_vertices[VList[i]][1] << ", " << endl;
+//	DLOG(INFO) << "point (" << VList[i] << "): " << M->_vertices[VList[i]][0] << ", " << M->_vertices[VList[i]][1] << ", " << endl;
 }
 
 	// Vector from last to first point
@@ -475,8 +480,8 @@ for (int i=0; i<VList.size(); i++) {
 	delete[] A;
 	delete[] B;
 
-DLOG(INFO) << "XCh: " << XCh << endl;
-DLOG(INFO) << "YCh: " << YCh << endl;
+//DLOG(INFO) << "XCh: " << XCh << endl;
+//DLOG(INFO) << "YCh: " << YCh << endl;
 
 	return (XCh <= 2 && YCh <= 2);
 }
@@ -525,7 +530,7 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* 
  * \return true if the Triangulation was successful, false otherwise
  */
 bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, Mesh* M) {
-	DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
+	//DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
 	TriangulationEasy++;
 
 	// TODO: normals correct?
@@ -550,12 +555,12 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, M
 		int Near1Index = 0;
 		float Near1Distance = abs(HighestY[0]-Near1[0]) + abs(HighestY[1]-Near1[1]) + abs(HighestY[2]-Near1[2]);
 		float* Near2 = M->_vertices[Vertices[1]];
-		int Near2Index = 0;
+		int Near2Index = 1;
 		float Near2Distance = abs(HighestY[0]-Near2[0]) + abs(HighestY[1]-Near2[1]) + abs(HighestY[2]-Near2[2]);
 		float* Candidate;
 		float CandidateDistance;
-		for (int i=2; i<Vertices.size(); i++) {
-			Candidate = M->_vertices[Vertices[2]];
+		for (int i=2; i<Vertices.size()-1; i++) {
+			Candidate = M->_vertices[Vertices[i]];
 			CandidateDistance = abs(HighestY[0]-Candidate[0]) + abs(HighestY[1]-Candidate[1]) + abs(HighestY[2]-Candidate[2]);
 			// It's the nearest -> replace near point that is further away
 			if (CandidateDistance < Near1Distance && CandidateDistance < Near2Distance) {
@@ -587,7 +592,7 @@ bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, M
 	// Add the last triangle
 	TList.push_back(Triangle(Vertices[0], Vertices[1], Vertices[2]));
 
-	DLOG(INFO) << "Triangulation produced " << TList.size() << " triangles" << endl;
+	//DLOG(INFO) << "Triangulation produced " << TList.size() << " triangles" << endl;
 
 	return true;
 }
@@ -653,11 +658,11 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material& Mat) {
 	if (t.vert1 != INT_MIN) {
 		M->_triangles.push_back(t);
 		M->_material.push_back(Mat);
-		DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
+		//DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
 		float* CalculatedNormal = new float[3];
 		m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1], M->_vertices[t.vert2], M->_vertices[t.vert3]);
 		M->_normals.push_back(CalculatedNormal);
-		DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
+		//DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
 	// It is something of higher order so we triangulate
 	} else {
 		vector<Triangle> TList;
@@ -669,11 +674,11 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material& Mat) {
 				t = TList[i];
 				M->_triangles.push_back(t);
 				M->_material.push_back(Mat);
-				DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
+				//DLOG(INFO) << "Found Triangulated Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
 				float* CalculatedNormal = new float[3];
 				m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1], M->_vertices[t.vert2], M->_vertices[t.vert3]);
 				M->_normals.push_back(CalculatedNormal);
-				DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
+				//DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
 			}
 		}
 	}

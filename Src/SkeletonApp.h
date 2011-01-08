@@ -2,6 +2,8 @@
 
 #include "Application/SimpleApplication.h"
 
+using namespace std;
+
 /**
  * \brief Very simple Application which does nothing but use our framework to create a Window
  */
@@ -10,4 +12,6 @@ class SkeletonApp : public SimpleApplication {
 
 	public:
 		SkeletonApp();
+		void Render(NodeVisitor* RenderVisitor, Light* l);
+		void Init( Light* l, MeshFileLoader* MeshLoader);
 };

@@ -51,7 +51,7 @@ void Light::Init()
  */
 void Light::Accept( NodeVisitor* visitor ) 
 { 
-   DLOG(INFO) << "Light accepted visitor\n";
+   // DLOG(INFO) << "Light accepted visitor\n";
    visitor->VisitLight( this ); 
 }
 
