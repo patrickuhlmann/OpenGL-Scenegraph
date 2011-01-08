@@ -34,6 +34,9 @@ public:
 	return this;
   };
 
+
+/* TODO: Override SetParent and make it add this as a child in the parent node */
+
   /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and it's parent is set to 0 */
   virtual void RemoveChild( Node* n ) {
 	int SizeBefore = _children.size();

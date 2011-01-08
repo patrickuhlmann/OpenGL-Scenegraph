@@ -55,3 +55,26 @@ void Camera::SetOrthographic(GLfloat xMin, GLfloat xMax,
 
 void Camera::SetPerspective(GLfloat fFov, GLfloat fAspect, GLfloat fNear, GLfloat fFar)
 { _viewFrustum.SetPerspective( fFov, fAspect, fNear, fFar ); }
+
+void Camera::MoveForward( float delta )
+{
+   _frame.MoveForward( delta );
+}
+
+void Camera::MoveBackward( float delta )
+{ _frame.MoveForward( -delta ); }
+
+void Camera::MoveRight( float delta )
+{ _frame.MoveRight( delta ); }
+
+void Camera::MoveLeft( float delta )
+{ _frame.MoveRight( -delta ); }
+
+void Camera::MoveUp( float delta )
+{ _frame.MoveUp( delta ); }
+
+void Camera::MoveDown( float delta )
+{ _frame.MoveUp( -delta ); }
+   
+void Camera::RotateWorld( float angle, float x, float y, float z )
+{ _frame.RotateWorld( angle, x, y, z ); }
