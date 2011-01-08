@@ -11,7 +11,10 @@ public:
 
    void Init( Light* l, MeshFileLoader* mfl )
    {
-      m = mfl->Load("Objects/cube.obj");
+      glDisable(GL_CULL_FACE);
+      // glEnable(GL_CULL_FACE);
+      // glCullFace(GL_BACK);
+      m = mfl->Load("Objects/teapot.obj");
       g.SetMesh( m );
       
       M3DVector4f color;
@@ -20,7 +23,7 @@ public:
       l->SetAmbient( color );
 
       M3DVector3f pos;
-      m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
+      m3dLoadVector3( pos, 0.0f, 0.0f, 800.0f );
       Node* n = l->GetByName("GlobalCamera");
       if (!n) {
          DLOG(ERROR) << "GlobalCamera not found!\n";
@@ -32,7 +35,7 @@ public:
          exit( 1 );
       }
       c->SetPosition( pos );
-      c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
+      c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,800.0f);
       c->AddChild( &g );
      
    };
@@ -46,12 +49,12 @@ public:
    
    void Update( Light* l )
    {
-      DLOG(INFO) << "Update()\n";
+      // DLOG(INFO) << "Update()\n";
    };
 
    void Resize( int w, int h )
    {
-      DLOG(INFO) << "Resize()\n";
+      // DLOG(INFO) << "Resize()\n";
    };
 
 private:
