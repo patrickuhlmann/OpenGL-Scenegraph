@@ -17,6 +17,8 @@ RenderVisitorOpenGL1::RenderVisitorOpenGL1()
  */
 void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 {
+	DLOG(INFO) << "Traverse Node" << endl;
+
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
 	glFrontFace(GL_CCW);
@@ -191,4 +193,8 @@ void RenderVisitorOpenGL1::VisitTransform( Transform* t )
 	TraverseChildren(t);
 
 	_modelViewMatrix.PopMatrix(); // restore matrix
+}
+
+ void RenderVisitorOpenGL1::VisitGroup( Group* g ) {
+	TraverseChildren(g);
 }

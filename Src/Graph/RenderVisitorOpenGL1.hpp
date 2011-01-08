@@ -11,6 +11,7 @@
 #include "../OpenGLFixed/OpenGLDrawing.h"
 #include <typeinfo>
 #include "../OpenGLFixed/OpenGLState.h"
+#include "Group.hpp"
 
 /**
  * Renders a geometry using OpenGL 1 fixed pipeline
@@ -32,7 +33,7 @@ protected:
 	virtual void VisitCamera( Camera* c );
 	virtual void VisitGeometry( Geometry* );
 	virtual void VisitTransform( Transform* t);
-
+	virtual void VisitGroup( Group* g );
 private:
 	/** \brief ModelView matrix stack */
 	GLMatrixStack _modelViewMatrix;

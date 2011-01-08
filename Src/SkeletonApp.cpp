@@ -7,7 +7,7 @@ SkeletonApp::SkeletonApp() : SimpleApplication("Skeleton", 800, 600) {
 
 }
 
-void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
+void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	/* ====
      * Problem Objects
      * ==== */
@@ -118,7 +118,7 @@ void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);
 }
 
-void SkeletonApp::Render(NodeVisitor* RenderVisitor, Light* l)
+void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
 	DLOG(INFO) << "Render()\n";
 	RenderVisitor->Traverse(l);

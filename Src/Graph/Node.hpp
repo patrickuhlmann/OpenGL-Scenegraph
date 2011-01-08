@@ -20,7 +20,7 @@ public:
   /** \brief Accept a visitor: Usually we call the appropriate method of the Visitor. For a TransformNode this could be visitor->VisitTransform
    * \param Visitor for the Node
    */
-  virtual void Accept( NodeVisitor* Visitor ) {};
+  virtual void Accept( NodeVisitor* Visitor ) = 0;
 
   /** \brief Set the Parent of this Node. You cannot set yourself as parent
   *

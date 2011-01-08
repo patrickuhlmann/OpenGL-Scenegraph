@@ -17,6 +17,11 @@ public:
 	}
   }
 
+  /** \brief Accept a visitor: Usually we call the appropriate method of the Visitor. For a TransformNode this could be visitor->VisitTransform
+   * \param Visitor for the Node
+   */
+  virtual void Accept( NodeVisitor* Visitor ) = 0;
+
   /** \brief Add a Node as Child. This method will automatically set this node as the parent of the child.
   * If it had another parent before it will remove the node from that Parent (so the node will always just
   * be at the place where it was added the last

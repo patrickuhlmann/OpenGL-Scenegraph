@@ -43,9 +43,6 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 
 	this->SetupOpenGL();
 
-	// Initialize the Scenegraph
-	//this->RootNode.AddChild(Root); //new Camera("GlobalCamera"));
-
 	this->FrameCounter = 0;
 
 	this->PauseFlag = false;
