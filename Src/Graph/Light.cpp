@@ -1,20 +1,7 @@
 #include "Light.hpp"
 
 /** 
-* \brief Create a default light object.
-* The light will be positioned at the origin, pointing down -z axis
-* having the y-axis as the up vector. The light has a white ambient
-* light, no diffuse light and no specular light
-*/
-Light::Light() : CompositeNode() { 
-	Init();
-};
-
-/** 
- *\brief Create a named default light object.
-* The light will be positioned at the origin, pointing down -z axis
-* having the y-axis as the up vector. The light has a white ambient
-* light, no diffuse light and no specular light
+* \brief Create a light and initialize the position. The light will have no ambient but white diffuse and specular component. It initializes Changed to true
 *
 * \param Name for the Node
 */
@@ -23,26 +10,32 @@ Light::Light(string Name) : CompositeNode(Name) {
 };
 
 /** 
-* \brief Create a light and initialize the position and direction of it
-* The light has a white ambient
-* light, no diffuse light and no specular light
+* \brief Create a light and initialize the position. The light will have no ambient but white diffuse and specular component. It initializes Changed to true
 *
 * @param pos from where the light shines
-* @param dir in which the light shines
 */
-Light::Light( const M3DVector3f pos, const M3DVector3f dir) : CompositeNode() 
+Light::Light(const Vector4 pos) : CompositeNode() 
 {
-  _frame.SetOrigin( pos );
-  _frame.SetForwardVector( dir );
-  Init();
+	Init();
+	_position = Vector4(pos);
+	this->Changed = true;
 }
 
-/** \brief initialize light component vectors. Ambient is white, all the others will be black */
+/** \brief Free the State */
+Light::~Light() {
+	delete _state;
+}
+
+/** \brief initialize light component vectors. Light from left upper edge. No ambient but white diffuse and specular light */
 void Light::Init() 
 {
-  m3dLoadVector4( _diffuse,  0.0f, 0.0f, 0.0f, 0.0f );
-  m3dLoadVector4( _ambient,  1.0f, 1.0f, 1.0f, 1.0f );
-  m3dLoadVector4( _specular, 0.0f, 0.0f, 0.0f, 0.0f );
+	_position = Vector4(1.0f, 1.0f, 0.0f, 1.0f);
+	_ambient = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+	_diffuse = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	_specular = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	_state = 0;
+	LightNumber = 0;
 }
 
 /** \brief Accept a visitor. It calls VisitLight on it's Visitor
@@ -52,84 +45,115 @@ void Light::Init()
 void Light::Accept( NodeVisitor* visitor ) 
 { 
    DLOG(INFO) << "Light accepted visitor\n";
-   visitor->VisitLight( this ); 
-}
-
-/**
-* \brief Set the direction of the light.
-* @param dir direction to set (XYZ)
-*/
-void Light::SetDirection( const M3DVector3f dir ) {
-	_frame.SetForwardVector( dir );
+   visitor->VisitLight(this); 
 }
 
 /**
 * \brief Set the position/origin of the light.
 * @param pos to set (XYZ)
 */
-void Light::SetPostition( const M3DVector3f pos ) {
-	_frame.SetOrigin( pos );
+void Light::SetPosition( const Vector4& pos ) {
+	_position = Vector4(pos);
+	this->Changed = true;
 }
 
 /**
 * \brief Set the ambient light component.
 * @param v  RGBA
 */
-void Light::SetAmbient ( const M3DVector4f v ) { 
-	m3dCopyVector4( _ambient, v );
+void Light::SetAmbient (const Vector4& v) { 
+	_ambient = Vector4(v);
+	this->Changed = true;
 }
 
 /**
 * \brief Set the diffuse light component.
 * @param v  RGBA
 */
-void Light::SetDiffuse ( const M3DVector4f v ) { 
-	m3dCopyVector4( _diffuse, v );
+void Light::SetDiffuse (const Vector4& v) {
+DLOG(INFO) << "def: " << v.Components.x << ", " << v.Components.y << ", " << v.Components.z << ", " << v.Components.w << endl;
+
+	_diffuse = Vector4(v);
+	this->Changed = true;
 }
 
 /**
 * \brief Set the specular light component.
 * @param v  RGBA
 */
-void Light::SetSpecular( const M3DVector4f v ) {
-	m3dCopyVector4( _specular, v );
+void Light::SetSpecular(const Vector4& v) {
+	_specular = Vector4(v);
+	this->Changed = true;
 }
 
 /**
 * \brief Get the lights position/origin.
 * @param pos a vector to assign the position to.
 */
-void Light::GetPosition( M3DVector3f pos ) const {
-	_frame.GetOrigin( pos );
-}
-
-/**
-* \brief Get the lights direction.
-* @param dir a vector to assign the direction to.
-*/
-void Light::GetDirection( M3DVector3f dir ) const {
-	_frame.GetForwardVector( dir );
+const Vector4& Light::GetPosition() const {
+	return _position;
 }
 
 /**
 * \brief Get the light's ambient component.
 * @param v a vector to assign the component to.
 */
-void Light::GetAmbient ( M3DVector4f v ) const {
-	m3dCopyVector4( v, _ambient );
+const Vector4& Light::GetAmbient () const {
+	return _ambient;
 } 
 
 /**
 * \brief Get the light's diffuse component.
 * @param v a vector to assign the component to.
 */
-void Light::GetDiffuse ( M3DVector4f v ) const {
-	m3dCopyVector4( v, _diffuse );
+const Vector4& Light::GetDiffuse () const {
+	return _diffuse;
 }
 
 /**
 * \brief Get the light's specular component.
 * @param v a vector to assign the component to.
 */
-void Light::GetSpecular( M3DVector4f v ) const { m3dCopyVector4( v, _specular ); }
+const Vector4& Light::GetSpecular() const {
+	return _specular;
+}
+
+/** \brief Return the Changed flag of this class */
+bool Light::IsChanged() const {
+	return this->Changed;
+}
+
+/** \brief Set a new value for the changed flag of this class 
+ * \param NewValue to set
+ */
+bool Light::SetChanged(bool NewValue) {
+	this->Changed = NewValue;
+}
+
+/** \brief Get a reference to the State of the Light Node
+ */
+State* Light::GetState() const {
+	return _state;
+}
+
+/** \brief Set a new State for the Light node. This will remove the old one and we take control of the State. We also delete it at the end
+ * \param NewState to set
+ */
+void Light::SetState(State* NewState) {
+	delete _state;
+	_state = NewState;
+}
+
+/** \brief Get the Light Index */
+int Light::GetLightNumber() const {
+	return this->LightNumber;
+}
+
+/** \brief Set the Light Index
+  * \param NewIndex for the Light
+  */
+void Light::SetLightNumber(int NewNumber) {
+	this->LightNumber = NewNumber;
+}
+
 

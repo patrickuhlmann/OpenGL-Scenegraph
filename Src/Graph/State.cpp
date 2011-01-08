@@ -1,15 +1,14 @@
 #include "State.hpp"
 
+/** \brief Default Constructor does nothing */
+State::State() : _material(0), _enables(0), _disables(0) {
+}
+
 /** \brief Deletes the Material, Enable list and disable list */
 State::~State() {
-	if (_material)
-		delete _material;
-
-	if (_enables)
-		delete _enables;
-
-	if (_disables)
-		delete _disables;
+	delete _material;
+	delete _enables;
+	delete _disables;
 }
 
 /** \brief Copy all the Enables and Disables to this state
@@ -64,9 +63,7 @@ void State::Disable( GLenum val )
   * \param m for this state
   */
 void State::SetMaterial( const Material& m ) { 
-	if (_material)
-		delete _material;
-
+	delete _material;
 	_material = new Material(m);
 }
 

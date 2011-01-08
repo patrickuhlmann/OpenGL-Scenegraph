@@ -15,6 +15,7 @@ typedef StateVariableSet::iterator StateVariableIterator;
 class State {
 public:
 	virtual ~State();
+	State();
 	State( const State& );
 
 	void operator= ( const State& );
@@ -30,10 +31,10 @@ public:
 	void Merge( const State& );
 
 protected:
-	/** Holds a Set of all the States to Enable */
+	/** \brief Holds a Set of all the States to Enable */
 	StateVariableSet* _enables; 
-	/** Holds a Set of all the States to Disable */
+	/** \brief Holds a Set of all the States to Disable */
 	StateVariableSet* _disables;
-	/** Holds the Material for this State */
+	/** \brief Holds the Material for this State */
 	Material* _material;
 };

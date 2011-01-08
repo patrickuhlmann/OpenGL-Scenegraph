@@ -1,45 +1,58 @@
 #pragma once
 
 #include "CompositeNode.hpp"
-#include "../Include/GLFrame.h"
+#include "State.hpp"
 #include <string>
+#include "../Base/Datatypes.h"
 
 using namespace std;
 
 /**
- * \brief Light represents a light node in the scene. This light has basic properties like a Direction and Position. It can use Ambient, Diffuse and Specular Light. Furthermore it can be Visited
+ * \brief Light represents a light node in the scene. This light has basic properties like a Direction and Position. It can use Ambient, Diffuse and Specular Light. Furthermore it can be Visited. It has a Changed flag which will be set from the class whenever we change one of the properties.
  * @author Steve Eriksson
  */
 class Light : public CompositeNode {
 public:
-  Light();
-  Light(string Name);
-  Light( const M3DVector3f, const M3DVector3f);
+  Light(string Name = "");
+  Light(const Vector4 pos);
+  ~Light();
 
   void Accept( NodeVisitor* );
 
-  void SetDirection( const M3DVector3f );
-  void SetPostition( const M3DVector3f );
-  void SetDiffuse( const M3DVector4f );
-  void SetAmbient( const M3DVector4f );
-  void SetSpecular( const M3DVector4f );
+  void SetPosition(const Vector4&);
+  void SetDiffuse(const Vector4&);
+  void SetAmbient(const Vector4&);
+  void SetSpecular(const Vector4&);
 
-  void GetPosition( M3DVector3f ) const;
-  void GetDirection( M3DVector3f ) const;
-  void GetDiffuse( M3DVector4f ) const;
-  void GetAmbient( M3DVector4f ) const;
-  void GetSpecular( M3DVector4f ) const;
+  const Vector4& GetPosition() const;
+  const Vector4& GetDiffuse() const;
+  const Vector4& GetAmbient() const;
+  const Vector4& GetSpecular() const;
+
+  bool IsChanged() const;
+  bool SetChanged(bool NewValue);
+
+  State* GetState() const;
+  void SetState(State* NewState);
+
+  int GetLightNumber() const;
+  void SetLightNumber(int NewNumber);
 
 private:
-	/** \brief Handles position, direction and movement of the light. */
-	GLFrame     _frame;   
+	/** \brief Represents the Position of the Light */
+	Vector4 _position;
 	/** \brief Ambient component. RGBA.  */ 
-	M3DVector4f _ambient;
+	Vector4 _ambient;
 	/** \brief Diffuse component. RGBA.  */
-	M3DVector4f _diffuse;
+	Vector4 _diffuse;
 	/** \brief Specular component. RGBA. */
-	M3DVector4f _specular;
-	
-  
-  void Init();
+	Vector4 _specular;
+	/** \brief Indicates if there was a change */
+	bool Changed;
+	/** \brief Represents the state of the object */
+	State* _state;
+	/** \brief Represents the Index of the Light for the Graphics Framework */
+	int LightNumber;
+
+	void Init();
 };

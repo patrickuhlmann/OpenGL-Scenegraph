@@ -2,17 +2,15 @@
 
 #include "NodeVisitor.hpp"
 #include "../Include/GLMatrixStack.h"
-#include "../Include/GLTriangleBatch.h"
-#include "../Include/GLBatch.h" 
 #include "../Include/GLGeometryTransform.h"
-#include "../Include/GLShaderManager.h"
 #include "Light.hpp"
 #include "Transform.hpp"
 #include "Geometry.hpp"
 #include "../Base/Mesh.hpp"
-//#include "../Base/Convert.h"
 #include "Camera.hpp"
 #include "../OpenGLFixed/OpenGLDrawing.h"
+#include <typeinfo>
+#include "../OpenGLFixed/OpenGLState.h"
 
 /**
  * Renders a geometry using OpenGL 1 fixed pipeline
@@ -42,7 +40,7 @@ private:
 	GLMatrixStack _projectionMatrix;
 	/** \brief Helper for both the objects */
 	GLGeometryTransform _transformPipeline;
-
+	/** \brief Keeps track of how many lights we have */
 	int LightCounter;
 };
 

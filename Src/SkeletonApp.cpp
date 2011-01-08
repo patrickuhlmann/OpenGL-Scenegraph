@@ -83,12 +83,6 @@ void SkeletonApp::Init( Light* l, MeshFileLoader* MeshLoader) {
 	//Mesh* Teapot = MeshLoader->Load("Objects/teapot.obj");
 	//Teapot->Scale(0.05f);
 
-
-	M3DVector4f color;
-	m3dLoadVector4( color, 0.0f, 1.0f, 0.0f, 1.0f );
-	l->SetDiffuse( color );
-	l->SetAmbient( color );
-
 	M3DVector3f pos;
 	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
 

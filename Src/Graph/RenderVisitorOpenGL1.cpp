@@ -17,6 +17,19 @@ RenderVisitorOpenGL1::RenderVisitorOpenGL1()
  */
 void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 {
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_DEPTH_TEST);
+	glFrontFace(GL_CCW);
+	glEnable(GL_CULL_FACE);
+
+	// Global Light
+	GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
+
+	// ambient and diffuse depending on material color
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+
 	c->Accept(this);
 }
 
@@ -41,44 +54,32 @@ void RenderVisitorOpenGL1::TraverseChildren(CompositeNode* c) {
  */
 void RenderVisitorOpenGL1::VisitLight( Light* l )
 {
-	DLOG(INFO) << "Ligth accepted visitor" << endl;
+	DLOG(INFO) << "Light accepted visitor" << endl;
 
-	glEnable(GL_LIGHTING);
+	// Set the State if not set or not OpenGL
+	if (l->GetState() == 0 || typeid(l->GetState()) != typeid(OpenGLState)) {
+		State* LightState = new OpenGLState();
+		LightState->Enable(GL_LIGHTING);
+		LightState->Enable(GL_LIGHT0+LightCounter);
 
-	// Global Light
-	GLfloat ambientLight[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
+		l->SetState(LightState);
+		l->SetLightNumber(LightCounter);
 
-	// One Directional Light
-	GLfloat ambientLight0[] = { 0.3f, 0.3f, 0.3f, 1.0f };
-	GLfloat diffuseLight[] = { 0.7f, 0.7f, 0.7f, 1.0f };
-	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f};
+		LightCounter++;
+	}
 
-	glLightfv(GL_LIGHT0,GL_AMBIENT, ambientLight0);
-	glLightfv(GL_LIGHT0,GL_DIFFUSE, diffuseLight);
-	glLightfv(GL_LIGHT0,GL_SPECULAR,specular);
+	// If the light was changed we need to define the new properties for the light
+	if (l->IsChanged()) {
+		int Number = l->GetLightNumber();
 
-	glEnable(GL_LIGHT0);
-	GLfloat lightPos[] = { -50.f, 50.0f, 100.0f, 1.0f };
-	glLightfv(GL_LIGHT0,GL_POSITION,lightPos);
-	
-	// One Spot Light
-	GLfloat lightPos1[] = { 0.0f, 0.0f, 75.0f, 1.0f };
-	GLfloat specular1[] = { 1.0f, 1.0f, 1.0f, 1.0f};
-	GLfloat ambientLight1[] = { 0.5f, 0.5f, 0.5f, 1.0f};
-	GLfloat spotDir1[] = { 0.0f, 0.0f, -1.0f };
+		glLightfv(GL_LIGHT0+Number, GL_POSITION, l->GetPosition().GetConstPointer());
+		glLightfv(GL_LIGHT0, GL_AMBIENT, l->GetAmbient().GetConstPointer());
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, l->GetDiffuse().GetConstPointer());
+		glLightfv(GL_LIGHT0, GL_SPECULAR, l->GetSpecular().GetConstPointer());
+	}
 
-	glLightfv(GL_LIGHT1,GL_DIFFUSE,ambientLight1);
-	glLightfv(GL_LIGHT1,GL_SPECULAR,specular1);
-	glLightfv(GL_LIGHT1,GL_POSITION,lightPos1);
-	glLightfv(GL_LIGHT1,GL_SPOT_DIRECTION,spotDir1);
-	// Specific spot effects
-	// Cut-off angle is 60 degrees
-	glLightf(GL_LIGHT1,GL_SPOT_CUTOFF,60.0f);
-	// Enable this light in particular
-	glEnable(GL_LIGHT1);
+	l->GetState()->Apply();
 
-	//_light = *l;
 	TraverseChildren(l);
 }
 
@@ -164,10 +165,6 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 
 		Material m = M->GetMaterial(TriangleIndex);
 		const float* Color = m.GetAmbientLight();
-
-		// ambient and diffuse depending on material color
-		glEnable(GL_COLOR_MATERIAL);
-		glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
 
 		// for specular highlight
 		glMaterialfv(GL_FRONT, GL_SPECULAR, m.GetSpecularLight());
