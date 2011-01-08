@@ -12,6 +12,7 @@
 #include "../Base/Mesh.hpp"
 //#include "../Base/Convert.h"
 #include "Camera.hpp"
+#include "../OpenGLFixed/OpenGLDrawing.h"
 
 /**
  * Renders a geometry using OpenGL 1 fixed pipeline

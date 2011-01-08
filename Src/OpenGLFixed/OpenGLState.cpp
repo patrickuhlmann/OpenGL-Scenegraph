@@ -5,7 +5,7 @@
 void OpenGLState::Apply()
 {
 	// first disable all states in the disable list
-	if (_enable)
+	if (_enables) {
 		for (StateVariableIterator EnableIt = _enables->begin(); EnableIt != _enables->end(); ++EnableIt) {
 			glEnable(*EnableIt);
 		}
