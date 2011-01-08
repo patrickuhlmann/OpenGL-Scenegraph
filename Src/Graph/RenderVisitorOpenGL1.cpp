@@ -5,6 +5,7 @@
  */
 RenderVisitorOpenGL1::RenderVisitorOpenGL1()
 {
+	LightCounter = 0;
 	_modelViewMatrix.LoadIdentity();
 	_projectionMatrix.LoadIdentity();
 	_transformPipeline.SetMatrixStacks(_modelViewMatrix, _projectionMatrix );
@@ -77,7 +78,7 @@ void RenderVisitorOpenGL1::VisitLight( Light* l )
 	// Enable this light in particular
 	glEnable(GL_LIGHT1);
 
-	_light = *l;
+	//_light = *l;
 	TraverseChildren(l);
 }
 
@@ -136,34 +137,6 @@ void CopyM3DVector2f(const float* source, M3DVector3f dest) {
 	memcpy(dest, source, sizeof(M3DVector2f));
 }
 
-void DrawTriangle(const float* Vertex1, const float* Vertex2, const float* Vertex3, const float* Normal, const float* RGBColor){
-	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
-
-	glBegin(GL_TRIANGLES);
-			glNormal3f(Normal[0], Normal[1], Normal[2]);
-			glVertex3f(Vertex1[0], Vertex1[1], Vertex1[2]);
- 			glVertex3f(Vertex2[0], Vertex2[1], Vertex2[2]);
- 			glVertex3f(Vertex3[0], Vertex3[1], Vertex3[2]);
-	glEnd();
-}
-
-void DrawPoint(const float* Vertex, const float* RGBColor) {
-	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
-
-	glBegin(GL_POINTS);
-		glVertex2f(Vertex[0], Vertex[1]);
-	glEnd();
-}
-
-void DrawLine(const float* VertexStart, const float* VertexEnd, const float* RGBColor) {
-	glColor3f(RGBColor[0], RGBColor[1], RGBColor[2]);
-
-	glBegin(GL_LINES);
-		glVertex2f(VertexStart[0], VertexStart[1]);
-		glVertex2f(VertexEnd[0], VertexEnd[1]);
-	glEnd();
-}
-
 /**
 * Render a geometry.
 *
@@ -200,7 +173,7 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 		glMaterialfv(GL_FRONT, GL_SPECULAR, m.GetSpecularLight());
 		glMateriali(GL_FRONT,GL_SHININESS, m.GetShininess());
 
-		DrawTriangle(Vertex1, Vertex2, Vertex3, Normal, Color);
+		OpenGLDrawing::DrawTriangle(Vertex1, Vertex2, Vertex3, Normal, Color);
 
 		TriangleIndex++;
 	}

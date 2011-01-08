@@ -6,50 +6,34 @@
 
 using namespace std;
 
-typedef set< GLenum > StateVariableSet;
+typedef set<GLenum> StateVariableSet;
 typedef StateVariableSet::iterator StateVariableIterator;
 
 /**
- * A class for setting OpenGL state.
+ * Abstract class to Enable and Disable a State of the Rendering. You can add as many Enable/Disables as you want, you can apply them to the actual state and you can Merge this state with another one
  */
 class State {
 public:
-  State();
-  ~State();
+	virtual ~State();
+	State( const State& );
 
-  /** Copy constructor */
-  State( const State& );
+	void operator= ( const State& );
 
-  /** Copy assignment */
-  void operator= ( const State& );
+	/** Function to Apply the States. Needs to be implemeneted by the concrete state like OpenGL or DirectX */
+	virtual void Apply() = 0;
 
-  /** Apply a state */
-  void Apply();
+	void Enable(GLenum);
+	void Disable(GLenum);
 
-  /** Merge this state with another */
-  void Merge( const State& );
+	void SetMaterial(const Material&);
 
-  /** Enable a state variable */
-  void Enable( GLenum );
+	void Merge( const State& );
 
-  /** Disable a state variable */
-  void Disable( GLenum );
-
-  /** Set new material to OpenGL */
-  void SetMaterial( const Material& );
-
-  StateVariableIterator GetStateVariableIterator();
-
-  StateVariableIterator GetStateEnableIterator();
-  StateVariableIterator GetStateEnableIteratorEnd();
-
-  StateVariableIterator GetStateDisableIterator();
-  StateVariableIterator GetStateDisableIteratorEnd();
-
-private:
-  StateVariableSet _enables; 
-  StateVariableSet _disables;
-  Material* _material;
-  //  Texture _texture;
-  
+protected:
+	/** Holds a Set of all the States to Enable */
+	StateVariableSet* _enables; 
+	/** Holds a Set of all the States to Disable */
+	StateVariableSet* _disables;
+	/** Holds the Material for this State */
+	Material* _material;
 };

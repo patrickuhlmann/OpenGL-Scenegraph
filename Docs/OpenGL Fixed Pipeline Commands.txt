@@ -40,6 +40,7 @@ glPolygonMode(GL_BACK,GL_FILL);
 // If true any Vertices that follow are part of a border line, when fals the lines are internal. If we set the mode to GL_LINES the internal lines are not shown
 glEdgeFlag(bEdgeFlag);
 
+void glColor<x><t>(red, green, blue, alpha);
 
 
 

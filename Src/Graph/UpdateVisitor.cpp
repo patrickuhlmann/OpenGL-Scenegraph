@@ -39,7 +39,7 @@ void UpdateVisitor::SetDirection( const M3DVector3f& d )
 void UpdateVisitor::SetPosition( const M3DVector3f& p )
 { m3dCopyVector3( _position, p ); }
 
-void UpdateVisitor::SetState( const State& s ) { _state = s; }
+void UpdateVisitor::SetState(State* s ) { _state = s; }
 
 void UpdateVisitor::SetMaterial ( const Material& m ) { 
     if (_material)

@@ -68,7 +68,7 @@ public:
   void SetTransform( const M3DMatrix44f& );
   void SetDirection( const M3DVector3f& );
   void SetPosition( const M3DVector3f& );
-  void SetState( const State& );
+  void SetState( State* );
   void SetMaterial ( const Material& );
 
 private:
@@ -84,6 +84,6 @@ private:
   M3DVector3f  _direction;
   M3DVector3f  _position;
   Material*     _material;
-  State _state;
+  State* _state;
   //  Texture* _texture;
 };

@@ -12,6 +12,7 @@
 #include "../Base/Mesh.hpp"
 //#include "../Base/Convert.h"
 #include "Camera.hpp"
+#include "../OpenGLFixed/OpenGLDrawing.h"
 
 /**
  * Renders a geometry using OpenGL 1 fixed pipeline
@@ -25,6 +26,8 @@ class RenderVisitorOpenGL1 : public NodeVisitor {
 public:
 	RenderVisitorOpenGL1();
 	virtual void Traverse( CompositeNode* c );
+
+protected:
 	virtual void TraverseChildren( CompositeNode* c );
 
 	virtual void VisitLight( Light* l);
@@ -33,13 +36,14 @@ public:
 	virtual void VisitTransform( Transform* t);
 
 private:
-   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
-  GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
-  GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
-  Light _light;                           /**< Reference to a single light. We only support
-					       one light per scene right now */
+	/** \brief ModelView matrix stack */
+	GLMatrixStack _modelViewMatrix;
+	/** \brief Projection matrix stack */
+	GLMatrixStack _projectionMatrix;
+	/** \brief Helper for both the objects */
+	GLGeometryTransform _transformPipeline;
 
-
+	int LightCounter;
 };
 
 
