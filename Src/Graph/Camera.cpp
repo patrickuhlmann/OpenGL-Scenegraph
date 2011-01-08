@@ -20,7 +20,7 @@ Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
 
 void Camera::Accept( NodeVisitor* visitor ) 
 { 
-   DLOG(INFO) << "Camera accepted visitor\n";
+   // DLOG(INFO) << "Camera accepted visitor\n";
    visitor->VisitCamera( this ); 
 }
 
