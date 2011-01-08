@@ -40,10 +40,10 @@ void RenderVisitor::DrawOpenGL()
   triangleBatch.CopyVertexData3f(vVerts); 
    triangleBatch.End();
   
-   static GLfloat vFloorColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-     _shaderManager->UseStockShader(GLT_SHADER_FLAT,
-                                  _transformPipeline.GetModelViewProjectionMatrix(),
-                                  vFloorColor);
+    static GLfloat vFloorColor[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+      _shaderManager->UseStockShader(GLT_SHADER_FLAT,
+                                   _transformPipeline.GetModelViewProjectionMatrix(),
+                                   color);
 
    //  _shaderManager->UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
    //                                _transformPipeline.GetModelViewMatrix(),
@@ -75,7 +75,7 @@ RenderVisitor::RenderVisitor( GLShaderManager* gm )
 
 void RenderVisitor::Traverse( CompositeNode* c )
 {
-   DLOG(INFO) << "RenderVisitor about to traverse node\n";
+   //DLOG(INFO) << "RenderVisitor about to traverse node\n";
   NodeIterator it  = c->GetNodeIterator();
   NodeIterator end = c->GetNodeIteratorEnd();
 
@@ -84,18 +84,10 @@ void RenderVisitor::Traverse( CompositeNode* c )
   // c->GetChildrenCount() << endl;
   // DLOG(INFO) << "Composite name: " << c->GetName() << endl;
   
-
-  // if (*it) 
-  //    DLOG(INFO) << "NOT NULL\n";
-
   while ( it != end ) {
-     // DLOG(INFO) << "Node name: " << (*it)->GetName() << endl;
      (*it)->Accept( this );
-     // DLOG(INFO) << "Before ++it\n";
      ++it;
-     // DLOG(INFO) << "After ++it\n";
   }
-  // DLOG(INFO) << "End of Traverse\n";
 }
 
 void RenderVisitor::VisitTransform( Transform* t )
@@ -111,18 +103,20 @@ void RenderVisitor::VisitTransform( Transform* t )
 void RenderVisitor::VisitGeometry( Geometry* g ) 
 {
 
-   //  DrawOpenGL();
-   //  return;
+     // DrawOpenGL();
+     // return;
    
    // DLOG(INFO) << "RenderVisitor::VisitGeometry()\n";
    GLTriangleBatch triangles;
+   GLBatch batch;
+
    const Mesh* mesh = g->GetMesh();
    
   TriangleIteratorConst it  = mesh->GetTriangleIteratorConst(); 
   TriangleIteratorConst end = mesh->GetTriangleIteratorEndConst();
   
-  M3DVector4f lightPos = { 0.0f, 1.0f, 5.0f, 1.0f };;   // array of 3 float (not GLfloat)
-  M3DVector4f color ;      // array of 4 =||=
+  M3DVector4f lightPos = { 0.0f, 1.0f, 5.0f, 1.0f };
+  M3DVector4f color ;   
   
   // set light position and diffuse light color
   _light.GetDiffuse( color );
@@ -131,6 +125,8 @@ void RenderVisitor::VisitGeometry( Geometry* g )
   // create a triangle mesh and give the initial size
   triangles.BeginMesh( mesh->GetVertexCount() );
   
+  batch.Begin( GL_TRIANGLES, mesh->GetVertexCount() );
+
   //DLOG(INFO) << "Vertices: " << mesh->GetVertexCount() << endl;
   //DLOG(INFO) << "Normals: " << mesh->GetNormalCount() << endl;
   //DLOG(INFO) << "Triangles: " << mesh->GetTriangleCount() << endl;
@@ -152,62 +148,62 @@ void RenderVisitor::VisitGeometry( Geometry* g )
          DLOG(INFO) << "Index is wrong\n";
       }
       
-    CopyM3DVector3f(mesh->GetVertex( (*it).vert1 ), vertices[0]);
-    CopyM3DVector3f(mesh->GetVertex( (*it).vert2 ), vertices[1]);
-    CopyM3DVector3f(mesh->GetVertex( (*it).vert3 ), vertices[2]);
-
-    CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[0]);
-    CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[1]);
-    CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[2]);
-
-    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert1 ), texCoords[0]);
-    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert2 ), texCoords[1]);
-    CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), texCoords[2]);
-
-    triangles.AddTriangle( vertices, normals, texCoords );
+      CopyM3DVector3f(mesh->GetVertex( (*it).vert1 ), vertices[0]);
+      CopyM3DVector3f(mesh->GetVertex( (*it).vert2 ), vertices[1]);
+      CopyM3DVector3f(mesh->GetVertex( (*it).vert3 ), vertices[2]);
+     
+      CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[0]);
+      CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[1]);
+      CopyM3DVector3f(mesh->GetNormal( currentTriangle ), normals[2]);  
     
-    ++currentTriangle;
-    ++it;
+     // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert1 ), normals[0]);
+     // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert2 ), normals[1]);
+     // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), normals[2]);
+
+      // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert1 ), texCoords[0]);
+      // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert2 ), texCoords[1]);
+      // CopyM3DVector2f(mesh->GetTextureCoord( (*it).vert3 ), texCoords[2]);
     
-    // DLOG(INFO) << "vertices[0]: " << vertices[0] << endl;
-    // DLOG(INFO) << "vertices[1]: " << vertices[1] << endl;
-    // DLOG(INFO) << "vertices[2]: " << vertices[2] << endl;
+       triangles.AddTriangle( vertices, normals, texCoords );
 
-    // DLOG(INFO) << "normals[0]: " << normals[0] << endl;
-    // DLOG(INFO) << "normals[1]: " << normals[1] << endl;
-    // DLOG(INFO) << "normals[2]: " << normals[2] << endl;
-
-    // DLOG(INFO) << "texCoords[0]: " << texCoords[0] << endl;
-    // DLOG(INFO) << "texCoords[0]: " << texCoords[1] << endl;
-    // DLOG(INFO) << "texCoords[0]: " << texCoords[2] << endl;
-
-   
+      batch.Vertex3fv(vertices[0]);
+      batch.Vertex3fv(vertices[1]);
+      batch.Vertex3fv(vertices[2]);
+    
+      batch.Normal3fv(normals[0]);
+      batch.Normal3fv(normals[1]);
+      batch.Normal3fv(normals[2]);
+    
+      ++currentTriangle;
+      ++it;
    }
 
-  triangles.End();
+   batch.End();
+    triangles.End();
   
   // DLOG(INFO) << "color[0]: " << color[0] << " color[1]: " << color[1]
   //            << " color[2]: " << color[2] << " color[3]: " << color[3]
   //            << endl;
-    static GLfloat color1[] = { 0.0f, 1.0f, 0.0f, 1.0f };
-   _shaderManager->UseStockShader(GLT_SHADER_FLAT,
-                                   _transformPipeline.GetModelViewProjectionMatrix(),
-                                  color1);
+   static GLfloat color1[] = { 0.0f, 1.0f, 0.0f, 1.0f };
+  //     _shaderManager->UseStockShader(GLT_SHADER_FLAT,
+  //                                     _transformPipeline.GetModelViewProjectionMatrix(),
+   //                                 color1);
 
   // GLfloat vRed[] = { 1.0f, 0.0f, 0.0f, 1.0f };
   // _shaderManager->UseStockShader(GLT_SHADER_IDENTITY, vRed);
 
-  M3DVector4f lightEyePos;
-  m3dTransformVector4( lightEyePos, lightPos,
-                       _transformPipeline.GetModelViewMatrix() );
+   M3DVector4f lightEyePos;
+   m3dTransformVector4( lightEyePos, lightPos,
+                        _transformPipeline.GetModelViewMatrix() );
 
   // load shader program
-    // _shaderManager->UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
-    //                                _transformPipeline.GetModelViewMatrix(),
-    //                                _transformPipeline.GetProjectionMatrix(),
-    //                                 lightEyePos, color1);
+    _shaderManager->UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF,
+                                   _transformPipeline.GetModelViewMatrix(),
+                                   _transformPipeline.GetProjectionMatrix(),
+                                   lightEyePos, color1);
   
-  triangles.Draw();
+     batch.Draw();
+    //  triangles.Draw();
   // DLOG(INFO) << "triangles has been drawn\n";
 }
 
