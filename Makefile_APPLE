@@ -3,7 +3,7 @@ CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -lm -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
 GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
-GRAPHO = RenderVisitor.o Light.o Camera.o Geometry.o Transform.o Mesh.o State.o Material.o math3d.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o
+GRAPHO = RenderVisitorOpenGL1.o Light.o Camera.o Geometry.o Transform.o Mesh.o State.o Material.o math3d.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Group.o
 
 
 # Generic rules
@@ -110,7 +110,7 @@ Group.o: Src/Graph/Group.cpp Src/Graph/Group.hpp
 Light.o: Src/Graph/Light.cpp Src/Graph/Light.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
-RenderVisitor.o: Src/Graph/RenderVisitor.cpp Src/Graph/RenderVisitor.hpp
+RenderVisitorOpenGL1.o: Src/Graph/RenderVisitorOpenGL1.cpp Src/Graph/RenderVisitorOpenGL1.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
