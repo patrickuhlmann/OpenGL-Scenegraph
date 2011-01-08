@@ -83,6 +83,21 @@ public:
 		       GLfloat yMin, GLfloat yMax,
 		       GLfloat zMin, GLfloat zMax);
 
+
+   void MoveForward( float delta );
+
+   void MoveBackward( float delta );
+
+   void MoveRight( float delta );
+
+   void MoveLeft( float delta );
+
+   void MoveUp( float delta );
+
+   void MoveDown( float delta );
+   
+   void RotateWorld( float angle, float x, float y, float z );
+
 private:
   GLFrame      _frame;       /**< Handles movement and direction of camera */
   M3DMatrix44f _viewMatrix;  /**< Matrix is derived from the frame */
