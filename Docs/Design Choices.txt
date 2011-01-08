@@ -1,0 +1,15 @@
+Name of Nodes
+=============
+Every Node should have a unique name. We ensure this with a static set of Names in the Node Base Class. Whenever you create a node it will check if there is already a node with the same name
+
+States in Nodes
+===============
+We don't want to add the State in the Composite or Node class because not all of the Nodes actually need the state.
+
+Read in Mesh
+============
+Create a group node and hierarchiy
+
+Optimizations
+=============
+Sort the States to minimize changes of Material and Color

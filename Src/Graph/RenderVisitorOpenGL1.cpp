@@ -5,6 +5,7 @@
  */
 RenderVisitorOpenGL1::RenderVisitorOpenGL1()
 {
+	LightCounter = 0;
 	_modelViewMatrix.LoadIdentity();
 	_projectionMatrix.LoadIdentity();
 	_transformPipeline.SetMatrixStacks(_modelViewMatrix, _projectionMatrix );
@@ -77,7 +78,7 @@ void RenderVisitorOpenGL1::VisitLight( Light* l )
 	// Enable this light in particular
 	glEnable(GL_LIGHT1);
 
-	_light = *l;
+	//_light = *l;
 	TraverseChildren(l);
 }
 

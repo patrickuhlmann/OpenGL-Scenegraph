@@ -24,12 +24,11 @@ public:
   /** Return the mesh pointer */
  const Mesh* GetMesh() const;
 
-  /** Set a new state */
-  void SetState( const State& );
+  void SetState(State*);
 
 private:
   Mesh* _mesh;  /**< Pointer to a mesh */
-  State _state; /**< State information */
+  State* _state; /**< State information */
   bool  _dirty; /**< Flag for checking update of bound */
   string _name;
 };

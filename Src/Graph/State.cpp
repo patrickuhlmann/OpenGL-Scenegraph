@@ -1,86 +1,96 @@
 #include "State.hpp"
 
-State::State() {}
-
+/** \brief Deletes the Material, Enable list and disable list */
 State::~State() {
 	if (_material)
 		delete _material;
+
+	if (_enables)
+		delete _enables;
+
+	if (_disables)
+		delete _disables;
 }
 
-State::State( const State& other ) { Merge( other ); }
+/** \brief Copy all the Enables and Disables to this state
+ * \param other the state to copy from
+ */
+State::State(const State& other) {
+	// same effect as copy as our state is empty
+	Merge(other);
+}
 
-void State::operator= ( const State& other )
+/** \brief Copy all the Enables and Disables to this State 
+ * \param other the state to copy from
+ */
+void State::operator= (const State& other)
 {
-  _disables.clear();
-  _enables.clear();
-  Merge( other );
+	if (_disables)
+		_disables->clear();
+
+	if (_enables)
+		_enables->clear();
+
+	Merge( other );
 }
 
-void State::Apply()
-{
-  StateVariableIterator disableIt, disableEnd, enableIt, enableEnd;
-  disableIt  = _disables.begin();
-  disableEnd = _disables.end();
-  enableIt   = _enables.begin();
-  enableEnd  = _enables.end();
-
-  while ( enableIt != enableEnd ) {
-    glEnable( *enableIt );
-    ++enableIt;
-  }
-
-  while ( disableIt != disableEnd ) {
-    glDisable( *disableIt );
-    ++disableIt;
-  }
-}
-
+/** \brief Enable a State. If it is already disabled it will be deleted from the disables list. In every case it will be added to the enables list. It will only save it to a list. To really apply you need to call apply.
+ * \param val of the state to enable */
 void State::Enable ( GLenum val ) 
 {
-  _disables.erase( val );
-  _enables.insert ( val ); 
+	if (_disables)
+		_disables->erase( val );
+
+	if (!_enables)
+		_enables = new StateVariableSet();
+
+	_enables->insert ( val ); 
 }
 
+/** \brief Disable a State. If it is already enabled it will be deleted from the enable list. In every case it will be added to the disable list. It will only save it to a list. To really apply it you need to call apply.
+  * \param val of the state to disable */
 void State::Disable( GLenum val ) 
 { 
-  _enables.erase( val );
-  _disables.insert( val );
- }
+	if (_enables)
+		_enables->erase( val );
 
-void State::SetMaterial( const Material& m ) { 
-  if (_material)
-    delete _material;
+	if (!_disables)
+		_disables = new StateVariableSet();
 
-   _material = new Material(m);
+	_disables->insert( val );
 }
 
+/** \brief Set a Material for this State. We take ownership of the Material and will also delete it at the end!
+  * \param m for this state
+  */
+void State::SetMaterial( const Material& m ) { 
+	if (_material)
+		delete _material;
+
+	_material = new Material(m);
+}
+
+/** \brief Merge this state with another one. We take all enables and disables and put them in our lists. If there is one disabled and one enabled (the same number) the last one wins which meanst the state in the argument state overwrites the old one
+  * \param state which we merge with ourselves
+  */
 void State::Merge( const State& state )
 {
-  StateVariableIterator enableIterator, enableEnd, disableIterator, disableEnd;
+	if (state._enables) {
+		for (StateVariableIterator EnableIt = state._enables->begin(); EnableIt != state._enables->end(); ++EnableIt) {
+			this->Enable(*EnableIt);
+		}
+	}
 
-  /* TODO: error in VS 2008
-  enableIterator  = state._enables.begin();
-  enableEnd       = state._enables.end();
-  disableIterator = state._disables.begin();
-  disableEnd       = state._disables.end();
+	if (state._disables) {
+		for (StateVariableIterator DisableIt = _disables->begin(); DisableIt != _disables->end(); ++DisableIt) {
+			this->Disable(*DisableIt);
+		}
+	}
 
-  while ( enableIterator != enableEnd )
-    _enables.insert( (*enableIterator) );
+	if (state._material) {
+		if (_material)
+			delete _material;
 
-  while ( disableIterator != disableEnd )
-    _disables.insert( (*disableIterator) );*/
-
-  _material = state._material;
+		_material = new Material(*(state._material));
+	}
 }
-
-StateVariableIterator State::GetStateVariableIterator()
-{ return _enables.begin(); }
-
-StateVariableIterator State::GetStateEnableIteratorEnd()
-{ return _enables.end(); }
-
-StateVariableIterator State::GetStateDisableIterator()
-{ return _disables.begin(); }
-
-StateVariableIterator State::GetStateDisableIteratorEnd()
-{ return _disables.end(); }

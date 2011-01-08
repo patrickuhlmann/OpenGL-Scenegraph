@@ -31,14 +31,15 @@ public:
   void GetSpecular( M3DVector4f ) const;
 
 private:
-  /** \brief Handles position, direction and movement of the light. */
-  GLFrame     _frame;   
-  /** \brief Ambient component. RGBA.  */ 
-  M3DVector4f _ambient;
-  /** \brief Diffuse component. RGBA.  */
-  M3DVector4f _diffuse;
-  /** \brief Specular component. RGBA. */
-  M3DVector4f _specular;
+	/** \brief Handles position, direction and movement of the light. */
+	GLFrame     _frame;   
+	/** \brief Ambient component. RGBA.  */ 
+	M3DVector4f _ambient;
+	/** \brief Diffuse component. RGBA.  */
+	M3DVector4f _diffuse;
+	/** \brief Specular component. RGBA. */
+	M3DVector4f _specular;
+	
   
   void Init();
 };

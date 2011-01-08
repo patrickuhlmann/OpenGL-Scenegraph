@@ -25,6 +25,8 @@ class RenderVisitorOpenGL1 : public NodeVisitor {
 public:
 	RenderVisitorOpenGL1();
 	virtual void Traverse( CompositeNode* c );
+
+protected:
 	virtual void TraverseChildren( CompositeNode* c );
 
 	virtual void VisitLight( Light* l);
@@ -33,13 +35,14 @@ public:
 	virtual void VisitTransform( Transform* t);
 
 private:
-   GLMatrixStack _modelViewMatrix;         /**< ModelView matrix stack */
-  GLMatrixStack _projectionMatrix;        /**< Projection matrix stack */
-  GLGeometryTransform _transformPipeline; /**< Helper object holding the matrices */
-  Light _light;                           /**< Reference to a single light. We only support
-					       one light per scene right now */
+	/** \brief ModelView matrix stack */
+	GLMatrixStack _modelViewMatrix;
+	/** \brief Projection matrix stack */
+	GLMatrixStack _projectionMatrix;
+	/** \brief Helper for both the objects */
+	GLGeometryTransform _transformPipeline;
 
-
+	int LightCounter;
 };
 
 
