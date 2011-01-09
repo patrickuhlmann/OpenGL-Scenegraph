@@ -6,6 +6,7 @@
 #include <string>
 #include "../Graph/Material.hpp"
 #include "Datatypes.h"
+#include <map>
 
 class MeshLoaderObj;
 
@@ -16,6 +17,7 @@ typedef vector<Triangle*> TriangleVector;
 typedef vector<Quad*> QuadVector;
 typedef vector<Polygon*> PolygonVector;
 typedef vector<float*> TextureCoordVector;
+typedef multimap<string, Material*> mmsm;
 
 typedef TriangleVector::const_iterator TriangleIteratorConst;
 
@@ -37,6 +39,7 @@ class Mesh {
 
 		void Scale(float Factor);
 
+		const TriangleVector& GetTriangleVector() const;
 		int GetVertexCount() const;
 		int GetTriangleCount() const;
 		int GetQuadCount() const;
@@ -62,6 +65,7 @@ private:
 	PolygonVector _polygons;
 	/** \brief Polygon (Convace) (Index of N Vertices) */
 	PolygonVector _polygonsConcave;
+	mmsm _materials;
 
 	/** \brief Vector of TextureCoordinates, should be one per Vertex */
 	TextureCoordVector  _textureCoords;

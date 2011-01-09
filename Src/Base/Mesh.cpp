@@ -42,6 +42,10 @@ Mesh::~Mesh() {
 	}*/
 }
 
+const TriangleVector& Mesh::GetTriangleVector() const {
+	return _triangles;
+}
+
 /**
  * \brief Get the Vertex at position i
  * \param i index of the Vertex to get

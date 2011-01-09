@@ -168,6 +168,9 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 		const Triangle* T = M->GetTriangle(i);
 		OpenGLDrawing::DrawTriangle(T);
 	}
+	// TODO: why is the above code faster than the one commented out?
+	// OpenGLDrawing::DrawTriangles(M->GetTriangleVector());
+
 	//DLOG(INFO) << "Drawed " << M->GetTriangleCount() << " Triangles" << endl;
 
 	for (int i=0; i<M->GetQuadCount(); ++i) {

@@ -25,11 +25,11 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	Mesh* M = new Mesh();
 
 	string Definition;
-	mmsm Materials;
 
 	// Material initialize
 	Material* Mat = new Material("Proto", Vector3(1.0f, 1.0f, 1.0f));
 	Mat->SetTransparency(1.0f);
+	M->_materials.insert(mmsm::value_type(string("Proto"), Mat));
 
 	//DLOG(INFO) << "Start reading Mesh" << endl;
 
@@ -90,7 +90,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			string FileName;
 			getline(Stream, FileName, '\n');
 			//DLOG(INFO) << "Found Reference to external Material file: " << FileName << endl;
-			ReadMaterialFile(Materials, FileName);
+			ReadMaterialFile(M->_materials, FileName);
 
 		// Material Group
 		// usemtl [material name]
@@ -98,11 +98,11 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			string MatName;
 			getline(Stream, MatName, '\n');
 			RemoveLineBreaks(MatName);
-			mmsm::iterator it = Materials.find(MatName);
-			if (it == Materials.end())
+			mmsm::iterator it = M->_materials.find(MatName);
+			if (it == M->_materials.end())
 				DLOG(WARNING) << "Couldn't find a material in the material map: " << MatName << endl;
 			else
-				Mat = &it->second;
+				Mat = it->second;
 			//DLOG(INFO) << "Apply Material: " << MatName << endl;
 			
 
@@ -189,9 +189,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 
 	string Definition;
 
-	Material Mat("Empty", Vector3( 0.2f, 0.2f, 0.2f));
-	Material PrototypeMat("Proto", Vector3( 0.2f, 0.2f, 0.2f));
-	PrototypeMat.SetDiffuse(0.8f, 0.8f, 0.8f);
+	Material* Mat = new Material("Proto", Vector3( 0.2f, 0.2f, 0.2f));
 
 	bool FirstMat = true;
 	float r;
@@ -218,18 +216,18 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Start a new Material, Commit the Old One to the Map
 		if (Definition.compare("newmtl") == 0) {
 			if (!FirstMat)
-				MaterialMap.insert(mmsm::value_type(Mat._name, Mat));
+				MaterialMap.insert(mmsm::value_type(Mat->_name, Mat));
 			FirstMat = false;
-			Mat = Material(PrototypeMat);
-			getline(In, Mat._name, '\n');
-			RemoveLineBreaks(Mat._name);
+			Mat = new Material("Proto", Vector3( 0.2f, 0.2f, 0.2f));
+			getline(In, Mat->_name, '\n');
+			RemoveLineBreaks(Mat->_name);
 			//DLOG(INFO) << "Found Material: " << Mat._name << endl;
 
 
 		// Found Ambient Color
 		} else if (Definition.compare("Ka") == 0) {
 			In >> r >> g >> b;
-			Mat.SetAmbient(r, g, b);
+			Mat->SetAmbient(r, g, b);
 			//DLOG(INFO) << "  Found Ambient Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -237,7 +235,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Diffuse Color
 		} else if (Definition.compare("Kd") == 0) {
 			In >> r >> g >> b;
-			Mat.SetDiffuse(r, g, b);
+			Mat->SetDiffuse(r, g, b);
 			//DLOG(INFO) << "  Found Diffuse Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -245,7 +243,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Specular Color
 		} else if (Definition.compare("Ks") == 0) {
 			In >> r >> g >> b;
-			Mat.SetSpecular(r, g, b, 0);
+			Mat->SetSpecular(r, g, b, 0);
 			//DLOG(INFO) << "  Found Specular Color (" << r << ", " << g << ", " << b << ")" << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -253,7 +251,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Alpha
 		} else if (Definition.compare("d") == 0 || Definition.compare("Tr") == 0) {
 			In >> r;
-			Mat.SetTransparency(r);
+			Mat->SetTransparency(r);
 			//DLOG(INFO) << "  Found Alpha Value " << r << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -261,7 +259,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 		// Found Shininess
 		} else if (Definition.compare("Ns") == 0) {
 			In >> r;
-			Mat.SetSpecular(Mat.GetSpecularLight(), r);
+			Mat->SetSpecular(Mat->GetSpecularLight(), r);
 			//DLOG(INFO) << "  Found Shininess Value " << r << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -317,7 +315,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 
 	// Insert the last material as well
 	if (!FirstMat)
-		MaterialMap.insert(mmsm::value_type(Mat._name, Mat));
+		MaterialMap.insert(mmsm::value_type(Mat->_name, Mat));
 
 	In.close();
 }
@@ -471,14 +469,14 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 
 	if (Vertices.size() == 3) {
 		//DLOG(INFO) << "Found Triangle: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ")" << endl;
-		M->_triangles.push_back(new Triangle(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], CalculatedNormal, new Material(Mat)));
+		M->_triangles.push_back(new Triangle(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], CalculatedNormal, Mat));
 
 	} else if (Vertices.size() == 4) {
 		if (IsPolygonConvex(Vertices, M)) {
 			//DLOG(INFO) << "Found Quad: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ", " << Vertices[3] << ")" << endl;
-			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
+			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, Mat));
 		} else
-			M->_quadsConcave.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
+			M->_quadsConcave.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, Mat));
 	} else {
 		//DLOG(INFO) << "Found Polygon: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ", " << Vertices[3] << "..., order: " << Vertices.size() << ")" << endl;
 		vector<Vector3*> VerticesRef;
@@ -487,8 +485,8 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 		}
 
 		if (IsPolygonConvex(Vertices, M))
-			M->_polygons.push_back(new Polygon(VerticesRef, CalculatedNormal, new Material(Mat)));
+			M->_polygons.push_back(new Polygon(VerticesRef, CalculatedNormal, Mat));
 		else
-			M->_polygonsConcave.push_back(new Polygon(VerticesRef, CalculatedNormal, new Material(Mat)));
+			M->_polygonsConcave.push_back(new Polygon(VerticesRef, CalculatedNormal, Mat));
 	}
 }

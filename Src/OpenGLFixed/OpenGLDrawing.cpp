@@ -3,16 +3,20 @@
 int OpenGLDrawing::TriangleCounter = 0;
 int OpenGLDrawing::QuadCounter = 0;
 int OpenGLDrawing::PolygonCounter = 0;
+const void* OpenGLDrawing::LastMaterialPointer = 0;
 
 void OpenGLDrawing::SetDrawingColorAndMaterial(const Material* Mat) {
-	const Vector3& Color = Mat->GetAmbientLight();
-	glColor3fv(Color.GetConstPointer());
-		
-	// for specular highlight
+	// Tests showed that it is easily 20% faster if we don't need to change the material definition all the time
+	if (LastMaterialPointer == Mat) {
+		return;
+	}
+
 	glMaterialfv(GL_FRONT, GL_AMBIENT, Mat->GetAmbientLight().GetConstPointer());
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, Mat->GetDiffuseLight().GetConstPointer());
 	glMaterialfv(GL_FRONT, GL_SPECULAR, Mat->GetSpecularLight().GetConstPointer());
 	glMateriali(GL_FRONT,GL_SHININESS, Mat->GetShininess());
+
+	LastMaterialPointer = Mat;
 }
 
 void OpenGLDrawing::DrawPoint(const Vector3* Vertex1, const Material* Mat) {
@@ -56,6 +60,22 @@ void OpenGLDrawing::DrawTriangle(const Triangle* T) {
 	glEnd();
 
 	OpenGLDrawing::TriangleCounter++;
+}
+
+void OpenGLDrawing::DrawTriangles(const vector<Triangle*>& T) {
+	glBegin(GL_TRIANGLES);
+
+	for (vector<Triangle*>::const_iterator it = T.begin(); it != T.end(); ++it) {
+		SetDrawingColorAndMaterial((*it)->Mat);
+
+		glNormal3fv((*it)->Normal->Array);
+		glVertex3fv((*it)->Vertex1->Array);
+		glVertex3fv((*it)->Vertex2->Array);
+		glVertex3fv((*it)->Vertex3->Array);
+		OpenGLDrawing::TriangleCounter++;
+	}
+
+	glEnd();
 }
 
 void OpenGLDrawing::DrawQuad(const Quad* Q) {
