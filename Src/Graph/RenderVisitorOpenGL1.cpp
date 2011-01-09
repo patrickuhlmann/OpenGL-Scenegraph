@@ -17,7 +17,7 @@ RenderVisitorOpenGL1::RenderVisitorOpenGL1()
  */
 void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 {
-	DLOG(INFO) << "Traverse Node" << endl;
+	//DLOG(INFO) << "Traverse Node" << endl;
 
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
@@ -56,10 +56,10 @@ void RenderVisitorOpenGL1::TraverseChildren(CompositeNode* c) {
  */
 void RenderVisitorOpenGL1::VisitLight( Light* l )
 {
-	DLOG(INFO) << "Light accepted visitor" << endl;
+	//DLOG(INFO) << "Light accepted visitor" << endl;
 
 	// Set the State if not set or not OpenGL
-	if (l->GetState() == 0 || typeid(l->GetState()) != typeid(OpenGLState)) {
+	if (l->GetState() == 0) {
 		State* LightState = new OpenGLState();
 		LightState->Enable(GL_LIGHTING);
 		LightState->Enable(GL_LIGHT0+LightCounter);
@@ -68,6 +68,7 @@ void RenderVisitorOpenGL1::VisitLight( Light* l )
 		l->SetLightNumber(LightCounter);
 
 		LightCounter++;
+		DLOG(INFO) << "Light Number: " << LightCounter << endl;
 	}
 
 	// If the light was changed we need to define the new properties for the light
@@ -75,12 +76,15 @@ void RenderVisitorOpenGL1::VisitLight( Light* l )
 		int Number = l->GetLightNumber();
 
 		glLightfv(GL_LIGHT0+Number, GL_POSITION, l->GetPosition().GetConstPointer());
-		glLightfv(GL_LIGHT0, GL_AMBIENT, l->GetAmbient().GetConstPointer());
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, l->GetDiffuse().GetConstPointer());
-		glLightfv(GL_LIGHT0, GL_SPECULAR, l->GetSpecular().GetConstPointer());
+		glLightfv(GL_LIGHT0+Number, GL_AMBIENT, l->GetAmbient().GetConstPointer());
+		glLightfv(GL_LIGHT0+Number, GL_DIFFUSE, l->GetDiffuse().GetConstPointer());
+		glLightfv(GL_LIGHT0+Number, GL_SPECULAR, l->GetSpecular().GetConstPointer());
+
+		l->SetChanged(false);
 	}
 
-	l->GetState()->Apply();
+	if (l->GetState())
+		l->GetState()->Apply();
 
 	TraverseChildren(l);
 }
@@ -96,7 +100,7 @@ void RenderVisitorOpenGL1::VisitLight( Light* l )
 */
 void RenderVisitorOpenGL1::VisitCamera( Camera* c)
 {
-	DLOG(INFO) << "Camera accepted visitor" << endl;
+	//DLOG(INFO) << "Camera accepted visitor" << endl;
 
 	// save current matrices
 	_modelViewMatrix.PushMatrix();
@@ -152,7 +156,7 @@ void CopyM3DVector2f(const float* source, M3DVector3f dest) {
 */
 void RenderVisitorOpenGL1::VisitGeometry( Geometry* g ) 
 {
-	DLOG(INFO) << "Geometry accepted visitor" << endl;
+	//DLOG(INFO) << "Geometry accepted visitor" << endl;
 
 	const Mesh* M = g->GetMesh();
 
@@ -160,17 +164,17 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 
 	int TriangleIndex = 0;
 	for (TriangleIteratorConst it = M->GetTriangleIteratorConst(); it != M->GetTriangleIteratorEndConst(); ++it) {
-		const float* Vertex1 = M->GetVertex((*it).vert1);
-		const float* Vertex2 = M->GetVertex((*it).vert2);
-		const float* Vertex3 = M->GetVertex((*it).vert3);
-		const float* Normal = M->GetNormal(TriangleIndex);
+		const float* Vertex1 = M->GetVertex((*it)->vert1);
+		const float* Vertex2 = M->GetVertex((*it)->vert2);
+		const float* Vertex3 = M->GetVertex((*it)->vert3);
+		const float* Normal = (*it)->Normal;
 
-		Material m = M->GetMaterial(TriangleIndex);
-		const float* Color = m.GetAmbientLight();
+		const Material* m = M->GetMaterial(TriangleIndex);
+		const float* Color = m->GetAmbientLight();
 
 		// for specular highlight
-		glMaterialfv(GL_FRONT, GL_SPECULAR, m.GetSpecularLight());
-		glMateriali(GL_FRONT,GL_SHININESS, m.GetShininess());
+		glMaterialfv(GL_FRONT, GL_SPECULAR, m->GetSpecularLight());
+		glMateriali(GL_FRONT,GL_SHININESS, m->GetShininess());
 
 		OpenGLDrawing::DrawTriangle(Vertex1, Vertex2, Vertex3, Normal, Color);
 
@@ -183,7 +187,8 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 */
 void RenderVisitorOpenGL1::VisitTransform( Transform* t )
 {
-	DLOG(INFO) << "Transform accepted visitor" << endl;
+	//DLOG(INFO) << "Transform accepted visitor" << endl;
+
 	_modelViewMatrix.PushMatrix(); // save current matrix
 	_modelViewMatrix.MultMatrix( t->GetMatrix() );
 
@@ -196,5 +201,7 @@ void RenderVisitorOpenGL1::VisitTransform( Transform* t )
 }
 
  void RenderVisitorOpenGL1::VisitGroup( Group* g ) {
+	//DLOG(INFO) << "Group accepted visitor" << endl;
+
 	TraverseChildren(g);
 }

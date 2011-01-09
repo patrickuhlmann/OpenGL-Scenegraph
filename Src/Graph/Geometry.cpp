@@ -19,7 +19,6 @@ Geometry::~Geometry() {
 
 void Geometry::Accept( NodeVisitor* visitor ) 
 {
-   DLOG(INFO) << "Geometry accepted visitor\n";
    visitor->VisitGeometry( this ); 
 }
 

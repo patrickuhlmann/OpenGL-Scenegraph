@@ -19,6 +19,10 @@ Material::Material(const string& Name, const M3DVector3f& AmbientLight) {
 */
 Material::Material( const Material& m ) { Copy( m ); }
 
+Material::Material( const Material* m) {
+	Copy(m); 
+}
+
 /** \brief Just copies all properties. These properties are completly independent of the original 
 *
 * \param m to assign to our class
@@ -35,10 +39,26 @@ void Material::Copy( const Material& other )
   m3dCopyVector3( _diffuse, other._diffuse );
   m3dCopyVector3( _specular, other._specular );
   _shine = other._shine;
-  _name = other._name;
+  _name = string(other._name);
   _transparency = other._transparency;
   _useDiffuse = other._useDiffuse;
   _useSpecular = other._useSpecular;
+}
+
+/** \brief Helper Method to copy a material. It just makes a copy of all properties 
+*
+* \param other to copy the properties from
+*/
+void Material::Copy( const Material* other )
+{
+  m3dCopyVector3( _ambient, other->_ambient );
+  m3dCopyVector3( _diffuse, other->_diffuse );
+  m3dCopyVector3( _specular, other->_specular );
+  _shine = other->_shine;
+  _name = string(other->_name);
+  _transparency = other->_transparency;
+  _useDiffuse = other->_useDiffuse;
+  _useSpecular = other->_useSpecular;
 }
 
 /** \brief Sets the Ambient Light of the Material (Ambient is the Light which is always present. No matter how far away or in which direction the viewer is.

@@ -13,13 +13,33 @@ Mesh::~Mesh() {
 		delete[] *it;
 	}
 
-	for (NormalVector::iterator it = _normals.begin(); it != _normals.end(); ++it) {
-		delete[] *it;	
-	}
-
 	for (TextureCoordVector::iterator it = _textureCoords.begin(); it != _textureCoords.end(); ++it) {
 		delete[] *it;
 	}
+
+	for (TriangleVector::iterator it = _triangles.begin(); it != _triangles.end(); ++it) {
+		delete (*it);
+	}
+
+	for (QuadVector::iterator it = _quads.begin(); it != _quads.end(); ++it) {
+		delete (*it);
+	}
+
+	for (QuadVector::iterator it = _quadsConcave.begin(); it != _quadsConcave.end(); ++it) {
+		delete (*it);
+	}
+
+	for (PolygonVector::iterator it = _polygons.begin(); it != _polygons.end(); ++it) {
+		delete (*it);
+	}
+
+	for (PolygonVector::iterator it = _polygonsConcave.begin(); it != _polygonsConcave.end(); ++it) {
+		delete (*it);
+	}
+
+	/*for (MaterialVector::iterator it = _material.begin(); it != _material.end(); ++it) {
+		delete (*it);
+	}*/
 }
 
 /**
@@ -29,15 +49,6 @@ Mesh::~Mesh() {
  */
 const float* Mesh::GetVertex( int i ) const {
 	return _vertices.at(i);
-}
-
-/**
- * \brief Get the Normal at position i
- * \param i index of the Normal to get
- * \return pointer to the normal (XYZ)
- */
-const float* Mesh::GetNormal( int i ) const {
-	return _normals.at(i);
 }
 
 /**
@@ -54,16 +65,53 @@ const float* Mesh::GetTextureCoord( int i ) const {
  * \param i index of the Triangle
  * \return reference to the triangle
  */
-const Triangle& Mesh::GetTriangle(int i) const {
+const Triangle* Mesh::GetTriangle(int i) const {
 	return _triangles.at(i);
 }
+
+/**
+ * \brief Get the Quad at position i
+ * \param i index of the Quad
+ * \return reference to the quad
+ */
+const QuadIndex* Mesh::GetQuad(int i) const {
+	return _quads.at(i);
+}
+
+/**
+ * \brief Get the Quad Concave at position i
+ * \param i index of the Quad
+ * \return reference to the quad
+ */
+const QuadIndex* Mesh::GetQuadConcave(int i) const {
+	return _quadsConcave.at(i);
+}
+
+/**
+ * \brief Get the Polygon at position i
+ * \param i index of the Quad
+ * \return reference to the quad
+ */
+const PolygonIndex* Mesh::GetPolygon(int i) const {
+	return _polygons.at(i);
+}
+
+/**
+ * \brief Get the Polygon Concave at position i
+ * \param i index of the Quad
+ * \return reference to the quad
+ */
+const PolygonIndex* Mesh::GetPolygonConcave(int i) const {
+	return _polygonsConcave.at(i);
+}
+
 
 /**
  * \brief Get the Material at position i
  * \param i index of the Material
  * \return reference to the material
  */
-const Material& Mesh::GetMaterial(int i) const {
+const Material* Mesh::GetMaterial(int i) const {
 	return _material.at(i);
 }
 
@@ -89,6 +137,38 @@ int Mesh::GetVertexCount() const {
  */
 int Mesh::GetTriangleCount() const {
 	return _triangles.size();
+}
+
+/**
+ * \brief Get the Number of Quads in this Mesh
+ * \return Number of Quads
+ */
+int Mesh::GetQuadCount() const {
+	return _quads.size();
+}
+
+/**
+ * \brief Get the Number of Concave Quads in this Mesh
+ * \return Number of Quads
+ */
+int Mesh::GetQuadConcaveCount() const {
+	return _quads.size();
+}
+
+/**
+ * \brief Get the Number of Polygons in this Mesh
+ * \return Number of Quads
+ */
+int Mesh::GetPolygonCount() const {
+	return _polygons.size();
+}
+
+/**
+ * \brief Get the Number of Concave Polygons in this Mesh
+ * \return Number of Quads
+ */
+int Mesh::GetPolygonConcaveCount() const {
+	return _polygonsConcave.size();
 }
 
 /**

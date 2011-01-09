@@ -10,6 +10,8 @@ class Material {
 public:
   Material(const string& Name, const M3DVector3f& AmbientLight);
   Material( const Material& );
+  Material( const Material* );
+  ~Material() { };
   
   void operator= ( const Material& );
   void SetAmbient(const M3DVector3f& AmbientLight );
@@ -32,6 +34,7 @@ public:
 
 private:
   void Copy( const Material& );
+  void Copy( const Material* );
 
   /** \brief Store the r, g and b components of the Ambient light */
   M3DVector3f _ambient;

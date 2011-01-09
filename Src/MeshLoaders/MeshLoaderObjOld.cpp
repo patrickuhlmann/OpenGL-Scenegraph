@@ -30,8 +30,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	// Material initialize
 	M3DVector3f MatAmbient;
 	m3dLoadVector3(MatAmbient, 1.0f, 1.0f, 1.0f);
-	Material* Mat = new Material("Proto", MatAmbient);
-	Mat->SetTransparency(1.0f);
+	Material Mat("Proto", MatAmbient);
+	Mat.SetTransparency(1.0f);
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
 
@@ -107,7 +107,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			if (it == Materials.end())
 				DLOG(WARNING) << "Couldn't find a material in the material map: " << MatName << endl;
 			else
-				Mat = &it->second;
+				Mat = it->second;
 			DLOG(INFO) << "Apply Material: " << MatName << endl;
 			
 
@@ -164,11 +164,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 	DLOG(INFO) << "Read in " << M->_vertices.size() << " Vertices" << endl;
 	DLOG(INFO) << "Read in " << M->_triangles.size() << " Triangles" << endl;
-	DLOG(INFO) << "Read in " << M->_quads.size() << " Quads" << endl;
-	DLOG(INFO) << "Read in " << M->_polygons.size() << " Polygons" << endl;
-	DLOG(INFO) << "Read in " << M->_quadsConcave.size() << " ConcaveQuads" << endl;
-	DLOG(INFO) << "Read in " << M->_polygonsConcave.size() << " ConcavePolygons" << endl;
-
+	DLOG(INFO) << "Calculated " << M->_normals.size() << " Normals" << endl;
 	DLOG(INFO) << "Read in " << M->_material.size() << " Materials" << endl;
 	DLOG(INFO) << "Read in " << M->_textureCoords.size() << " Texture Coordinates" << endl;
 	DLOG(INFO) << "TriangulationEasy " << TriangulationEasy << endl;
@@ -495,7 +491,7 @@ for (int i=0; i<VList.size(); i++) {
  * Stream to read in the faces from
  * M Mesh to get the Vertices from
  */
-bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, istream& Stream, Mesh* M) {
+bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* M) {
 	// Read in all the Vertices Indexes
 	vector<int> Vertices;
 	int index;
@@ -533,7 +529,7 @@ bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, istream& Stream, Mesh*
  * \param M Mesh to get the Vertices
  * \return true if the Triangulation was successful, false otherwise
  */
-bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, vector<int>& Vertices, Mesh* M) {
+bool MeshLoaderObj::Triangulate(vector<Triangle>& TList, vector<int> Vertices, Mesh* M) {
 	//DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
 	TriangulationEasy++;
 
@@ -587,14 +583,14 @@ bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, vector<int>& Vertices,
 		}
 
 		// build triangle
-		TList.push_back(new Triangle(Vertices[HighestYIndex], Vertices[Near1Index], Vertices[Near2Index]));
+		TList.push_back(Triangle(Vertices[HighestYIndex], Vertices[Near1Index], Vertices[Near2Index]));
 
 		// remove highest point
 		Vertices.erase(Vertices.begin()+HighestYIndex);
 	}
 
 	// Add the last triangle
-	TList.push_back(new Triangle(Vertices[0], Vertices[1], Vertices[2]));
+	TList.push_back(Triangle(Vertices[0], Vertices[1], Vertices[2]));
 
 	//DLOG(INFO) << "Triangulation produced " << TList.size() << " triangles" << endl;
 
@@ -626,7 +622,7 @@ it's triangle is inside and we chop it away (otherwise we just go to the next po
  * \param VerticesIndices indices for the Vertices
  * \param M Mesh with the Vertices
  */
-bool MeshLoaderObj::TriangulateConcave(vector<Triangle*> TList, vector<int>& VerticesIndices, Mesh* M) {
+bool MeshLoaderObj::TriangulateConcave(vector<Triangle>& TList, vector<int>& VerticesIndices, Mesh* M) {
 	TriangulationHard++;
 
 	for (int i=1; i<VerticesIndices.size()-1; i++) {
@@ -638,7 +634,7 @@ bool MeshLoaderObj::TriangulateConcave(vector<Triangle*> TList, vector<int>& Ver
 
 		// Angle less than 180 degrees (triangle is part of the shape)
 		if (AngleAToB(Vec1, Vec2) < PI/2) {
-			TList.push_back(new Triangle(i-1, i, i+1));
+			TList.push_back(Triangle(i-1, i, i+1));
 			VerticesIndices.erase(VerticesIndices.begin()+i);
 			i--;
 			if (IsPolygonConvex(VerticesIndices, M)) {
@@ -650,83 +646,39 @@ bool MeshLoaderObj::TriangulateConcave(vector<Triangle*> TList, vector<int>& Ver
 	return true;
 }
 
-void MeshLoaderObj::ReadFaceTemp(istream& Stream, Mesh* M, Material* Mat) {
-	int Startpos = Stream.tellg();
-
-	// Read in all the Vertices Indexes
-	vector<int> Vertices;
-	int index;
-	while (Stream.peek() != '\n') {
-		Stream >> index;
-
-		// Vertex index in file start with 1, array start with 0
-		index--;
-
-		Vertices.push_back(index);
-
-		// ignore texture coordinates etc.
-		if (Stream.peek() == '/') {
-			while (Stream.peek() != ' ' && Stream.peek() != '\n')
-				Stream.ignore(1);
-		}
-
-		while(Stream.peek() == ' ' || Stream.peek() == '\t' || Stream.peek() == '\r')
-			Stream.ignore(1);
-	}
-
-	if (Vertices.size() == 3) {
-		DLOG(INFO) << "Found Triangle" << endl;
-		//M->_triangles.push_back(new TriangleIndex(Vertices[0], Vertices[1], Vertices[2]));
-	} else if (Vertices.size() == 4) {
-		DLOG(INFO) << "Found Quad" << endl;
-		if (IsPolygonConvex(Vertices, M))
-			M->_quads.push_back(new QuadIndex(Vertices[0], Vertices[1], Vertices[2], Vertices[3]));
-		else
-			M->_quadsConcave.push_back(new QuadIndex(Vertices[0], Vertices[1], Vertices[2], Vertices[3]));
-	} else {
-		DLOG(INFO) << "Found Polygon" << endl;
-		if (IsPolygonConvex(Vertices, M))
-			M->_polygons.push_back(new PolygonIndex(Vertices));
-		else
-			M->_polygonsConcave.push_back(new PolygonIndex(Vertices));
-	}
-
-	Stream.seekg(Startpos, ios::beg);
-}
-
 /** \brief Reads in a face. If it is a regular Triangle it just creates a triangle otherwise it tries to Triangulate the face so that we only have triangles at the end 
  * \param Stream to read face from
  * \param M Mesh to add the triangle
  * \param Mat for the Face
  */
-void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
-	ReadFaceTemp(Stream, M, Mat);
-
-	Triangle* t = new Triangle(0,0,0);
-	ReadTriangle(t, Stream);
+void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material& Mat) {
+	Triangle t(0,0,0);
+	ReadTriangle(&t, Stream);
 	// found a triangle
-	if (t->vert1 != INT_MIN) {
-		float* CalculatedNormal = new float[3];
-		m3dFindNormal(CalculatedNormal, M->_vertices[t->vert1], M->_vertices[t->vert2], M->_vertices[t->vert3]);
-		t->Normal = CalculatedNormal;
+	if (t.vert1 != INT_MIN) {
 		M->_triangles.push_back(t);
 		M->_material.push_back(Mat);
 		//DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
+		float* CalculatedNormal = new float[3];
+		m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1], M->_vertices[t.vert2], M->_vertices[t.vert3]);
+		M->_normals.push_back(CalculatedNormal);
+		//DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
 	// It is something of higher order so we triangulate
 	} else {
-		vector<Triangle*> TList;
+		vector<Triangle> TList;
 		if (!Triangulate(TList, Stream, M)) {
 			Stream.clear(ios::badbit);
 		} else {
 			// Add all Triangles
 			for (int i=0; i<TList.size(); i++) {
 				t = TList[i];
-				float* CalculatedNormal = new float[3];
-				m3dFindNormal(CalculatedNormal, M->_vertices[t->vert1], M->_vertices[t->vert2], M->_vertices[t->vert3]);
-				t->Normal = CalculatedNormal;
 				M->_triangles.push_back(t);
-				M->_material.push_back(new Material(Mat));
+				M->_material.push_back(Mat);
 				//DLOG(INFO) << "Found Triangulated Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
+				float* CalculatedNormal = new float[3];
+				m3dFindNormal(CalculatedNormal, M->_vertices[t.vert1], M->_vertices[t.vert2], M->_vertices[t.vert3]);
+				M->_normals.push_back(CalculatedNormal);
+				//DLOG(INFO) << "Calculated Normal " << CalculatedNormal[0] << ", " << CalculatedNormal[1] << ", " << CalculatedNormal[2] << endl;
 			}
 		}
 	}

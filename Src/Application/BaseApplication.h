@@ -24,6 +24,8 @@
 #include "../Graph/NodeVisitor.hpp"
 #include "../Graph/Group.hpp"
 
+//#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
 using namespace std;
 
 /**

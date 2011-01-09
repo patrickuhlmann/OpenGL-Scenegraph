@@ -56,14 +56,14 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
      * Nice Objects with Material
      * ==== */
 
-	Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
+	Magnolia = MeshLoader->Load("Objects/magnolia.obj");
 	Magnolia->Scale(0.03f);
-	Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
-	Rose->Scale(0.03f);
+	/*Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
+	Rose->Scale(0.03f);*/
 	//Mesh* Dolphins = MeshLoader->Load("Objects/dolphins.obj");
 	//Dolphins->Scale(0.01f);
-	Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
-	Skyscraper->Scale(0.04f);
+	/*Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
+	Skyscraper->Scale(0.04f);*/
 
 
 
@@ -96,16 +96,16 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 		(new Transform(string("MagnoliaTransform")))->AddChild(
 			(new Geometry(Magnolia, string("Magnolia")))
 	));
-	c->AddChild(
+	/*c->AddChild(
 		(new Transform(string("RoseTransform")))->AddChild(
 			(new Geometry(Rose, "Rose")))
-	);
-	c->AddChild(
+	);*/
+	/*c->AddChild(
 		(new Transform(string("SkyscraperTransform")))->AddChild(
 			(new Geometry(Skyscraper, "Skyscraper")))
-	);
+	);*/
 
-	Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
+	/*Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
 	t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
 	t->Translate(-3.0f, 0.0f, 0.0f);
 
@@ -115,14 +115,19 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	t->Scale(1.6f, 1.2f, 1.2f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("SkyscraperTransform"));
-	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);
+	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);*/
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
-	DLOG(INFO) << "Render()\n";
+	//DLOG(INFO) << "Render()\n";
 	RenderVisitor->Traverse(l);
-	DLOG(INFO) << "End of Render()\n";
+	//DLOG(INFO) << "End of Render()\n";
+};
+
+void SkeletonApp::Shutdown()
+{ 
+	delete Magnolia;
 };
 
 int main(int argc, char *argv[]) {

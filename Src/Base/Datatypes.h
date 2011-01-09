@@ -1,5 +1,9 @@
 #pragma once
 
+#include <vector>
+
+using namespace std;
+
 union Vector3 { 
 	struct sComponents {
 		float x;
@@ -9,31 +13,15 @@ union Vector3 {
 
 	float Array[3];
 
-	Vector3() {
-		Array[0] = 0;
-		Array[1] = 0;
-		Array[2] = 0;
-	}
+	Vector3();
 
-	Vector3(float x, float y, float z) { 
-		Array[0] = x;
-		Array[1] = y;
-		Array[2] = z;
-	}
+	Vector3(float x, float y, float z);
 
-	Vector3(const Vector3& v) {
-		Array[0] = v.Array[0];
-		Array[1] = v.Array[1];
-		Array[2] = v.Array[2];
-	}
+	Vector3(const Vector3& v);
 
-	const float* GetConstPointer() const {
-		return Array;
-	}
+	const float* GetConstPointer() const;
 
-	float* GetPointer() {
-		return Array;
-	}
+	float* GetPointer();
 };
 
 union Vector4 { 
@@ -53,32 +41,71 @@ union Vector4 {
 		float a;
 	} Color;
 
-	Vector4() { 
-		Array[0] = 0;
-		Array[1] = 0;
-		Array[2] = 0;
-		Array[3] = 0;
-	}
+	Vector4();
 
-	Vector4(float x, float y, float z, float w) { 
-		Array[0] = x;
-		Array[1] = y;
-		Array[2] = z;
-		Array[3] = w;
-	}
+	Vector4(float x, float y, float z, float w);
 
-	Vector4(const Vector4& v) {
-		Array[0] = v.Components.x;
-		Array[1] = v.Components.y;
-		Array[2] = v.Components.z;
-		Array[3] = v.Components.w;
-	}
+	Vector4(const Vector4& v);
 
-	const float* GetConstPointer() const {
-		return Array;
-	}
+	const float* GetConstPointer() const;
 
-	float* GetPointer() {
-		return Array;
-	}
+	float* GetPointer();
+};
+
+struct TriangleIndex {
+	int Vertex1;
+	int Vertex2;
+	int Vertex3;
+
+	TriangleIndex(int V1, int V2, int V3);
+};
+
+/*struct Triangle {
+	Vector4 Vertex1;
+	Vector4 Vertex2;
+	Vector4 Vertex3;
+
+	Triangle(const Vector4& V1, const Vector4& V2, const Vector4& V3);
+};*/
+
+struct QuadIndex {
+	int Vertex1;
+	int Vertex2;
+	int Vertex3;
+	int Vertex4;
+
+	QuadIndex(int V1, int V2, int V3, int V4);
+};
+
+struct Quad {
+	Vector4 Vertex1;
+	Vector4 Vertex2;
+	Vector4 Vertex3;
+	Vector4 Vertex4;
+
+	Quad(const Vector4& V1, const Vector4& V2, const Vector4& V3, const Vector4& V4);
+};
+
+struct Polygon {
+	Vector4** Vertices;
+	int Size;
+
+	Polygon(int Size);
+
+	void Set(int Index, const Vector4& Vertex);
+
+	const Vector4& Get(int Index) const;
+
+	~Polygon();
+};
+
+struct PolygonIndex {
+	int* Vertices;
+	int Size;
+
+	PolygonIndex(vector<int>& Indices);
+
+	const int Get(int Index) const;
+
+	~PolygonIndex();
 };

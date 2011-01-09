@@ -2,7 +2,8 @@ CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o
+#Libs/nvwa-0.8.2/debug_new.o
 
 # Generic rules
 .cc.o: $<
@@ -30,7 +31,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -52,10 +53,13 @@ MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 MeshFileLoader.o: MeshLoader.o Src/MeshLoaders/MeshFileLoader.cpp Src/MeshLoaders/MeshFileLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
 
-MeshLoaderObj.o: Src/MeshLoaders/IMeshLoader.h Src/MeshLoaders/MeshLoaderObj.cpp Src/MeshLoaders/MeshLoaderObj.h
+MeshLoaderObj.o: Src/MeshLoaders/IMeshLoader.h Src/MeshLoaders/MeshLoaderObj.cpp Src/MeshLoaders/MeshLoaderObj.h Src/Base/Datatypes.cpp Src/Base/Datatypes.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
 
 Mesh.o: Src/Base/Mesh.cpp Src/Base/Mesh.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Base/$*.cpp
+
+Datatypes.o: Src/Base/Datatypes.cpp Src/Base/Datatypes.h
 	$(CXX) -c $(CXXFLAGS) Src/Base/$*.cpp
 
 math3d.o: Src/Include/math3d.h Src/Include/math3d.cpp

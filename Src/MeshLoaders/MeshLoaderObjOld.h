@@ -14,12 +14,6 @@
 #include <map>
 #include "../Graph/Material.hpp"
 #include <cmath>
-#include "../Base/Datatypes.h"
-
-#include <list>
-#include <algorithm>
-
-//#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 const double PI = 3.1415926;
 
@@ -34,16 +28,15 @@ class MeshLoaderObj : public IMeshLoader {
 		int TriangulationEasy;
 		int TriangulationHard;
 
-		void ReadFace(istream& Stream, Mesh* M, Material* Mat);
+		void ReadFace(istream& Stream, Mesh* M, Material& Mat);
 		void ReadVector3f(float* v, istream& Stream);
 		void ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW = true, bool OptionalWInBrackets = true);
 		void ReadTriangle(Triangle* t, istream& Stream);
-		bool Triangulate(vector<Triangle*>& TList, istream& Stream, Mesh* M);
-		bool Triangulate(vector<Triangle*>& TList, vector<int>& Vertices, Mesh* M);
-		bool TriangulateConcave(vector<Triangle*> TList, vector<int>& VerticesIndices, Mesh* M);
+		bool Triangulate(vector<Triangle>& TList, istream& Stream, Mesh* M);
+		bool Triangulate(vector<Triangle>& TList, vector<int> Vertices, Mesh* M);
+		bool TriangulateConcave(vector<Triangle>& TList, vector<int>& VerticesIndices, Mesh* M);
 		bool IsPolygonConvex(vector<int>& VList, Mesh* M);
 		void ReadMaterialFile(mmsm& MaterialMap, string& FileName);
-		void ReadFaceTemp(istream& Stream, Mesh* M, Material* Mat);
 
 	public:
 		virtual Mesh* Load(istream& Stream);

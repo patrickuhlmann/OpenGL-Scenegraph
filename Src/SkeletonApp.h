@@ -9,9 +9,11 @@ using namespace std;
  */
 class SkeletonApp : public SimpleApplication {
 	private:
+		Mesh* Magnolia;
 
 	public:
 		SkeletonApp();
 		void Render(NodeVisitor* RenderVisitor, CompositeNode* l);
 		void Init(CompositeNode* l, MeshFileLoader* MeshLoader);
+		void Shutdown();
 };
