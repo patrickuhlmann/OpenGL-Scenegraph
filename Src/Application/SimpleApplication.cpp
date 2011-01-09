@@ -88,7 +88,9 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
 			this->Pause();
 		else
 			this->Continue();
-	} 
+	}  else if (Code == APP_KEY_T) {
+		this->PrintTime = !this->PrintTime;
+	}
 
 	this->HandleKeys(Code);
 }

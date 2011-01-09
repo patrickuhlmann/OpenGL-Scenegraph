@@ -17,6 +17,10 @@ RenderVisitorOpenGL1::RenderVisitorOpenGL1()
  */
 void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 {
+	OpenGLDrawing::TriangleCounter = 0;
+	OpenGLDrawing::QuadCounter = 0;
+	OpenGLDrawing::PolygonCounter = 0;
+
 	//DLOG(INFO) << "Traverse Node" << endl;
 
 	glEnable(GL_NORMALIZE);
@@ -34,6 +38,8 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 	//glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
 
 	c->Accept(this);
+
+	DLOG(INFO) << "OpenGL drawed " << OpenGLDrawing::TriangleCounter << " Triangles, " << OpenGLDrawing::QuadCounter << " Quads and " << OpenGLDrawing::PolygonCounter << " polygons" << endl;
 }
 
 /**
@@ -46,9 +52,6 @@ void RenderVisitorOpenGL1::TraverseChildren(CompositeNode* c) {
 
 	for (NodeIterator it = c->GetNodeIterator(); it != c->GetNodeIteratorEnd(); ++it) {
 		(*it)->Accept(this);
-
-		if (reinterpret_cast<CompositeNode*>(*it))
-			Traverse(reinterpret_cast<CompositeNode*>(*it));
 	}
 }
 

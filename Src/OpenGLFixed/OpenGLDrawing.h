@@ -14,6 +14,10 @@ class OpenGLDrawing {
 		static void DrawQuad(const Quad* Q);
 		static void DrawPolygon(const Polygon* P);
 
+		static int TriangleCounter;
+		static int QuadCounter;
+		static int PolygonCounter;
+
 	private:
 		static void SetDrawingColorAndMaterial(const Material* Mat);
 };

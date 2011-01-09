@@ -53,6 +53,8 @@ class BaseApplication {
 		Group RootNode;
 		/** \brief RenderVisitor for the Scenegraph */
 		NodeVisitor* RenderVisitor;
+		/** \brief If this flag is true we print the time for the Update/Render Method to the console */
+		bool PrintTime;
 
 	public:
 		BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor);

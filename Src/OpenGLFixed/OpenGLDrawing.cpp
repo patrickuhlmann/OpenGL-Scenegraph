@@ -1,5 +1,9 @@
 #include "OpenGLDrawing.h"
 
+int OpenGLDrawing::TriangleCounter = 0;
+int OpenGLDrawing::QuadCounter = 0;
+int OpenGLDrawing::PolygonCounter = 0;
+
 void OpenGLDrawing::SetDrawingColorAndMaterial(const Material* Mat) {
 	const Vector3& Color = Mat->GetAmbientLight();
 	glColor3fv(Color.GetConstPointer());
@@ -37,6 +41,8 @@ void OpenGLDrawing::DrawTriangle(const Vector3* Vertex1, const Vector3* Vertex2,
  			glVertex3fv(Vertex2->Array);
  			glVertex3fv(Vertex3->Array);
 	glEnd();
+
+	OpenGLDrawing::TriangleCounter++;
 }
 
 void OpenGLDrawing::DrawTriangle(const Triangle* T) {
@@ -48,6 +54,8 @@ void OpenGLDrawing::DrawTriangle(const Triangle* T) {
  			glVertex3fv(T->Vertex2->Array);
  			glVertex3fv(T->Vertex3->Array);
 	glEnd();
+
+	OpenGLDrawing::TriangleCounter++;
 }
 
 void OpenGLDrawing::DrawQuad(const Quad* Q) {
@@ -60,6 +68,8 @@ void OpenGLDrawing::DrawQuad(const Quad* Q) {
  			glVertex3fv(Q->Vertex3->Array);
 			glVertex3fv(Q->Vertex4->Array);
 	glEnd();
+
+	OpenGLDrawing::QuadCounter++;
 }
 
 void OpenGLDrawing::DrawPolygon(const Polygon* P) {
@@ -71,4 +81,6 @@ void OpenGLDrawing::DrawPolygon(const Polygon* P) {
 			glVertex3fv(P->Get(i)->Array);
 		}
 	glEnd();
+
+	OpenGLDrawing::PolygonCounter++;
 }

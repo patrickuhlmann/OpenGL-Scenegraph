@@ -115,12 +115,28 @@ void BaseApplication::RenderBase() {
 	if (this->PauseFlag)
 		return;
 
-	this->Update(&this->RootNode);
-			
+	if (PrintTime) {
+		float BeforeUpdate = glutGet(GLUT_ELAPSED_TIME);
+		this->Update(&this->RootNode);
+		DLOG(INFO) << "Update took: " << glutGet(GLUT_ELAPSED_TIME) - BeforeUpdate << endl;
+	} else {
+		this->Update(&this->RootNode);
+	}
+
 	// Clear the window with current clearing (=background) color
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	this->Render(this->RenderVisitor, &this->RootNode);
+	if (PrintTime) {
+		float BeforeRender = glutGet(GLUT_ELAPSED_TIME);
+		this->Render(this->RenderVisitor, &this->RootNode);
+		DLOG(INFO) << "Render took: " << glutGet(GLUT_ELAPSED_TIME) - BeforeRender << endl;
+	} else {
+		this->Render(this->RenderVisitor, &this->RootNode);
+	}
+
+	
+
+
 
 	// Perform the buffer swap to display the back buffer
 	glutSwapBuffers();
