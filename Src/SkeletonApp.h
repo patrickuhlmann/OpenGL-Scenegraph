@@ -9,7 +9,6 @@ using namespace std;
  */
 class SkeletonApp : public SimpleApplication {
 	private:
-		Mesh* Magnolia;
 
 	public:
 		SkeletonApp();

@@ -47,7 +47,7 @@ Mesh::~Mesh() {
  * \param i index of the Vertex to get
  * \return pointer to the vertex (XYZ)
  */
-const float* Mesh::GetVertex( int i ) const {
+const Vector3* Mesh::GetVertex( int i ) const {
 	return _vertices.at(i);
 }
 
@@ -74,7 +74,7 @@ const Triangle* Mesh::GetTriangle(int i) const {
  * \param i index of the Quad
  * \return reference to the quad
  */
-const QuadIndex* Mesh::GetQuad(int i) const {
+const Quad* Mesh::GetQuad(int i) const {
 	return _quads.at(i);
 }
 
@@ -83,7 +83,7 @@ const QuadIndex* Mesh::GetQuad(int i) const {
  * \param i index of the Quad
  * \return reference to the quad
  */
-const QuadIndex* Mesh::GetQuadConcave(int i) const {
+const Quad* Mesh::GetQuadConcave(int i) const {
 	return _quadsConcave.at(i);
 }
 
@@ -92,7 +92,7 @@ const QuadIndex* Mesh::GetQuadConcave(int i) const {
  * \param i index of the Quad
  * \return reference to the quad
  */
-const PolygonIndex* Mesh::GetPolygon(int i) const {
+const Polygon* Mesh::GetPolygon(int i) const {
 	return _polygons.at(i);
 }
 
@@ -101,25 +101,15 @@ const PolygonIndex* Mesh::GetPolygon(int i) const {
  * \param i index of the Quad
  * \return reference to the quad
  */
-const PolygonIndex* Mesh::GetPolygonConcave(int i) const {
+const Polygon* Mesh::GetPolygonConcave(int i) const {
 	return _polygonsConcave.at(i);
-}
-
-
-/**
- * \brief Get the Material at position i
- * \param i index of the Material
- * \return reference to the material
- */
-const Material* Mesh::GetMaterial(int i) const {
-	return _material.at(i);
 }
 
 void Mesh::Scale(float Factor) {
 	for (VertexVector::iterator it = _vertices.begin(); it != _vertices.end(); ++it) {
-		(*it)[0] = (*it)[0] * Factor;
-		(*it)[1] = (*it)[1] * Factor;
-		(*it)[2] = (*it)[2] * Factor;
+		(*it)->Array[0] = (*it)->Array[0] * Factor;
+		(*it)->Array[1] = (*it)->Array[1] * Factor;
+		(*it)->Array[2] = (*it)->Array[2] * Factor;
 	}
 }
 

@@ -55,25 +55,19 @@ float* Vector4::GetPointer() {
 	return Array;
 }
 
-TriangleIndex::TriangleIndex(int V1, int V2, int V3) : Vertex1(V1), Vertex2(V2), Vertex3(V3) { };
+Triangle::Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* Normal, const Material* Mat) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Normal(Normal), Mat(Mat) { };
 
-//Triangle::Triangle(const Vector4& V1, const Vector4& V2, const Vector4& V3) : Vertex1(V1), Vertex2(V2), Vertex3(V3) { };
+Quad::Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3* Normal, const Material* Mat) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Vertex4(V4), Normal(Normal), Mat(Mat) { };
 
-QuadIndex::QuadIndex(int V1, int V2, int V3, int V4) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Vertex4(V4) { };
-
-Quad::Quad(const Vector4& V1, const Vector4& V2, const Vector4& V3, const Vector4& V4) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Vertex4(V4) { };
-
-Polygon::Polygon(int Size) {
-	Size = Size;
-	Vertices = new Vector4*[Size];
+Polygon::Polygon(vector<Vector3*> Vertices, const Vector3* Normal, const Material* Mat) : Size(Vertices.size()), Mat(Mat) {
+	this->Vertices = new Vector3*[Vertices.size()];
+	for (int i=0; i<Vertices.size(); ++i) {
+		this->Vertices[i] = Vertices[i];
+	}
 }
 
-void Polygon::Set(int Index, const Vector4& Vertex) {
-	Vertices[Index] = new Vector4(Vertex);
-}
-
-const Vector4& Polygon::Get(int Index) const {
-	return *Vertices[Index];
+const Vector3* Polygon::Get(int Index) const {
+	return Vertices[Index];
 }
 
 Polygon::~Polygon() {
@@ -83,20 +77,3 @@ Polygon::~Polygon() {
 
 	delete[] Vertices;
 }
-
-PolygonIndex::PolygonIndex(vector<int>& Indices) {
-	Size = Indices.size();
-	Vertices = new int[Size];
-	for (int i=0; i<Indices.size(); i++) {
-		Vertices[i] = Indices[i];
-	}
-}
-
-const int PolygonIndex::Get(int Index) const {
-	return Vertices[Index];
-}
-
-PolygonIndex::~PolygonIndex() {
-	delete[] Vertices;
-}
-

@@ -31,19 +31,13 @@ typedef multimap<string, Material> mmsm;
  * \brief This class load a mesh in obj format from a stream. But it only loads the vertices and faces. It adds grey as color for all faces and adds texture coordinates (0, 0) for all faces */
 class MeshLoaderObj : public IMeshLoader {
 	private:
-		int TriangulationEasy;
-		int TriangulationHard;
+		int AktMaterialIndex;
 
 		void ReadFace(istream& Stream, Mesh* M, Material* Mat);
 		void ReadVector3f(float* v, istream& Stream);
 		void ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW = true, bool OptionalWInBrackets = true);
-		void ReadTriangle(Triangle* t, istream& Stream);
-		bool Triangulate(vector<Triangle*>& TList, istream& Stream, Mesh* M);
-		bool Triangulate(vector<Triangle*>& TList, vector<int>& Vertices, Mesh* M);
-		bool TriangulateConcave(vector<Triangle*> TList, vector<int>& VerticesIndices, Mesh* M);
 		bool IsPolygonConvex(vector<int>& VList, Mesh* M);
 		void ReadMaterialFile(mmsm& MaterialMap, string& FileName);
-		void ReadFaceTemp(istream& Stream, Mesh* M, Material* Mat);
 
 	public:
 		virtual Mesh* Load(istream& Stream);

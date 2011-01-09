@@ -3,22 +3,23 @@
 #include "../Include/math3d.h"
 #include "../Include/GL/glew.h"
 #include <string>
+#include "../Base/Datatypes.h"
 
 using namespace std;
 
 class Material {
 public:
-  Material(const string& Name, const M3DVector3f& AmbientLight);
+  Material(const string& Name, const Vector3& AmbientLight);
   Material( const Material& );
   Material( const Material* );
   ~Material() { };
   
   void operator= ( const Material& );
-  void SetAmbient(const M3DVector3f& AmbientLight );
+  void SetAmbient(const Vector3& AmbientLight );
   void SetAmbient(GLfloat r, GLfloat g, GLfloat b);
-  void SetDiffuse(const M3DVector3f& DiffuseLight );
+  void SetDiffuse(const Vector3& DiffuseLight );
   void SetDiffuse(GLfloat r, GLfloat g, GLfloat b);
-  void SetSpecular(const M3DVector3f& SpecularLight, int s);
+  void SetSpecular(const Vector3& SpecularLight, int s);
   void SetSpecular(GLfloat r, GLfloat g, GLfloat b, int s);
   void RemoveDiffuse();
   void RemoveSpecular();
@@ -28,20 +29,20 @@ public:
   bool IsDiffuseLightEnabled() const;
   bool IsSpecularLightEnabled() const;
   int GetShininess() const;
-  const M3DVector3f& GetDiffuseLight() const;
-  const M3DVector3f& GetSpecularLight() const;
-  const M3DVector3f& GetAmbientLight() const;
+  const Vector3& GetDiffuseLight() const;
+  const Vector3& GetSpecularLight() const;
+  const Vector3& GetAmbientLight() const;
 
 private:
   void Copy( const Material& );
   void Copy( const Material* );
 
   /** \brief Store the r, g and b components of the Ambient light */
-  M3DVector3f _ambient;
+  Vector3 _ambient;
   /** \brief Store the r, g and b components of the Diffuse light */
-  M3DVector3f _diffuse;
+  Vector3 _diffuse;
   /** \brief Store the r, g and b components of the Specular light */
-  M3DVector3f _specular;
+  Vector3 _specular;
   /** \brief Store how strong the specular hightlight is shining */
   int      _shine;
   /** \brief Store a name for the material */

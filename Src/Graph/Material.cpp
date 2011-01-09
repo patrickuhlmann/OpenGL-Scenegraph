@@ -4,8 +4,8 @@
 *	\param Name of the Material
 *	\param AmbientLight float array containing three elements for red, green and blue component of the light
 */
-Material::Material(const string& Name, const M3DVector3f& AmbientLight) {
-	m3dCopyVector3(_ambient, AmbientLight);
+Material::Material(const string& Name, const Vector3& AmbientLight) {
+	_ambient = Vector3(AmbientLight);
 	_transparency = 1;
 	_useDiffuse = false;
 	_useSpecular = false;
@@ -35,14 +35,14 @@ void Material::operator= ( const Material& m ) { Copy( m ); }
 */
 void Material::Copy( const Material& other )
 {
-  m3dCopyVector3( _ambient, other._ambient );
-  m3dCopyVector3( _diffuse, other._diffuse );
-  m3dCopyVector3( _specular, other._specular );
-  _shine = other._shine;
-  _name = string(other._name);
-  _transparency = other._transparency;
-  _useDiffuse = other._useDiffuse;
-  _useSpecular = other._useSpecular;
+	_ambient = Vector3(other._ambient);
+	_diffuse = Vector3(other._diffuse);
+	_specular = Vector3(other._specular);
+	_shine = other._shine;
+	_name = string(other._name);
+	_transparency = other._transparency;
+	_useDiffuse = other._useDiffuse;
+	_useSpecular = other._useSpecular;
 }
 
 /** \brief Helper Method to copy a material. It just makes a copy of all properties 
@@ -51,23 +51,23 @@ void Material::Copy( const Material& other )
 */
 void Material::Copy( const Material* other )
 {
-  m3dCopyVector3( _ambient, other->_ambient );
-  m3dCopyVector3( _diffuse, other->_diffuse );
-  m3dCopyVector3( _specular, other->_specular );
-  _shine = other->_shine;
-  _name = string(other->_name);
-  _transparency = other->_transparency;
-  _useDiffuse = other->_useDiffuse;
-  _useSpecular = other->_useSpecular;
+	_ambient = Vector3(other->_ambient);
+	_diffuse = Vector3(other->_diffuse);
+	_specular = Vector3(other->_specular);
+	_shine = other->_shine;
+	_name = string(other->_name);
+	_transparency = other->_transparency;
+	_useDiffuse = other->_useDiffuse;
+	_useSpecular = other->_useSpecular;
 }
 
 /** \brief Sets the Ambient Light of the Material (Ambient is the Light which is always present. No matter how far away or in which direction the viewer is.
 *
 * \param AmbientLight float array containing three elements for red, green and blue component of the light
 */
-void Material::SetAmbient(const M3DVector3f& AmbientLight )
+void Material::SetAmbient(const Vector3& AmbientLight )
 {
-	m3dCopyVector3(_ambient, AmbientLight);
+	_ambient = Vector3(AmbientLight);
 }
 
 /** \brief Sets the Ambient Light of the Material (Ambient is the Light which is always present. No matter how far away or in which direction the viewer is.
@@ -77,16 +77,16 @@ void Material::SetAmbient(const M3DVector3f& AmbientLight )
 * \param b for the blue component of the light
 */
 void Material::SetAmbient(GLfloat r, GLfloat g, GLfloat b) {
-	m3dLoadVector3(_ambient, r, g, b);
+	_ambient = Vector3(r, g, b);
 }
 
 /** \brief Sets the Diffuse Light of the Material (Diffuse is the light which is dependent of the viewing direction of the user
 *
 * \param DiffuseLight float array containing three elements for red, green and blue component of the light
 */
-void Material::SetDiffuse(const M3DVector3f& DiffuseLight)
+void Material::SetDiffuse(const Vector3& DiffuseLight)
 {
-	m3dCopyVector3(_diffuse, DiffuseLight);
+	_diffuse = Vector3(DiffuseLight);
 	_useDiffuse = true;
 }
 
@@ -97,7 +97,8 @@ void Material::SetDiffuse(const M3DVector3f& DiffuseLight)
 * \param b for the blue component of the light
 */
 void Material::SetDiffuse(GLfloat r, GLfloat g, GLfloat b) {
-	m3dLoadVector3(_diffuse, r, g, b);
+	_diffuse = Vector3(r, g, b);
+	_useDiffuse = true;
 }
 
 /** \brief Removes the Diffuse light. So this material has no diffuse light */
@@ -110,11 +111,12 @@ void Material::RemoveDiffuse() {
 *	\param SpecularLight float array containing three elements for red, green and blue component of the light
 *	\param s shininess of the color (Shininess is a value from 0 (not bright) to 1000 (very bright) to define how bright the Specular Light will be)
 */
-void Material::SetSpecular(const M3DVector3f& SpecularLight, int s)
+void Material::SetSpecular(const Vector3& SpecularLight, int s)
 {
-	m3dCopyVector3(_specular, SpecularLight);
+	_specular = Vector3(SpecularLight);
 	_shine = s;
 	_useSpecular = true;
+
 }
 
 /** \brief Sets the Specular Light of the Material (Specular is the light wich is dependent of the viewing direction and creates a bright spot on the object)
@@ -125,7 +127,7 @@ void Material::SetSpecular(const M3DVector3f& SpecularLight, int s)
 *	\param s shininess of the color (Shininess is a value from 0 (not bright) to 1000 (very bright) to define how bright the Specular Light will be)
 */
 void Material::SetSpecular(GLfloat r, GLfloat g, GLfloat b, int s) {
-	m3dLoadVector3(_specular, r, g, b);
+	_specular = Vector3(r, g, b);
 	_shine = s;
 	_useSpecular = true;
 }
@@ -163,17 +165,17 @@ bool Material::IsSpecularLightEnabled() const {
 }
 
 /** \brief Return the Diffuse light of this material */
-const M3DVector3f& Material::GetDiffuseLight() const {
+const Vector3& Material::GetDiffuseLight() const {
 	return _diffuse;
 }
 
 /** \brief Return the Specular Light of this material */
-const M3DVector3f& Material::GetSpecularLight() const {
+const Vector3& Material::GetSpecularLight() const {
 	return _specular;
 }
 
 /** \brief Return the Ambient Light of this Material */
-const M3DVector3f& Material::GetAmbientLight() const {
+const Vector3& Material::GetAmbientLight() const {
 	return _ambient;
 }
 

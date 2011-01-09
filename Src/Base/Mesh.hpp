@@ -5,19 +5,17 @@
 #include "../Include/GL/glew.h"
 #include <string>
 #include "../Graph/Material.hpp"
-#include "Triangle.h"
 #include "Datatypes.h"
 
 class MeshLoaderObj;
 
 using namespace std;
 
-typedef vector<float*> VertexVector;
+typedef vector<Vector3*> VertexVector;
 typedef vector<Triangle*> TriangleVector;
-typedef vector<QuadIndex*> QuadVector;
-typedef vector<PolygonIndex*> PolygonVector;
+typedef vector<Quad*> QuadVector;
+typedef vector<Polygon*> PolygonVector;
 typedef vector<float*> TextureCoordVector;
-typedef vector<Material*> MaterialVector;
 
 typedef TriangleVector::const_iterator TriangleIteratorConst;
 
@@ -29,14 +27,13 @@ class Mesh {
 		Mesh();
 		~Mesh();
 
-		const float* GetVertex(int i) const;
+		const Vector3* GetVertex(int i) const;
 		const float* GetTextureCoord(int i) const;
 		const Triangle* GetTriangle(int i) const;
-		const QuadIndex* GetQuad(int i) const;
-		const QuadIndex* GetQuadConcave(int i) const;
-		const PolygonIndex* GetPolygon(int i) const;
-		const PolygonIndex* GetPolygonConcave(int i) const;
-		const Material* GetMaterial(int i) const;
+		const Quad* GetQuad(int i) const;
+		const Quad* GetQuadConcave(int i) const;
+		const Polygon* GetPolygon(int i) const;
+		const Polygon* GetPolygonConcave(int i) const;
 
 		void Scale(float Factor);
 
@@ -66,8 +63,6 @@ private:
 	/** \brief Polygon (Convace) (Index of N Vertices) */
 	PolygonVector _polygonsConcave;
 
-	/** \brief Vector of Materials, should be one per Triangle */
-	MaterialVector _material;
 	/** \brief Vector of TextureCoordinates, should be one per Vertex */
 	TextureCoordVector  _textureCoords;
 	/** \brief Name of the Mesh */

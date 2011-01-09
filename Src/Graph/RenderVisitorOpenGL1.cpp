@@ -162,24 +162,22 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 
 	glShadeModel(GL_SMOOTH);
 
-	int TriangleIndex = 0;
-	for (TriangleIteratorConst it = M->GetTriangleIteratorConst(); it != M->GetTriangleIteratorEndConst(); ++it) {
-		const float* Vertex1 = M->GetVertex((*it)->vert1);
-		const float* Vertex2 = M->GetVertex((*it)->vert2);
-		const float* Vertex3 = M->GetVertex((*it)->vert3);
-		const float* Normal = (*it)->Normal;
-
-		const Material* m = M->GetMaterial(TriangleIndex);
-		const float* Color = m->GetAmbientLight();
-
-		// for specular highlight
-		glMaterialfv(GL_FRONT, GL_SPECULAR, m->GetSpecularLight());
-		glMateriali(GL_FRONT,GL_SHININESS, m->GetShininess());
-
-		OpenGLDrawing::DrawTriangle(Vertex1, Vertex2, Vertex3, Normal, Color);
-
-		TriangleIndex++;
+	for (int i=0; i<M->GetTriangleCount(); ++i) {
+		const Triangle* T = M->GetTriangle(i);
+		OpenGLDrawing::DrawTriangle(T);
 	}
+
+	for (int i=0; i<M->GetQuadCount(); ++i) {
+		const Quad* Q = M->GetQuad(i);
+		OpenGLDrawing::DrawQuad(Q);
+	}
+
+	for (int i=0; i<M->GetPolygonCount(); ++i) {
+		const Polygon* P = M->GetPolygon(i);
+		OpenGLDrawing::DrawPolygon(P);
+	}
+
+	// TODO: Draw Concave Quads and Polygons
 }
 
 /**

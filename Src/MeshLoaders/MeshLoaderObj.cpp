@@ -28,15 +28,10 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	mmsm Materials;
 
 	// Material initialize
-	M3DVector3f MatAmbient;
-	m3dLoadVector3(MatAmbient, 1.0f, 1.0f, 1.0f);
-	Material* Mat = new Material("Proto", MatAmbient);
+	Material* Mat = new Material("Proto", Vector3(1.0f, 1.0f, 1.0f));
 	Mat->SetTransparency(1.0f);
 
 	DLOG(INFO) << "Start reading Mesh" << endl;
-
-	TriangulationEasy = 0;
-	TriangulationHard = 0;
 
 	/* How we read it in: always process one line at a time. First we read the first string on the line. This indicates what type of definition we have. With the switch case we handle every single Definition (Vertices, Comments, Normals, etc.) and process it */
 	while(!Stream.eof() && Stream.good()) {
@@ -114,8 +109,8 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		// Vertices, with (x,y,z[,w]) coordinates, w is optional.
 		// v 0.123 0.234 0.345 1.0
 		} else if (Definition.compare("v") == 0) {
-			float* v = new float[3];
-			ReadVector4fTo3f(v, Stream, true, false);
+			Vector3* v = new Vector3();
+			ReadVector4fTo3f(v->GetPointer(), Stream, true, false);
 			M->_vertices.push_back(v);
 			//DLOG(INFO) << "Found Vertex: " << v[0] << ", " << v[1] << ", " << v[2] << ", number: " << M->_vertices.size()-1 << endl;
 
@@ -168,11 +163,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	DLOG(INFO) << "Read in " << M->_polygons.size() << " Polygons" << endl;
 	DLOG(INFO) << "Read in " << M->_quadsConcave.size() << " ConcaveQuads" << endl;
 	DLOG(INFO) << "Read in " << M->_polygonsConcave.size() << " ConcavePolygons" << endl;
-
-	DLOG(INFO) << "Read in " << M->_material.size() << " Materials" << endl;
 	DLOG(INFO) << "Read in " << M->_textureCoords.size() << " Texture Coordinates" << endl;
-	DLOG(INFO) << "TriangulationEasy " << TriangulationEasy << endl;
-	DLOG(INFO) << "TriangulationHard " << TriangulationHard << endl;
 
 	if (Stream.bad()) {
 		DLOG(WARNING) << "Error reading in Mesh" << endl;
@@ -198,12 +189,8 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 
 	string Definition;
 
-	M3DVector3f MatAmbient;
-	m3dLoadVector3(MatAmbient, 0.2f, 0.2f, 0.2f);
-
-	Material Mat("Empty", MatAmbient);
-
-	Material PrototypeMat("Proto", MatAmbient);
+	Material Mat("Empty", Vector3( 0.2f, 0.2f, 0.2f));
+	Material PrototypeMat("Proto", Vector3( 0.2f, 0.2f, 0.2f));
 	PrototypeMat.SetDiffuse(0.8f, 0.8f, 0.8f);
 
 	bool FirstMat = true;
@@ -376,65 +363,6 @@ void MeshLoaderObj::ReadVector4fTo3f(float* v, istream& Stream, bool OptionalW, 
 	v[2] = v[2] / w;
 }
 
-/**
- * \brief Reads in a Triangle. It accepts the following formats:\n
- *  1 2 3						-> Vertex index starting with 1, face can contain more than three elements!\n
- * 3/1 4/2 5/3					-> Vertex/texture-coordinate\n
- * 6/4/1 3/5/3 7/6/5			-> Vertex/texture-coordinate/normal\n
- * v1//vn1 v2//vn2 v3//vn3		-> Vertex/normal\n
- *
- * If it is not a triangle but something of a higher order we rollback the position in the stream to the beginning and
- * set the first entry of the triangle to INT_MIN
- *
- * \param t where we should store the values
- * \param Stream where we read from
- */
-void MeshLoaderObj::ReadTriangle(Triangle* t, istream& Stream) {
-	int startpos = Stream.tellg();
-
-	Stream >> t->vert1;
-	Stream.ignore(INT_MAX, ' ');
-	Stream >> t->vert2;
-	Stream.ignore(INT_MAX, ' ');
-	Stream >> t->vert3;
-
-	// The Vertices Index in the file start with 1 in our array it starts with 0
-	t->vert1--;
-	t->vert2--;
-	t->vert3--;
-
-	// It is Vertex/Texture Vertex/Texture/Normal or Vertex/Normal Format
-	if (Stream.peek() == '/') {
-		int i;
-		Stream.ignore(1);
-
-		// Finish VertexNormal Format
-		if (Stream.peek() == '/') {
-			Stream.ignore(1);
-			Stream >> i;
-		// Finish Vertex/Texture
-		} else {
-			Stream >> i;
-			// Finish Vertex/Texture/Normal
-			if (Stream.peek() == '/') {
-				Stream.ignore(1);
-				Stream >> i;
-			}
-		}
-	}
-
-	// If there are spaces or tabs ignore them
-	while (Stream.peek() == '\t' || Stream.peek() == ' ')
-		Stream.ignore(1);
-
-	if (Stream.peek() != '\n' && Stream.peek() != '\r') {
-		//DLOG(WARNING) << "Face is not a Triangle but has more elements: We do Triangulation" << endl;
-		Stream.seekg(startpos, ios::beg);
-		//Stream.ignore(INT_MAX, '\n');
-		t->vert1 = INT_MIN;
-	}
-}
-
 /** \brief Determines the sign of the argument
  * \param X to determine sign from
  * \return -1 if smaller than 0, 1 otherwise
@@ -462,14 +390,14 @@ for (int i=0; i<VList.size(); i++) {
 
 	// Vector from last to first point
 	float* A = new float[2];
-	A[0] = M->_vertices[VList[VList.size()-1]][0] - M->_vertices[VList[0]][0];
-	A[1] = M->_vertices[VList[VList.size()-1]][1] - M->_vertices[VList[0]][1];
+	A[0] = M->_vertices[VList[VList.size()-1]]->Array[0] - M->_vertices[VList[0]]->Array[0];
+	A[1] = M->_vertices[VList[VList.size()-1]]->Array[1] - M->_vertices[VList[0]]->Array[1];
 
 	float* B = new float[2];
 
 	for(int i=0; i<VList.size()-1; ++i) {
-		B[0] = M->_vertices[VList[i]][0] - M->_vertices[VList[i+1]][0];
-		B[1] = M->_vertices[VList[i]][1] - M->_vertices[VList[i+1]][1];
+		B[0] = M->_vertices[VList[i]]->Array[0] - M->_vertices[VList[i+1]]->Array[0];
+		B[1] = M->_vertices[VList[i]]->Array[1] - M->_vertices[VList[i+1]]->Array[1];
 
 		if (Sign(A[0]) != Sign(B[0]))
 			++XCh;
@@ -490,168 +418,7 @@ for (int i=0; i<VList.size(); i++) {
 	return (XCh <= 2 && YCh <= 2);
 }
 
-/** \brief Reads in a lot of points and creates triangles out of them. It only accepts the basic format (like 1 2 3 4 5 6 7) to specify polygons. 
- * TList to add the Triangles we find to
- * Stream to read in the faces from
- * M Mesh to get the Vertices from
- */
-bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, istream& Stream, Mesh* M) {
-	// Read in all the Vertices Indexes
-	vector<int> Vertices;
-	int index;
-	while (Stream.peek() != '\n') {
-		Stream >> index;
-
-		// Vertex index in file start with 1, array start with 0
-		index--;
-
-		Vertices.push_back(index);
-
-		// ignore texture coordinates etc.
-		if (Stream.peek() == '/') {
-			while (Stream.peek() != ' ' && Stream.peek() != '\n')
-				Stream.ignore(1);
-		}
-
-		while(Stream.peek() == ' ' || Stream.peek() == '\t' || Stream.peek() == '\r')
-			Stream.ignore(1);
-	}
-
-	// If it is concave it's to hard
-	if (!IsPolygonConvex(Vertices, M)) {
-		DLOG(WARNING) << "Now it gets tough concave triangulation!" << endl;
-		return TriangulateConcave(TList, Vertices, M);
-	}
-
-	return Triangulate(TList, Vertices, M);
-}
-
-/**
- * Easy Triangulation. Triangulate by finding the highest y-Coordinate, it's two nearest neighbors and drawing the lines. We then add the triangle and remove the highest point. When we have only three points left they are the last triangle and we quit
- * \param TList to add the triangles to
- * \param Vertices index of the Vertices
- * \param M Mesh to get the Vertices
- * \return true if the Triangulation was successful, false otherwise
- */
-bool MeshLoaderObj::Triangulate(vector<Triangle*>& TList, vector<int>& Vertices, Mesh* M) {
-	//DLOG(INFO) << "Easy Triangulation for " << Vertices.size() << " points" << endl;
-	TriangulationEasy++;
-
-	// TODO: normals correct?
-	while (Vertices.size() > 3) {
-		// find highest y-coordinate
-		float* HighestY = M->_vertices[Vertices[0]];
-		float HighestYIndex = 0;
-		for (int i = 0; i<Vertices.size(); i++) {
-			if (M->_vertices[Vertices[i]][1] > HighestY[1]) {
-				HighestY = M->_vertices[Vertices[i]];
-				HighestYIndex = i;
-			}
-		}
-
-		// put highest point at the end
-		Vertices.push_back(Vertices[HighestYIndex]);
-		Vertices.erase(Vertices.begin()+HighestYIndex);
-		HighestYIndex = Vertices.size()-1;
-
-		// find two nearest points
-		float* Near1 = M->_vertices[Vertices[0]];
-		int Near1Index = 0;
-		float Near1Distance = abs(HighestY[0]-Near1[0]) + abs(HighestY[1]-Near1[1]) + abs(HighestY[2]-Near1[2]);
-		float* Near2 = M->_vertices[Vertices[1]];
-		int Near2Index = 1;
-		float Near2Distance = abs(HighestY[0]-Near2[0]) + abs(HighestY[1]-Near2[1]) + abs(HighestY[2]-Near2[2]);
-		float* Candidate;
-		float CandidateDistance;
-		for (int i=2; i<Vertices.size()-1; i++) {
-			Candidate = M->_vertices[Vertices[i]];
-			CandidateDistance = abs(HighestY[0]-Candidate[0]) + abs(HighestY[1]-Candidate[1]) + abs(HighestY[2]-Candidate[2]);
-			// It's the nearest -> replace near point that is further away
-			if (CandidateDistance < Near1Distance && CandidateDistance < Near2Distance) {
-				if (Near1Distance < Near2Distance) {
-					Near2Index = i;
-					Near2Distance = CandidateDistance;
-				} else {
-					Near1Index = i;
-					Near1Distance = CandidateDistance;
-				}
-			// only nearer than near 1 so we replace that one
-			} else if (CandidateDistance < Near1Distance) {
-				Near1Index = i;
-				Near1Distance = CandidateDistance;
-			// only nearer than near 2 so we replace that one
-			} else if (CandidateDistance < Near2Distance) {
-				Near2Index = i;
-				Near2Distance = CandidateDistance;
-			}
-		}
-
-		// build triangle
-		TList.push_back(new Triangle(Vertices[HighestYIndex], Vertices[Near1Index], Vertices[Near2Index]));
-
-		// remove highest point
-		Vertices.erase(Vertices.begin()+HighestYIndex);
-	}
-
-	// Add the last triangle
-	TList.push_back(new Triangle(Vertices[0], Vertices[1], Vertices[2]));
-
-	//DLOG(INFO) << "Triangulation produced " << TList.size() << " triangles" << endl;
-
-	return true;
-}
-
-/** \brief A and B are vectors. The function returns the angle between A and B (http://www.euclideanspace.com/maths/algebra/vectors/angleBetween/index.htm)
- * \param A float array with 2 elements, will not be changed
- * \param B float array with 2 elements, will not be changed
- * \return the angle in radians */
-double AngleAToB(float* A, float* B) {
-	return atan2(B[1], B[0]) - atan2(A[1], A[0]);
-}
-
-/** \brief get the Vector between A and B
- * \param A float Array with 3 elements, will not be changed
- * \param B float Array with 3 elements, will not be changed
- * \param Vector float Array with 3 elements, to store the result in
- */
-void VectorFromAToB(float* A, float* B, float* Vector) {
-	Vector[0] = B[0] - A[0];
-	Vector[1] = B[1] - A[1];
-	Vector[2] = B[2] - A[2];
-}
-
-/** \brief We start with one Vertex. Take the point p before and after. If the inner angle is less than 180 degrees it
-it's triangle is inside and we chop it away (otherwise we just go to the next point). We remove the Point p (the others stay!) and have a smaller Shape. We test if it is already concave and otherwise we chop away another piece. 
- * \param TList where w place the triangles we find
- * \param VerticesIndices indices for the Vertices
- * \param M Mesh with the Vertices
- */
-bool MeshLoaderObj::TriangulateConcave(vector<Triangle*> TList, vector<int>& VerticesIndices, Mesh* M) {
-	TriangulationHard++;
-
-	for (int i=1; i<VerticesIndices.size()-1; i++) {
-		float* Vec1 = new float[3];
-		float* Vec2 = new float[3];
-
-		VectorFromAToB(M->_vertices[VerticesIndices[i-1]], M->_vertices[VerticesIndices[i]], Vec1);
-		VectorFromAToB(M->_vertices[VerticesIndices[i+1]], M->_vertices[VerticesIndices[i]], Vec2);
-
-		// Angle less than 180 degrees (triangle is part of the shape)
-		if (AngleAToB(Vec1, Vec2) < PI/2) {
-			TList.push_back(new Triangle(i-1, i, i+1));
-			VerticesIndices.erase(VerticesIndices.begin()+i);
-			i--;
-			if (IsPolygonConvex(VerticesIndices, M)) {
-				return Triangulate(TList, VerticesIndices, M);
-			}
-		}
-	}	
-
-	return true;
-}
-
-void MeshLoaderObj::ReadFaceTemp(istream& Stream, Mesh* M, Material* Mat) {
-	int Startpos = Stream.tellg();
+void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 
 	// Read in all the Vertices Indexes
 	vector<int> Vertices;
@@ -673,61 +440,30 @@ void MeshLoaderObj::ReadFaceTemp(istream& Stream, Mesh* M, Material* Mat) {
 		while(Stream.peek() == ' ' || Stream.peek() == '\t' || Stream.peek() == '\r')
 			Stream.ignore(1);
 	}
+
+	Vector3* CalculatedNormal = new Vector3();
+	m3dFindNormal(CalculatedNormal->GetPointer(), M->_vertices[Vertices[0]]->GetConstPointer(), M->_vertices[Vertices[1]]->GetConstPointer(), M->_vertices[Vertices[2]]->GetConstPointer());
 
 	if (Vertices.size() == 3) {
 		DLOG(INFO) << "Found Triangle" << endl;
-		//M->_triangles.push_back(new TriangleIndex(Vertices[0], Vertices[1], Vertices[2]));
+		M->_triangles.push_back(new Triangle(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], CalculatedNormal, new Material(Mat)));
+
 	} else if (Vertices.size() == 4) {
 		DLOG(INFO) << "Found Quad" << endl;
 		if (IsPolygonConvex(Vertices, M))
-			M->_quads.push_back(new QuadIndex(Vertices[0], Vertices[1], Vertices[2], Vertices[3]));
+			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[3]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
 		else
-			M->_quadsConcave.push_back(new QuadIndex(Vertices[0], Vertices[1], Vertices[2], Vertices[3]));
+			M->_quadsConcave.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
 	} else {
 		DLOG(INFO) << "Found Polygon" << endl;
-		if (IsPolygonConvex(Vertices, M))
-			M->_polygons.push_back(new PolygonIndex(Vertices));
-		else
-			M->_polygonsConcave.push_back(new PolygonIndex(Vertices));
-	}
-
-	Stream.seekg(Startpos, ios::beg);
-}
-
-/** \brief Reads in a face. If it is a regular Triangle it just creates a triangle otherwise it tries to Triangulate the face so that we only have triangles at the end 
- * \param Stream to read face from
- * \param M Mesh to add the triangle
- * \param Mat for the Face
- */
-void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
-	ReadFaceTemp(Stream, M, Mat);
-
-	Triangle* t = new Triangle(0,0,0);
-	ReadTriangle(t, Stream);
-	// found a triangle
-	if (t->vert1 != INT_MIN) {
-		float* CalculatedNormal = new float[3];
-		m3dFindNormal(CalculatedNormal, M->_vertices[t->vert1], M->_vertices[t->vert2], M->_vertices[t->vert3]);
-		t->Normal = CalculatedNormal;
-		M->_triangles.push_back(t);
-		M->_material.push_back(Mat);
-		//DLOG(INFO) << "Found Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
-	// It is something of higher order so we triangulate
-	} else {
-		vector<Triangle*> TList;
-		if (!Triangulate(TList, Stream, M)) {
-			Stream.clear(ios::badbit);
-		} else {
-			// Add all Triangles
-			for (int i=0; i<TList.size(); i++) {
-				t = TList[i];
-				float* CalculatedNormal = new float[3];
-				m3dFindNormal(CalculatedNormal, M->_vertices[t->vert1], M->_vertices[t->vert2], M->_vertices[t->vert3]);
-				t->Normal = CalculatedNormal;
-				M->_triangles.push_back(t);
-				M->_material.push_back(new Material(Mat));
-				//DLOG(INFO) << "Found Triangulated Face " << t.vert1 << ", " << t.vert2 << ", " << t.vert3 << endl;
-			}
+		vector<Vector3*> VerticesRef;
+		for (int i=0; i<Vertices.size(); ++i) {
+			VerticesRef.push_back(M->_vertices[Vertices[i]]);
 		}
+
+		if (IsPolygonConvex(Vertices, M))
+			M->_polygons.push_back(new Polygon(VerticesRef, CalculatedNormal, new Material(Mat)));
+		else
+			M->_polygonsConcave.push_back(new Polygon(VerticesRef, CalculatedNormal, new Material(Mat)));
 	}
 }

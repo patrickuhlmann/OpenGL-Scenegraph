@@ -2,6 +2,8 @@
 
 #include <vector>
 
+class Material;
+
 using namespace std;
 
 union Vector3 { 
@@ -52,60 +54,36 @@ union Vector4 {
 	float* GetPointer();
 };
 
-struct TriangleIndex {
-	int Vertex1;
-	int Vertex2;
-	int Vertex3;
+struct Triangle {
+	const Vector3* Vertex1;
+	const Vector3* Vertex2;
+	const Vector3* Vertex3;
+	const Vector3* Normal;
+	const Material* Mat;
 
-	TriangleIndex(int V1, int V2, int V3);
-};
-
-/*struct Triangle {
-	Vector4 Vertex1;
-	Vector4 Vertex2;
-	Vector4 Vertex3;
-
-	Triangle(const Vector4& V1, const Vector4& V2, const Vector4& V3);
-};*/
-
-struct QuadIndex {
-	int Vertex1;
-	int Vertex2;
-	int Vertex3;
-	int Vertex4;
-
-	QuadIndex(int V1, int V2, int V3, int V4);
+	Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* Normal, const Material* Mat);
 };
 
 struct Quad {
-	Vector4 Vertex1;
-	Vector4 Vertex2;
-	Vector4 Vertex3;
-	Vector4 Vertex4;
+	const Vector3* Vertex1;
+	const Vector3* Vertex2;
+	const Vector3* Vertex3;
+	const Vector3* Vertex4;
+	const Vector3* Normal;
+	const Material* Mat;
 
-	Quad(const Vector4& V1, const Vector4& V2, const Vector4& V3, const Vector4& V4);
+	Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3* Normal, const Material* Mat);
 };
 
 struct Polygon {
-	Vector4** Vertices;
-	int Size;
+	Vector3** Vertices;
+	const Vector3* Normal;
+	const Material* Mat;
+	const int Size;
 
-	Polygon(int Size);
+	Polygon(vector<Vector3*> Vertices, const Vector3* Normal, const Material* Mat);
 
-	void Set(int Index, const Vector4& Vertex);
-
-	const Vector4& Get(int Index) const;
+	const Vector3* Get(int Index) const;
 
 	~Polygon();
-};
-
-struct PolygonIndex {
-	int* Vertices;
-	int Size;
-
-	PolygonIndex(vector<int>& Indices);
-
-	const int Get(int Index) const;
-
-	~PolygonIndex();
 };

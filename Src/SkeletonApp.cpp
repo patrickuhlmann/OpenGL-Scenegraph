@@ -12,38 +12,37 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
      * Problem Objects
      * ==== */
 
-	//Mesh* M = MeshLoader->Load("Objects/shuttle.obj");
-	//M->Scale(0.5f);
+	//Mesh* Shuttle = MeshLoader->Load("Objects/shuttle.obj");
+	//Shuttle->Scale(0.5f);
 
-	//Mesh* M = MeshLoader->Load("Objects/violin_case.obj");
+	//Mesh* ViolinCase = MeshLoader->Load("Objects/violin_case.obj");
 
-	//Mesh* M = MeshLoader->Load("Objects/al.obj");
+	//Mesh* Cessna = MeshLoader->Load("Objects/cessna.obj");
+	//Cessna->Scale(0.2f);
 
-	//Mesh* M = MeshLoader->Load("Objects/cessna.obj");
-	//M->Scale(0.2f);
+	//Mesh* F16 = MeshLoader->Load("Objects/f-16.obj");
+	//F16->Scale(0.5f);
 
-	//Mesh* M = MeshLoader->Load("Objects/f-16.obj");
-	//M->Scale(0.5f);
+	//Mesh* Lamp = MeshLoader->Load("Objects/lamp.obj");
+	//Lamp->Scale(0.4f);
 
-	//Mesh* M = MeshLoader->Load("Objects/flowers.obj");
-	//M->Scale(0.2f);
+	//Mesh* Porsche = MeshLoader->Load("Objects/porsche.obj");
+	//Porsche->Scale(0.1f);
 
-	//Mesh* M = MeshLoader->Load("Objects/lamp.obj");
-	//M->Scale(0.5f);
+	//Mesh* PowerLines = MeshLoader->Load("Objects/power_lines.obj");
+	//PowerLines->Scale(0.05f);
 
-	//Mesh* M = MeshLoader->Load("Objects/porsche.obj");
-	//M->Scale(0.2f);
+	//Mesh* Sandal = MeshLoader->Load("Objects/sandal.obj");
 
-	//Mesh* M = MeshLoader->Load("Objects/power_lines.obj");
-	//M->Scale(0.05f);
-
-	//Mesh* M = MeshLoader->Load("Objects/sandal.obj");
-
-	//Mesh* M = MeshLoader->Load("Objects/slot_machine.obj");
-	//M->Scale(0.2f);
+	//Mesh* SlotMachine = MeshLoader->Load("Objects/slot_machine.obj");
+	//SlotMachine->Scale(0.2f);
 
 	//Mesh* M = MeshLoader->Load("Objects/soccerball.obj");
 	//M->Scale(0.2f);
+
+	//Mesh* Al = MeshLoader->Load("Objects/al.obj");
+	//Mesh* Flowers = MeshLoader->Load("Objects/flowers.obj");
+	//Flowers->Scale(0.2f);
 
 	// Invisible
 	//Mesh* M = MeshLoader->Load("Objects/trumpet.obj");
@@ -56,14 +55,12 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
      * Nice Objects with Material
      * ==== */
 
-	Magnolia = MeshLoader->Load("Objects/magnolia.obj");
+	Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
 	Magnolia->Scale(0.03f);
-	/*Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
-	Rose->Scale(0.03f);*/
-	//Mesh* Dolphins = MeshLoader->Load("Objects/dolphins.obj");
-	//Dolphins->Scale(0.01f);
-	/*Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
-	Skyscraper->Scale(0.04f);*/
+	Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
+	Rose->Scale(0.03f);
+	Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
+	Skyscraper->Scale(0.04f);
 
 
 
@@ -71,15 +68,16 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
      * Boring Objects without Material
      * ====== */
 
-	/*Mesh* Humanoid = MeshLoader->Load("Objects/humanoid_tri.obj");
-	Humanoid->Scale(0.5f);
-	Mesh* Cube = MeshLoader->Load("Objects/cube.obj");
-	Mesh* Gourd = MeshLoader->Load("Objects/gourd.obj");*/
+	//Mesh* Humanoid = MeshLoader->Load("Objects/humanoid_tri.obj");
+	//Humanoid->Scale(0.5f);
+	//Mesh* Cube = MeshLoader->Load("Objects/cube.obj");
+	//Mesh* Gourd = MeshLoader->Load("Objects/gourd.obj");*/
 	//Mesh* M = MeshLoader->Load("Objects/icosahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/octahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/tetrahedron.obj");
 	//Mesh* M = MeshLoader->Load("Objects/humanoid_quad.obj");
-
+	//Mesh* Dolphins = MeshLoader->Load("Objects/dolphins.obj");
+	//Dolphins->Scale(0.01f);
 	//Mesh* Teapot = MeshLoader->Load("Objects/teapot.obj");
 	//Teapot->Scale(0.05f);
 
@@ -96,26 +94,23 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 		(new Transform(string("MagnoliaTransform")))->AddChild(
 			(new Geometry(Magnolia, string("Magnolia")))
 	));
-	/*c->AddChild(
+	c->AddChild(
 		(new Transform(string("RoseTransform")))->AddChild(
 			(new Geometry(Rose, "Rose")))
-	);*/
-	/*c->AddChild(
+	);
+	c->AddChild(
 		(new Transform(string("SkyscraperTransform")))->AddChild(
 			(new Geometry(Skyscraper, "Skyscraper")))
-	);*/
+	);
 
-	/*Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
-	t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
+	Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
 	t->Translate(-3.0f, 0.0f, 0.0f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("RoseTransform"));
 	t->Translate(2.0f, 0.0f, 0.0f);
-	t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
 	t->Scale(1.6f, 1.2f, 1.2f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("SkyscraperTransform"));
-	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);*/
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
@@ -127,7 +122,6 @@ void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 
 void SkeletonApp::Shutdown()
 { 
-	delete Magnolia;
 };
 
 int main(int argc, char *argv[]) {
