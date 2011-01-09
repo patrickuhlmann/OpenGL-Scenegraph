@@ -21,7 +21,7 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_DEPTH_TEST);
-	glFrontFace(GL_CCW);
+	//glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
 	glShadeModel(GL_SMOOTH);
 
@@ -30,8 +30,8 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
 
 	// ambient and diffuse depending on material color
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
+	//glEnable(GL_COLOR_MATERIAL);
+	//glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
 
 	c->Accept(this);
 }
@@ -165,16 +165,20 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 		const Triangle* T = M->GetTriangle(i);
 		OpenGLDrawing::DrawTriangle(T);
 	}
+	//DLOG(INFO) << "Drawed " << M->GetTriangleCount() << " Triangles" << endl;
 
 	for (int i=0; i<M->GetQuadCount(); ++i) {
 		const Quad* Q = M->GetQuad(i);
 		OpenGLDrawing::DrawQuad(Q);
 	}
+	//DLOG(INFO) << "Drawed " << M->GetQuadCount() << " Quads" << endl;
 
 	for (int i=0; i<M->GetPolygonCount(); ++i) {
 		const Polygon* P = M->GetPolygon(i);
 		OpenGLDrawing::DrawPolygon(P);
 	}
+	//DLOG(INFO) << "Drawed " << M->GetPolygonCount() << " Polygons" << endl;
+
 
 	// TODO: Draw Concave Quads and Polygons
 }

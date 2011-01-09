@@ -5,6 +5,8 @@ void OpenGLDrawing::SetDrawingColorAndMaterial(const Material* Mat) {
 	glColor3fv(Color.GetConstPointer());
 		
 	// for specular highlight
+	glMaterialfv(GL_FRONT, GL_AMBIENT, Mat->GetAmbientLight().GetConstPointer());
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, Mat->GetDiffuseLight().GetConstPointer());
 	glMaterialfv(GL_FRONT, GL_SPECULAR, Mat->GetSpecularLight().GetConstPointer());
 	glMateriali(GL_FRONT,GL_SHININESS, Mat->GetShininess());
 }

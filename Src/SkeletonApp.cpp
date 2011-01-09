@@ -8,61 +8,55 @@ SkeletonApp::SkeletonApp() : SimpleApplication("Skeleton", 800, 600) {
 }
 
 void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
+
+	// Init Camera
+	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
+	M3DVector3f pos;
+	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
+    c->SetPosition( pos );
+    c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
+
 	/* ====
      * Problem Objects
      * ==== */
 
-	//Mesh* Shuttle = MeshLoader->Load("Objects/shuttle.obj");
-	//Shuttle->Scale(0.5f);
-
-	//Mesh* ViolinCase = MeshLoader->Load("Objects/violin_case.obj");
-
-	//Mesh* Cessna = MeshLoader->Load("Objects/cessna.obj");
-	//Cessna->Scale(0.2f);
-
-	//Mesh* F16 = MeshLoader->Load("Objects/f-16.obj");
-	//F16->Scale(0.5f);
-
-	//Mesh* Lamp = MeshLoader->Load("Objects/lamp.obj");
-	//Lamp->Scale(0.4f);
-
-	//Mesh* Porsche = MeshLoader->Load("Objects/porsche.obj");
-	//Porsche->Scale(0.1f);
-
-	//Mesh* PowerLines = MeshLoader->Load("Objects/power_lines.obj");
-	//PowerLines->Scale(0.05f);
-
-	//Mesh* Sandal = MeshLoader->Load("Objects/sandal.obj");
-
-	//Mesh* SlotMachine = MeshLoader->Load("Objects/slot_machine.obj");
-	//SlotMachine->Scale(0.2f);
-
-	//Mesh* M = MeshLoader->Load("Objects/soccerball.obj");
-	//M->Scale(0.2f);
-
-	//Mesh* Al = MeshLoader->Load("Objects/al.obj");
+	// No Material?
 	//Mesh* Flowers = MeshLoader->Load("Objects/flowers.obj");
 	//Flowers->Scale(0.2f);
 
-	// Invisible
-	//Mesh* M = MeshLoader->Load("Objects/trumpet.obj");
-	//M->Scale(0.1f);
-
-
+	// Invisible, Material?
+	//Mesh* Trumpet = MeshLoader->Load("Objects/trumpet.obj");
+	//Trumpet->Scale(0.1f);
 
 
 	/* ====
      * Nice Objects with Material
      * ==== */
 
-	Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
-	//Magnolia->Scale(0.03f);
 	Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
-	//Rose->Scale(0.03f);
-	Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
+	Mesh* Soccerball = MeshLoader->Load("Objects/soccerball.obj");
+	Mesh* Slotmachine = MeshLoader->Load("Objects/slot_machine.obj");
+	Mesh* F16 = MeshLoader->Load("Objects/f-16.obj");
+	Mesh* Shuttle = MeshLoader->Load("Objects/shuttle.obj");
+	Mesh* Cessna = MeshLoader->Load("Objects/cessna.obj");
+
+	//Mesh* Porsche = MeshLoader->Load("Objects/porsche.obj");
+	//Porsche->Scale(0.1f);
+
+	//Mesh* ViolinCase = MeshLoader->Load("Objects/violin_case.obj");
+
+	//Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
+	//Magnolia->Scale(0.03f);
+	//Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
 	//Skyscraper->Scale(0.04f);
+	
+	//Mesh* Sandal = MeshLoader->Load("Objects/sandal.obj");
 
+	//Mesh* Lamp = MeshLoader->Load("Objects/lamp.obj");
+	//Lamp->Scale(0.4f);
 
+	//Mesh* PowerLines = MeshLoader->Load("Objects/power_lines.obj");
+	//PowerLines->Scale(0.05f);
 
 	/* ======
      * Boring Objects without Material
@@ -80,39 +74,56 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	//Dolphins->Scale(0.01f);
 	//Mesh* Teapot = MeshLoader->Load("Objects/teapot.obj");
 	//Teapot->Scale(0.05f);
-
-	M3DVector3f pos;
-	m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
-
-	// Init Camera
-	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
-    c->SetPosition( pos );
-    c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
+	//Mesh* Al = MeshLoader->Load("Objects/al.obj");
 
 	// Build Up Scenegraph
 	c->AddChild(
-		(new Transform(string("MagnoliaTransform")))->AddChild(
-			(new Geometry(Magnolia, string("Magnolia")))
+		(new Transform(string("SlotMachineTransform")))->AddChild(
+			(new Geometry(Slotmachine, string("SlotMachine")))
 	));
 	c->AddChild(
 		(new Transform(string("RoseTransform")))->AddChild(
 			(new Geometry(Rose, "Rose")))
 	);
 	c->AddChild(
-		(new Transform(string("SkyscraperTransform")))->AddChild(
-			(new Geometry(Skyscraper, "Skyscraper")))
+		(new Transform(string("SoccerballTransform")))->AddChild(
+			(new Geometry(Soccerball, "Soccerball")))
+	);
+	c->AddChild(
+		(new Transform(string("F16Transform")))->AddChild(
+			(new Geometry(F16, "F16")))
+	);
+	c->AddChild(
+		(new Transform(string("ShuttleTransform")))->AddChild(
+			(new Geometry(Shuttle, "Shuttle")))
+	);
+	c->AddChild(
+		(new Transform(string("CessnaTransform")))->AddChild(
+			(new Geometry(Cessna, "Cessna")))
 	);
 
-	Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
+	Transform* t = reinterpret_cast<Transform*>(l->GetByName("SlotMachineTransform"));
 	t->Translate(-3.0f, 0.0f, 0.0f);
-	t->Scale(0.03f, 0.03f, 0.03f);
+	t->Scale(0.1f, 0.1f, 0.1f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("RoseTransform"));
 	t->Translate(2.0f, 0.0f, 0.0f);
-	t->Scale(0.03f, 0.03f, 0.03f);
+	t->Scale(0.02f, 0.02f, 0.02f);
 
-	t = reinterpret_cast<Transform*>(l->GetByName("SkyscraperTransform"));
-	t->Scale(0.04f, 0.04f, 0.04f);
+	t = reinterpret_cast<Transform*>(l->GetByName("SoccerballTransform"));
+	t->Scale(0.15f, 0.15f, 0.15f);
+
+	t = reinterpret_cast<Transform*>(l->GetByName("F16Transform"));
+	t->Translate(4.0f, 1.2f, 0.0f);
+	t->Scale(0.4f, 0.4f, 0.4f);
+
+	t = reinterpret_cast<Transform*>(l->GetByName("ShuttleTransform"));
+	t->Translate(-3.5f, 2.3f, 0.0f);
+	t->Scale(0.2f, 0.2f, 0.2f);
+
+	t = reinterpret_cast<Transform*>(l->GetByName("CessnaTransform"));
+	t->Translate(0.0f, 2.5f, 0.0f);
+	t->Scale(0.05f, 0.05f, 0.05f);
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)

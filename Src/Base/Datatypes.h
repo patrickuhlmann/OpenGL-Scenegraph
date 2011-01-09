@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <istream>
 
 class Material;
 
@@ -24,6 +25,8 @@ union Vector3 {
 	const float* GetConstPointer() const;
 
 	float* GetPointer();
+
+	friend ostream& operator<<(ostream& out, const Vector3& v);
 };
 
 union Vector4 { 
@@ -52,6 +55,8 @@ union Vector4 {
 	const float* GetConstPointer() const;
 
 	float* GetPointer();
+
+	friend ostream& operator<<(ostream& out, const Vector4& v);
 };
 
 struct Triangle {
@@ -62,6 +67,8 @@ struct Triangle {
 	const Material* Mat;
 
 	Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* Normal, const Material* Mat);
+
+	friend ostream& operator<<(ostream& out, const Triangle& t);
 };
 
 struct Quad {
@@ -73,6 +80,8 @@ struct Quad {
 	const Material* Mat;
 
 	Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3* Normal, const Material* Mat);
+
+	friend ostream& operator<<(ostream& out, const Quad& q);
 };
 
 struct Polygon {

@@ -112,7 +112,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 			Vector3* v = new Vector3();
 			ReadVector4fTo3f(v->GetPointer(), Stream, true, false);
 			M->_vertices.push_back(v);
-			//DLOG(INFO) << "Found Vertex: " << v[0] << ", " << v[1] << ", " << v[2] << ", number: " << M->_vertices.size()-1 << endl;
+			//DLOG(INFO) << "Found Vertex: " << *v << ", number: " << M->_vertices.size()-1 << endl;
 
 
 		// Texture coordinates, in (u,v[,w]) coordinates, w is optional.
@@ -470,17 +470,17 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 	m3dFindNormal(CalculatedNormal->GetPointer(), M->_vertices[Vertices[0]]->GetConstPointer(), M->_vertices[Vertices[1]]->GetConstPointer(), M->_vertices[Vertices[2]]->GetConstPointer());
 
 	if (Vertices.size() == 3) {
-		//DLOG(INFO) << "Found Triangle" << endl;
+		//DLOG(INFO) << "Found Triangle: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ")" << endl;
 		M->_triangles.push_back(new Triangle(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], CalculatedNormal, new Material(Mat)));
 
 	} else if (Vertices.size() == 4) {
-		//DLOG(INFO) << "Found Quad" << endl;
-		if (IsPolygonConvex(Vertices, M))
-			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[3]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
-		else
+		if (IsPolygonConvex(Vertices, M)) {
+			//DLOG(INFO) << "Found Quad: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ", " << Vertices[3] << ")" << endl;
+			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
+		} else
 			M->_quadsConcave.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
 	} else {
-		//DLOG(INFO) << "Found Polygon" << endl;
+		//DLOG(INFO) << "Found Polygon: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ", " << Vertices[3] << "..., order: " << Vertices.size() << ")" << endl;
 		vector<Vector3*> VerticesRef;
 		for (int i=0; i<Vertices.size(); ++i) {
 			VerticesRef.push_back(M->_vertices[Vertices[i]]);
