@@ -31,7 +31,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	Material* Mat = new Material("Proto", Vector3(1.0f, 1.0f, 1.0f));
 	Mat->SetTransparency(1.0f);
 
-	DLOG(INFO) << "Start reading Mesh" << endl;
+	//DLOG(INFO) << "Start reading Mesh" << endl;
 
 	/* How we read it in: always process one line at a time. First we read the first string on the line. This indicates what type of definition we have. With the switch case we handle every single Definition (Vertices, Comments, Normals, etc.) and process it */
 	while(!Stream.eof() && Stream.good()) {
@@ -103,7 +103,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 				DLOG(WARNING) << "Couldn't find a material in the material map: " << MatName << endl;
 			else
 				Mat = &it->second;
-			DLOG(INFO) << "Apply Material: " << MatName << endl;
+			//DLOG(INFO) << "Apply Material: " << MatName << endl;
 			
 
 		// Vertices, with (x,y,z[,w]) coordinates, w is optional.
@@ -169,7 +169,7 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 		DLOG(WARNING) << "Error reading in Mesh" << endl;
 		return 0;
 	} else {
-		DLOG(INFO) << "Mesh Successfully read in" << endl;
+		DLOG(INFO) << "Mesh Successfully read in" << endl << endl << endl << endl;
 		return M;
 	}
 }
@@ -185,7 +185,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 	ifstream In(FileName.c_str());
 
 	DLOG(INFO) << "Load Material: " << FileName << endl;
-	DLOG(INFO) << "Stream Status " << In.good() << endl;
+	//DLOG(INFO) << "Stream Status " << In.good() << endl;
 
 	string Definition;
 
@@ -223,7 +223,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 			Mat = Material(PrototypeMat);
 			getline(In, Mat._name, '\n');
 			RemoveLineBreaks(Mat._name);
-			DLOG(INFO) << "Found Material: " << Mat._name << endl;
+			//DLOG(INFO) << "Found Material: " << Mat._name << endl;
 
 
 		// Found Ambient Color
@@ -271,8 +271,33 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 			//DLOG(INFO) << "  Found Illumination Model - ignored " << endl;
 			In.ignore(INT_MAX, '\n');
 
-		// Found Texture Map
+		// Found Texture Map for Ambient
 		} else if (Definition.compare("map_Ka") == 0) {
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			In.ignore(INT_MAX, '\n');
+
+		// Found Texture Map for Diffuse
+		} else if (Definition.compare("map_Kd") == 0) {
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			In.ignore(INT_MAX, '\n');
+
+		// Found Texture Map for Specular
+		} else if (Definition.compare("map_Ks") == 0) {
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			In.ignore(INT_MAX, '\n');
+
+		// Found Texture Map for Specular
+		} else if (Definition.compare("map_Ns") == 0) {
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			In.ignore(INT_MAX, '\n');
+
+		// Found Bump Texture Map
+		} else if (Definition.compare("bump") == 0) {
+			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
+			In.ignore(INT_MAX, '\n');
+
+		// Found Reflection Definition
+		} else if (Definition.compare("sharpness") == 0) {
 			//DLOG(INFO) << "  Found Texture Map - ignored" << endl;
 			In.ignore(INT_MAX, '\n');
 
@@ -445,17 +470,17 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 	m3dFindNormal(CalculatedNormal->GetPointer(), M->_vertices[Vertices[0]]->GetConstPointer(), M->_vertices[Vertices[1]]->GetConstPointer(), M->_vertices[Vertices[2]]->GetConstPointer());
 
 	if (Vertices.size() == 3) {
-		DLOG(INFO) << "Found Triangle" << endl;
+		//DLOG(INFO) << "Found Triangle" << endl;
 		M->_triangles.push_back(new Triangle(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], CalculatedNormal, new Material(Mat)));
 
 	} else if (Vertices.size() == 4) {
-		DLOG(INFO) << "Found Quad" << endl;
+		//DLOG(INFO) << "Found Quad" << endl;
 		if (IsPolygonConvex(Vertices, M))
 			M->_quads.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[3]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
 		else
 			M->_quadsConcave.push_back(new Quad(M->_vertices[Vertices[0]], M->_vertices[Vertices[1]], M->_vertices[Vertices[2]], M->_vertices[Vertices[3]], CalculatedNormal, new Material(Mat)));
 	} else {
-		DLOG(INFO) << "Found Polygon" << endl;
+		//DLOG(INFO) << "Found Polygon" << endl;
 		vector<Vector3*> VerticesRef;
 		for (int i=0; i<Vertices.size(); ++i) {
 			VerticesRef.push_back(M->_vertices[Vertices[i]]);

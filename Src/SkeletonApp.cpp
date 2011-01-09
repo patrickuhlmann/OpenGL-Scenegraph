@@ -56,11 +56,11 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
      * ==== */
 
 	Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
-	Magnolia->Scale(0.03f);
+	//Magnolia->Scale(0.03f);
 	Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
-	Rose->Scale(0.03f);
+	//Rose->Scale(0.03f);
 	Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
-	Skyscraper->Scale(0.04f);
+	//Skyscraper->Scale(0.04f);
 
 
 
@@ -105,12 +105,14 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 
 	Transform* t = reinterpret_cast<Transform*>(l->GetByName("MagnoliaTransform"));
 	t->Translate(-3.0f, 0.0f, 0.0f);
+	t->Scale(0.03f, 0.03f, 0.03f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("RoseTransform"));
 	t->Translate(2.0f, 0.0f, 0.0f);
-	t->Scale(1.6f, 1.2f, 1.2f);
+	t->Scale(0.03f, 0.03f, 0.03f);
 
 	t = reinterpret_cast<Transform*>(l->GetByName("SkyscraperTransform"));
+	t->Scale(0.04f, 0.04f, 0.04f);
 }
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)

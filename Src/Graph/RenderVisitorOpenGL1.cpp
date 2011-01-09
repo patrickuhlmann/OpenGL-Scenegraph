@@ -23,6 +23,7 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 	glEnable(GL_DEPTH_TEST);
 	glFrontFace(GL_CCW);
 	glEnable(GL_CULL_FACE);
+	glShadeModel(GL_SMOOTH);
 
 	// Global Light
 	GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
@@ -159,8 +160,6 @@ void RenderVisitorOpenGL1::VisitGeometry( Geometry* g )
 	//DLOG(INFO) << "Geometry accepted visitor" << endl;
 
 	const Mesh* M = g->GetMesh();
-
-	glShadeModel(GL_SMOOTH);
 
 	for (int i=0; i<M->GetTriangleCount(); ++i) {
 		const Triangle* T = M->GetTriangle(i);

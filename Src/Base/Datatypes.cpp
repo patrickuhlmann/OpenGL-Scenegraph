@@ -59,7 +59,7 @@ Triangle::Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, cons
 
 Quad::Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3* Normal, const Material* Mat) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Vertex4(V4), Normal(Normal), Mat(Mat) { };
 
-Polygon::Polygon(vector<Vector3*> Vertices, const Vector3* Normal, const Material* Mat) : Size(Vertices.size()), Mat(Mat) {
+Polygon::Polygon(vector<Vector3*> Vertices, const Vector3* Normal, const Material* Mat) : Size(Vertices.size()), Normal(Normal), Mat(Mat) {
 	this->Vertices = new Vector3*[Vertices.size()];
 	for (int i=0; i<Vertices.size(); ++i) {
 		this->Vertices[i] = Vertices[i];
