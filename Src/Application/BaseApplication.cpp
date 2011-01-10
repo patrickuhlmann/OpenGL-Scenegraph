@@ -47,6 +47,7 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->FrameCounter = 0;
 
 	this->PauseFlag = false;
+	this->PrintTime = false;
 }
 
 /**

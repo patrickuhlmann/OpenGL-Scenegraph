@@ -1,20 +1,24 @@
 #include "Geometry.hpp"
 
+Geometry::Geometry(Mesh* M) : CompositeNode() {
+	if (M == 0)
+		DLOG(WARNING) << "Try to initialize Geometry with null pointer!" << endl;
+
+	_mesh = M;
+	Visible = true;
+};
+
 Geometry::Geometry(Mesh* M, const string& Name) : CompositeNode(Name) {
 	if (M == 0)
 		DLOG(WARNING) << "Try to initialize Geometry with null pointer!" << endl;
 
 	_mesh = M;
+	Visible = true;
 };
 
 Geometry::~Geometry() {
-	if (_mesh)
-		delete _mesh;
-
-	if (_state)
-		delete _state;
-
-	DLOG(INFO) << "~Geometry()\n";
+	delete _mesh;
+	//delete _state;
 };
 
 void Geometry::Accept( NodeVisitor* visitor ) 
@@ -37,4 +41,12 @@ void Geometry::SetState(State* s) {
 		delete _state;
 
 	_state = s;
+}
+
+void Geometry::SetVisibility(bool NewStatus) {
+	this->Visible = NewStatus;
+}
+
+bool Geometry::GetVisibility() const {
+	return this->Visible;
 }

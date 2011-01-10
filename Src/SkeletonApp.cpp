@@ -127,7 +127,7 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 
 void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
-	RenderVisitor->Traverse(l);
+	RenderVisitor->Visit(l);
 };
 
 void SkeletonApp::Shutdown()

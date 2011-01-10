@@ -26,6 +26,7 @@ typedef TriangleVector::const_iterator TriangleIteratorConst;
 class Mesh {
 	public: 
 		Mesh();
+		Mesh(const string& Name);
 		~Mesh();
 
 		const Vector3* GetVertex(int i) const;

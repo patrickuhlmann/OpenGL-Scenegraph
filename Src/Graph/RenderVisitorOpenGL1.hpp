@@ -24,9 +24,10 @@ class RenderVisitorOpenGL1 : public NodeVisitor {
 
 public:
 	RenderVisitorOpenGL1();
-	virtual void Traverse( CompositeNode* c );
+	virtual void Visit( Node* c );
 
 protected:
+	virtual void Traverse( Node* c );
 	virtual void TraverseChildren( CompositeNode* c );
 
 	virtual void VisitLight( Light* l);

@@ -5,6 +5,8 @@
  */
 Mesh::Mesh() : _name("Dummy") {}
 
+Mesh::Mesh(const string& Name) : _name(Name) { }
+
 /**
  * \brief Destructor frees all Vertices, Normals and TextureCoordinates
  */

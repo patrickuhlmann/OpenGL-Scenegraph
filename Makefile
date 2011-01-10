@@ -1,9 +1,9 @@
 CXX = c++
-CXXFLAGS = -pg -g
+CXXFLAGS = -pg -g -lglog
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
 LDFLAGSAPPLE = -lm  -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o Node.o
 #Libs/nvwa-0.8.2/debug_new.o
 
 # Generic rules
@@ -28,11 +28,14 @@ clean:
 	rm -rf Tests/TestNode
 	rm -rf gmon.out
 	rm -rf SkeletonApp
+	rm -rf AddRemoveChild
+	rm -rf ObjectsLoader
+	rm -rf SimpleGeometry
 
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader AddRemoveChild.o AddRemoveChild Node.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -41,11 +44,11 @@ TestMeshLoaders: Tests/TestMeshLoaders.cpp MeshLoader.o MeshFileLoader.o MeshLoa
 	./Tests/TestMeshLoaders
 
 TestNode: Tests/TestNode.cpp Src/Graph/Node.hpp
-	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestNode.cpp -o Tests/TestNode
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestNode.cpp -o Tests/TestNode
 	./Tests/TestNode
 
 TestCompositeNode: Tests/TestCompositeNode.cpp Src/Graph/Node.hpp Src/Graph/CompositeNode.hpp
-	$(CXX) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestCompositeNode.cpp -o Tests/TestCompositeNode
+	$(CXX) $(CXXFLAGS) $(CXXFLAGS) $(CXXTESTFLAGS) Tests/TestCompositeNode.cpp -o Tests/TestCompositeNode
 	./Tests/TestCompositeNode
 
 MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
@@ -112,24 +115,33 @@ SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
 	$(CXX) -c $(CXXFLAGS) Src/$*.cpp
 
 SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
-	$(CXX) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
 
 SimpleGeometry.o: Src/Showcase/SimpleGeometry.cpp Src/Showcase/SimpleGeometry.h
 	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
 
 SimpleGeometry: Src/Showcase/SimpleGeometry.cpp $(GRAPHICPROGO) SimpleGeometry.o
-	$(CXX) $(GRAPHICPROGO) SimpleGeometry.o -o SimpleGeometry $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) SimpleGeometry.o -o SimpleGeometry $(LDFLAGS)
+
+AddRemoveChild.o: Src/Showcase/AddRemoveChild.cpp Src/Showcase/AddRemoveChild.h
+	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
+
+AddRemoveChild: Src/Showcase/AddRemoveChild.cpp $(GRAPHICPROGO) AddRemoveChild.o
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) AddRemoveChild.o -o AddRemoveChild $(LDFLAGS)
 
 ObjectsLoader.o: Src/Showcase/ObjectsLoader.cpp Src/Showcase/ObjectsLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
 
 ObjectsLoader: Src/Showcase/ObjectsLoader.cpp $(GRAPHICPROGO) ObjectsLoader.o
-	$(CXX) $(GRAPHICPROGO) ObjectsLoader.o -o ObjectsLoader $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) ObjectsLoader.o -o ObjectsLoader $(LDFLAGS)
 
 Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Group.o: Src/Graph/Group.cpp Src/Graph/Group.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+Node.o: Src/Graph/Node.cpp Src/Graph/Node.h
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Geometry.o: Src/Graph/Geometry.cpp Src/Graph/Geometry.hpp
@@ -167,9 +179,6 @@ ScaleTransformStrategy.o: Src/Graph/ScaleTransformStrategy.cpp Src/Graph/ScaleTr
 
 RotateTransformStrategy.o: Src/Graph/RotateTransformStrategy.cpp Src/Graph/RotateTransformStrategy.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
-
-OpenGLDrawing.o: Src/OpenGLFixed/OpenGLDrawing.cpp Src/OpenGLFixed/OpenGLDrawing.h
-	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
 
 OpenGLDrawing.o: Src/Graphics/OpenGLFixed/OpenGLDrawing.cpp Src/Graphics/OpenGLFixed/OpenGLDrawing.h
 	$(CXX) -c $(CXXFLAGS) Src/Graphics/OpenGLFixed/$*.cpp

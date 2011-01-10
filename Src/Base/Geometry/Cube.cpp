@@ -1,7 +1,14 @@
 #include "Cube.h"
 
-Cube::Cube(int Length) {
+Cube::Cube(float Length) : Mesh() {
+	Init(Length);
+}
 
+Cube::Cube(float Length, const string& Name) : Mesh(Name) {
+	Init(Length);
+}
+
+void Cube::Init(float Length) {
 	Material* Mat = new Material("CubeMat", Vector3(0, 1.0f, 0));
 	Mat->SetDiffuse(Vector3(0, 0, 0.3f));
 	_materials.insert(mmsm::value_type("CubeMat", Mat));

@@ -41,7 +41,7 @@ void SimpleGeometry::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 
 void SimpleGeometry::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
-	RenderVisitor->Traverse(l);
+	RenderVisitor->Visit(l);
 };
 
 void SimpleGeometry::Shutdown()

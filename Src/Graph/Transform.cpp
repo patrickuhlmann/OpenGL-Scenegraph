@@ -1,6 +1,6 @@
 #include "Transform.hpp"
 
-Transform::~Transform() { delete [] _matrix; }
+Transform::~Transform() { }
 
 void Transform::SetMatrix( M3DMatrix44f m ) { m3dCopyMatrix44(m, _matrix); }
 

@@ -75,7 +75,7 @@ void ObjectsLoader::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 
 void ObjectsLoader::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
-	RenderVisitor->Traverse(l);
+	RenderVisitor->Visit(l);
 };
 
 void ObjectsLoader::Shutdown()

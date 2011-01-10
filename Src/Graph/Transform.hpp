@@ -12,15 +12,15 @@ public:
 		m3dLoadIdentity44( _matrix );
 	}
 
-	Transform(const M3DMatrix44f& m) : CompositeNode(string("")) { 
+	Transform(const M3DMatrix44f& m) : CompositeNode() { 
 		m3dCopyMatrix44(_matrix, m);
 	}
 
-	Transform() : CompositeNode(string("")) { 
+	Transform() : CompositeNode() { 
 		m3dLoadIdentity44( _matrix ); 
 	}
 
-   ~Transform();
+   virtual ~Transform();
 
   void SetMatrix( M3DMatrix44f m);
 

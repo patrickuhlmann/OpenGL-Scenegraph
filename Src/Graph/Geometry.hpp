@@ -12,8 +12,9 @@ using namespace std;
  */
 class Geometry : public CompositeNode {
 public:
-	Geometry(Mesh* M, const string& Name = "");
-	~Geometry();
+	Geometry(Mesh* M);
+	Geometry(Mesh* M, const string& Name);
+	virtual ~Geometry();
 
   /** Accept a visitor */
   void Accept( NodeVisitor* );
@@ -26,9 +27,13 @@ public:
 
   void SetState(State*);
 
+  void SetVisibility(bool NewStatus);
+  bool GetVisibility() const;
+
 private:
   Mesh* _mesh;  /**< Pointer to a mesh */
   State* _state; /**< State information */
   bool  _dirty; /**< Flag for checking update of bound */
+  bool Visible;
   string _name;
 };

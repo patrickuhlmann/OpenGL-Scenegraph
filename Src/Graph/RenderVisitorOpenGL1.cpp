@@ -15,7 +15,16 @@ RenderVisitorOpenGL1::RenderVisitorOpenGL1()
  * \brief Traverse the actual node. In this case it will be traversed recursively
  * \param c to traverse
  */
-void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
+void RenderVisitorOpenGL1::Visit( Node* c )
+{
+	this->Traverse(c);
+}
+
+/**
+ * \brief Traverse the actual node. In this case it will be traversed recursively
+ * \param c to traverse
+ */
+void RenderVisitorOpenGL1::Traverse( Node* c )
 {
 	OpenGLDrawing::TriangleCounter = 0;
 	OpenGLDrawing::QuadCounter = 0;
@@ -41,7 +50,7 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 
 	OpenGLDrawing::CheckOpenGLError();
 
-	DLOG(INFO) << "OpenGL drawed " << OpenGLDrawing::TriangleCounter << " Triangles, " << OpenGLDrawing::QuadCounter << " Quads and " << OpenGLDrawing::PolygonCounter << " polygons" << endl;
+	//DLOG(INFO) << "OpenGL drawed " << OpenGLDrawing::TriangleCounter << " Triangles, " << OpenGLDrawing::QuadCounter << " Quads and " << OpenGLDrawing::PolygonCounter << " polygons" << endl;
 }
 
 /**
@@ -162,6 +171,10 @@ void CopyM3DVector2f(const float* source, M3DVector3f dest) {
 */
 void RenderVisitorOpenGL1::VisitGeometry( Geometry* g ) 
 {
+	// Invisible -> don't draw
+	if (!g->GetVisibility())
+		return;
+
 	//DLOG(INFO) << "Geometry accepted visitor" << endl;
 
 	const Mesh* M = g->GetMesh();
