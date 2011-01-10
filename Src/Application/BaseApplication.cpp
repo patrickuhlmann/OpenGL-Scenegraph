@@ -10,7 +10,7 @@ BaseApplication::~BaseApplication() {
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
  */
-BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor) : RootNode(string("Root")) {
+BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, GraphicsAdapter* Adapter, NodeVisitor* RenderVisitor) : RootNode(string("Root")) {
 	// Initialize Glut and our Window
 	char* argv[] = { "BaseApplication" };
 	int argc = 1;
@@ -41,7 +41,8 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 
 	this->RenderVisitor = RenderVisitor;
 
-	this->SetupOpenGL();
+	this->GAdapter = Adapter;
+	this->GAdapter->InitializeGraphics();
 
 	this->FrameCounter = 0;
 
@@ -73,47 +74,13 @@ void BaseApplication::ResizeBase(int NewWidth, int NewHeight) {
 }
 
 /**
- * \brief Set the Background Color
- */
-void BaseApplication::SetupOpenGL() {
-	// Black Background
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	/*// Get Information about OpenGL Version
-	const GLubyte *glGetString(GLenum name);
-
-	// Set Preference for Speed/Quality
-	void glHint(GLenum target, GLenum mode);*/
-}
-
-/**
- * \brief Check if there was an error. If there was one we log it to the console
- */
-void BaseApplication::CheckOpenGLError() {
-	GLenum err = glGetError();
-	while (err != GL_NO_ERROR) {
-		switch (err) {
-			case GL_INVALID_ENUM:
-				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": enum value was out of Range" << endl;
-			case GL_INVALID_VALUE:
-				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": numeric argument was out of Range" << endl;
-			case GL_INVALID_OPERATION:
-				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": operation was illegal for current state" << endl;
-			case GL_OUT_OF_MEMORY:
-				DLOG(WARNING) << "OpenGL Render Error in Frame " << this->FrameCounter << ": not enough memory to execute the command" << endl;
-		}
-		err = glGetError();
-	}
-}
-
-/**
  * \brief Check if there was an error, call virtual update function, clear the window, call virtual render, swap the buffers and increase the framecounter
  */
 void BaseApplication::RenderBase() {
-	this->CheckOpenGLError();
-
 	if (this->PauseFlag)
 		return;
+
+	this->GAdapter->BeforeRendering();
 
 	if (PrintTime) {
 		float BeforeUpdate = glutGet(GLUT_ELAPSED_TIME);
@@ -123,9 +90,6 @@ void BaseApplication::RenderBase() {
 		this->Update(&this->RootNode);
 	}
 
-	// Clear the window with current clearing (=background) color
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 	if (PrintTime) {
 		float BeforeRender = glutGet(GLUT_ELAPSED_TIME);
 		this->Render(this->RenderVisitor, &this->RootNode);
@@ -134,9 +98,7 @@ void BaseApplication::RenderBase() {
 		this->Render(this->RenderVisitor, &this->RootNode);
 	}
 
-	
-
-
+	this->GAdapter->AfterRendering();
 
 	// Perform the buffer swap to display the back buffer
 	glutSwapBuffers();

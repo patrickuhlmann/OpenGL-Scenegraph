@@ -3,7 +3,7 @@ CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
 LDFLAGSAPPLE = -lm  -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o
 #Libs/nvwa-0.8.2/debug_new.o
 
 # Generic rules
@@ -32,7 +32,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -53,6 +53,9 @@ MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 
 MeshFileLoader.o: MeshLoader.o Src/MeshLoaders/MeshFileLoader.cpp Src/MeshLoaders/MeshFileLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
+
+OpenGLFixedAdapter.o: Src/Graphics/Adapter/OpenGLFixedAdapter.cpp Src/Graphics/Adapter/OpenGLFixedAdapter.h Src/Graphics/Adapter/GraphicsAdapter.h
+	$(CXX) -c $(CXXFLAGS) Src/Graphics/Adapter/$*.cpp
 
 MeshLoaderObj.o: Src/MeshLoaders/IMeshLoader.h Src/MeshLoaders/MeshLoaderObj.cpp Src/MeshLoaders/MeshLoaderObj.h Src/Base/Datatypes.cpp Src/Base/Datatypes.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
@@ -129,8 +132,8 @@ Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
 UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
-OpenGLDrawing.o: Src/OpenGLFixed/OpenGLDrawing.cpp Src/OpenGLFixed/OpenGLDrawing.h
-	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
+OpenGLDrawing.o: Src/Graphics/OpenGLFixed/OpenGLDrawing.cpp Src/Graphics/OpenGLFixed/OpenGLDrawing.h
+	$(CXX) -c $(CXXFLAGS) Src/Graphics/OpenGLFixed/$*.cpp
 
-OpenGLState.o: Src/OpenGLFixed/OpenGLState.cpp Src/OpenGLFixed/OpenGLState.h
-	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
+OpenGLState.o: Src/Graphics/OpenGLFixed/OpenGLState.cpp Src/Graphics/OpenGLFixed/OpenGLState.h
+	$(CXX) -c $(CXXFLAGS) Src/Graphics/OpenGLFixed/$*.cpp

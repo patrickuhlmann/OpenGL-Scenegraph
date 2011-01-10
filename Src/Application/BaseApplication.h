@@ -23,6 +23,7 @@
 #include "../Graph/Camera.hpp"
 #include "../Graph/NodeVisitor.hpp"
 #include "../Graph/Group.hpp"
+#include "../Graphics/Adapter/OpenGLFixedAdapter.h"
 
 //#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
@@ -55,9 +56,11 @@ class BaseApplication {
 		NodeVisitor* RenderVisitor;
 		/** \brief If this flag is true we print the time for the Update/Render Method to the console */
 		bool PrintTime;
+		/** \brief Adapter class to the graphics framework to use */
+		GraphicsAdapter* GAdapter;
 
 	public:
-		BaseApplication(string Title, int WindowWidth, int WindowHeight, NodeVisitor* RenderVisitor);
+		BaseApplication(string Title, int WindowWidth, int WindowHeight, GraphicsAdapter* Adapter, NodeVisitor* RenderVisitor);
 		~BaseApplication();
 		void Start();
 		virtual int GetFrameCounter();

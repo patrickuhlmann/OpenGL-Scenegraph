@@ -1,12 +1,11 @@
 #pragma once
 
 #include <set>
-#include "../Include/GL/glew.h"
 #include "Material.hpp"
 
 using namespace std;
 
-typedef set<GLenum> StateVariableSet;
+typedef set<int> StateVariableSet;
 typedef StateVariableSet::iterator StateVariableIterator;
 
 /**
@@ -23,8 +22,8 @@ public:
 	/** Function to Apply the States. Needs to be implemeneted by the concrete state like OpenGL or DirectX */
 	virtual void Apply() = 0;
 
-	void Enable(GLenum);
-	void Disable(GLenum);
+	void Enable(int);
+	void Disable(int);
 
 	void SetMaterial(const Material&);
 

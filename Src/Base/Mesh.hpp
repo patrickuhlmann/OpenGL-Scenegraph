@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "../Include/math3d.h"
-#include "../Include/GL/glew.h"
 #include <string>
 #include "../Graph/Material.hpp"
 #include "Datatypes.h"

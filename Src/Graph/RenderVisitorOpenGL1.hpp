@@ -8,9 +8,9 @@
 #include "Geometry.hpp"
 #include "../Base/Mesh.hpp"
 #include "Camera.hpp"
-#include "../OpenGLFixed/OpenGLDrawing.h"
+#include "../Graphics/OpenGLFixed/OpenGLDrawing.h"
 #include <typeinfo>
-#include "../OpenGLFixed/OpenGLState.h"
+#include "../Graphics/OpenGLFixed/OpenGLState.h"
 #include "Group.hpp"
 
 /**

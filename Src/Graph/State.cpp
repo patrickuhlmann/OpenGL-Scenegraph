@@ -35,7 +35,7 @@ void State::operator= (const State& other)
 
 /** \brief Enable a State. If it is already disabled it will be deleted from the disables list. In every case it will be added to the enables list. It will only save it to a list. To really apply you need to call apply.
  * \param val of the state to enable */
-void State::Enable ( GLenum val ) 
+void State::Enable ( int val ) 
 {
 	if (_disables)
 		_disables->erase( val );
@@ -48,7 +48,7 @@ void State::Enable ( GLenum val )
 
 /** \brief Disable a State. If it is already enabled it will be deleted from the enable list. In every case it will be added to the disable list. It will only save it to a list. To really apply it you need to call apply.
   * \param val of the state to disable */
-void State::Disable( GLenum val ) 
+void State::Disable( int val ) 
 { 
 	if (_enables)
 		_enables->erase( val );

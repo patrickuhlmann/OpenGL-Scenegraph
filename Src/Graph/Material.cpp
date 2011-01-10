@@ -76,7 +76,7 @@ void Material::SetAmbient(const Vector3& AmbientLight )
 * \param g for the green component of the light
 * \param b for the blue component of the light
 */
-void Material::SetAmbient(GLfloat r, GLfloat g, GLfloat b) {
+void Material::SetAmbient(float r, float g, float b) {
 	_ambient = Vector3(r, g, b);
 }
 
@@ -96,7 +96,7 @@ void Material::SetDiffuse(const Vector3& DiffuseLight)
 * \param g for the green component of the light
 * \param b for the blue component of the light
 */
-void Material::SetDiffuse(GLfloat r, GLfloat g, GLfloat b) {
+void Material::SetDiffuse(float r, float g, float b) {
 	_diffuse = Vector3(r, g, b);
 	_useDiffuse = true;
 }
@@ -126,7 +126,7 @@ void Material::SetSpecular(const Vector3& SpecularLight, int s)
 * \param b for the blue component of the light
 *	\param s shininess of the color (Shininess is a value from 0 (not bright) to 1000 (very bright) to define how bright the Specular Light will be)
 */
-void Material::SetSpecular(GLfloat r, GLfloat g, GLfloat b, int s) {
+void Material::SetSpecular(float r, float g, float b, int s) {
 	_specular = Vector3(r, g, b);
 	_shine = s;
 	_useSpecular = true;
@@ -141,7 +141,7 @@ void Material::RemoveSpecular() {
 *
 * \param a 0 is invisible, 1 is solid visible, values between are partly visible. The background can be seen through
 */
-void Material::SetTransparency( GLfloat a ) { 
+void Material::SetTransparency( float a ) { 
 	_transparency = a;
 }
 
