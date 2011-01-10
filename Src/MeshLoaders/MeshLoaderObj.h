@@ -12,7 +12,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <map>
-#include "../Graph/Material.hpp"
+#include "../Base/Material.hpp"
 #include <cmath>
 #include "../Base/Datatypes.h"
 
@@ -20,8 +20,6 @@
 #include <algorithm>
 
 //#include "../../Libs/nvwa-0.8.2/debug_new.h"
-
-const double PI = 3.1415926;
 
 using namespace std;
 

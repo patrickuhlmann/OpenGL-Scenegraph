@@ -39,6 +39,8 @@ void RenderVisitorOpenGL1::Traverse( CompositeNode* c )
 
 	c->Accept(this);
 
+	OpenGLDrawing::CheckOpenGLError();
+
 	DLOG(INFO) << "OpenGL drawed " << OpenGLDrawing::TriangleCounter << " Triangles, " << OpenGLDrawing::QuadCounter << " Quads and " << OpenGLDrawing::PolygonCounter << " polygons" << endl;
 }
 

@@ -104,3 +104,24 @@ void OpenGLDrawing::DrawPolygon(const Polygon* P) {
 
 	OpenGLDrawing::PolygonCounter++;
 }
+
+/**
+ * \brief Check if there was an error. If there was one we log it to the console
+ */
+void OpenGLDrawing::CheckOpenGLError() {
+	GLenum err = glGetError();
+
+	while (err != GL_NO_ERROR) {
+		switch (err) {
+			case GL_INVALID_ENUM:
+				DLOG(WARNING) << "OpenGL Render Error: enum value was out of Range" << endl;
+			case GL_INVALID_VALUE:
+				DLOG(WARNING) << "OpenGL Render Error: numeric argument was out of Range" << endl;
+			case GL_INVALID_OPERATION:
+				DLOG(WARNING) << "OpenGL Render Error in Frame: operation was illegal for current state" << endl;
+			case GL_OUT_OF_MEMORY:
+				DLOG(WARNING) << "OpenGL Render Error in Frame: not enough memory to execute the command" << endl;
+		}
+		err = glGetError();
+	}
+}

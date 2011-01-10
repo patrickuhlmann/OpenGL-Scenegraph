@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Include/math3d.h"
-#include "../Include/GL/glew.h"
 #include <string>
 #include "../Base/Datatypes.h"
 
@@ -16,14 +15,14 @@ public:
   
   void operator= ( const Material& );
   void SetAmbient(const Vector3& AmbientLight );
-  void SetAmbient(GLfloat r, GLfloat g, GLfloat b);
+  void SetAmbient(float r, float g, float b);
   void SetDiffuse(const Vector3& DiffuseLight );
-  void SetDiffuse(GLfloat r, GLfloat g, GLfloat b);
+  void SetDiffuse(float r, float g, float b);
   void SetSpecular(const Vector3& SpecularLight, int s);
-  void SetSpecular(GLfloat r, GLfloat g, GLfloat b, int s);
+  void SetSpecular(float r, float g, float b, int s);
   void RemoveDiffuse();
   void RemoveSpecular();
-  void SetTransparency (GLfloat);
+  void SetTransparency (float);
 
   const string& GetName() const;
   bool IsDiffuseLightEnabled() const;
@@ -48,7 +47,7 @@ private:
   /** \brief Store a name for the material */
   string      _name;
   /** \brief Store the alpha value for the material */
-  GLfloat     _transparency;
+  float     _transparency;
   /** \brief If true it indicates, that the material has a diffuse light, otherwise it's false */
   bool		  _useDiffuse;
   /** \brief If true it indicates, that the material has a specular light, otherwise it's false */

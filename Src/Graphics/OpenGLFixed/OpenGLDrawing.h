@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../Include/GL/glew.h"
+#include <glog/logging.h>
+#include "../../Include/GL/glew.h"
 #include <vector>
-#include "../Base/Datatypes.h"
-#include "../Graph/Material.hpp"
+#include "../../Base/Datatypes.h"
+#include "../../Base/Material.hpp"
 #include <vector>
+
 
 class OpenGLDrawing {
 	public:
@@ -20,6 +22,7 @@ class OpenGLDrawing {
 		static int QuadCounter;
 		static int PolygonCounter;
 		static const void* LastMaterialPointer;
+		static void CheckOpenGLError();
 
 	private:
 		static void SetDrawingColorAndMaterial(const Material* Mat);

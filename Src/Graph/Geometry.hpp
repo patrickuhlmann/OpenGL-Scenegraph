@@ -2,7 +2,7 @@
 
 #include "CompositeNode.hpp"
 #include "../Base/Mesh.hpp"
-#include "State.hpp"
+#include "../Base/State.hpp"
 #include <string>
 
 using namespace std;

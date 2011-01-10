@@ -2,8 +2,8 @@
 
 #include "NodeVisitor.hpp"
 #include "../Include/math3d.h"
-#include "State.hpp"
-#include "Material.hpp"
+#include "../Base/State.hpp"
+#include "../Base/Material.hpp"
 
 /**
  * Updates a node in the scene graph.

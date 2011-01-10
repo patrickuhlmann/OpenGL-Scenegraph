@@ -2,9 +2,8 @@
 
 #include <vector>
 #include "../Include/math3d.h"
-#include "../Include/GL/glew.h"
 #include <string>
-#include "../Graph/Material.hpp"
+#include "Material.hpp"
 #include "Datatypes.h"
 #include <map>
 
@@ -52,25 +51,25 @@ class Mesh {
 		TriangleIteratorConst GetTriangleIteratorConst() const;
 		TriangleIteratorConst GetTriangleIteratorEndConst() const;
 
-private:
-	/** \brief Vector of Vertices (XYZ) */
-	VertexVector   _vertices;
-	/** \brief Triangles (Index of 3 Vertices) */
-	TriangleVector _triangles;
-	/** \brief Quad (Index of 4 Vertices) */
-	QuadVector _quads;
-	/** \brief Quad (Concave) (Index of 4 Vertices) */
-	QuadVector _quadsConcave;
-	/** \brief Polygon (Index of N Vertices) */
-	PolygonVector _polygons;
-	/** \brief Polygon (Convace) (Index of N Vertices) */
-	PolygonVector _polygonsConcave;
-	mmsm _materials;
+	protected:
+		/** \brief Vector of Vertices (XYZ) */
+		VertexVector   _vertices;
+		/** \brief Triangles (Index of 3 Vertices) */
+		TriangleVector _triangles;
+		/** \brief Quad (Index of 4 Vertices) */
+		QuadVector _quads;
+		/** \brief Quad (Concave) (Index of 4 Vertices) */
+		QuadVector _quadsConcave;
+		/** \brief Polygon (Index of N Vertices) */
+		PolygonVector _polygons;
+		/** \brief Polygon (Convace) (Index of N Vertices) */
+		PolygonVector _polygonsConcave;
+		mmsm _materials;
 
-	/** \brief Vector of TextureCoordinates, should be one per Vertex */
-	TextureCoordVector  _textureCoords;
-	/** \brief Name of the Mesh */
-	string _name;
+		/** \brief Vector of TextureCoordinates, should be one per Vertex */
+		TextureCoordVector  _textureCoords;
+		/** \brief Name of the Mesh */
+		string _name;
 
 friend class MeshLoaderObj;
 friend class MeshFileLoader;

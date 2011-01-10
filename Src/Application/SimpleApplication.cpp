@@ -9,7 +9,7 @@
  * \param WindowHeight decies how high the window will be (pixel)
  */
 SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) 
-   : BaseApplication(Title, WindowWidth, WindowHeight, new RenderVisitorOpenGL1()),
+   : BaseApplication(Title, WindowWidth, WindowHeight, new OpenGLFixedAdapter(), new RenderVisitorOpenGL1()),
      _light("GlobalLight"), _camera("GlobalCamera")
 {
 	Input.AddGlobalListener(this->HandleKeysS);

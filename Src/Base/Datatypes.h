@@ -3,6 +3,8 @@
 #include <vector>
 #include <istream>
 
+const double PI = 3.141592653589;
+
 class Material;
 
 using namespace std;
@@ -21,6 +23,7 @@ union Vector3 {
 	Vector3(float x, float y, float z);
 
 	Vector3(const Vector3& v);
+	Vector3(Vector3*& v);
 
 	const float* GetConstPointer() const;
 

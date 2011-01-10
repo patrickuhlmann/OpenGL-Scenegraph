@@ -1,9 +1,9 @@
 CXX = c++
 CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
-LDFLAGS = -lm -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
+LDFLAGS = -lm  -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
 GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLBatch.o GLShaderManager.o GLTriangleBatch.o GLTools.o
-GRAPHO = RenderVisitorOpenGL1.o Light.o Camera.o Geometry.o Transform.o Mesh.o State.o Material.o math3d.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Group.o
+GRAPHO = RenderVisitorOpenGL1.o Light.o Camera.o Geometry.o Transform.o Mesh.o State.o Material.o math3d.o MeshLoader.o MeshFileLoader.o MeshLoaderObj.o Group.o  OpenGLDrawing.o OpenGLState.o
 
 
 # Generic rules
@@ -118,4 +118,10 @@ Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
 
 UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+OpenGLDrawing.o: Src/OpenGLFixed/OpenGLDrawing.cpp Src/OpenGLFixed/OpenGLDrawing.h
+	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
+
+OpenGLState.o: Src/OpenGLFixed/OpenGLState.cpp Src/OpenGLFixed/OpenGLState.h
+	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
 
