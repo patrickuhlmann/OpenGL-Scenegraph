@@ -32,3 +32,5 @@ Composite pattern
 The scene graph consist of nodes and leafs. The composite pattern is
 quite natural to use. We have two kinds of nodes, a node without
 children and a composite node that can have any number of children.
+
+
