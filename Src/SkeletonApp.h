@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Application/SimpleApplication.h"
+#include "Base/Geometry/Cube.h"
+#include "Base/Geometry/Torus.h"
+#include "Base/Geometry/Sphere.h"
 
 using namespace std;
 

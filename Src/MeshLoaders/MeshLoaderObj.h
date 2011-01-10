@@ -21,8 +21,6 @@
 
 //#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
-const double PI = 3.1415926;
-
 using namespace std;
 
 typedef multimap<string, Material*> mmsm;

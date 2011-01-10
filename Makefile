@@ -3,7 +3,7 @@ CXXFLAGS = -pg -g
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
 LDFLAGSAPPLE = -lm  -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o
 #Libs/nvwa-0.8.2/debug_new.o
 
 # Generic rules
@@ -32,7 +32,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -53,6 +53,12 @@ MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 
 MeshFileLoader.o: MeshLoader.o Src/MeshLoaders/MeshFileLoader.cpp Src/MeshLoaders/MeshFileLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
+
+Cube.o: Src/Base/Geometry/Cube.cpp Src/Base/Geometry/Cube.h
+	$(CXX) -c $(CXXFLAGS) Src/Base/Geometry/$*.cpp
+
+Sphere.o: Src/Base/Geometry/Sphere.cpp Src/Base/Geometry/Sphere.h
+	$(CXX) -c $(CXXFLAGS) Src/Base/Geometry/$*.cpp
 
 OpenGLFixedAdapter.o: Src/Graphics/Adapter/OpenGLFixedAdapter.cpp Src/Graphics/Adapter/OpenGLFixedAdapter.h Src/Graphics/Adapter/GraphicsAdapter.h
 	$(CXX) -c $(CXXFLAGS) Src/Graphics/Adapter/$*.cpp
@@ -108,6 +114,18 @@ SkeletonApp.o: Src/SkeletonApp.cpp Src/SkeletonApp.h
 SkeletonApp: Src/SkeletonApp.cpp $(GRAPHICPROGO) SkeletonApp.o
 	$(CXX) $(GRAPHICPROGO) SkeletonApp.o -o SkeletonApp $(LDFLAGS)
 
+SimpleGeometry.o: Src/Showcase/SimpleGeometry.cpp Src/Showcase/SimpleGeometry.h
+	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
+
+SimpleGeometry: Src/Showcase/SimpleGeometry.cpp $(GRAPHICPROGO) SimpleGeometry.o
+	$(CXX) $(GRAPHICPROGO) SimpleGeometry.o -o SimpleGeometry $(LDFLAGS)
+
+ObjectsLoader.o: Src/Showcase/ObjectsLoader.cpp Src/Showcase/ObjectsLoader.h
+	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
+
+ObjectsLoader: Src/Showcase/ObjectsLoader.cpp $(GRAPHICPROGO) ObjectsLoader.o
+	$(CXX) $(GRAPHICPROGO) ObjectsLoader.o -o ObjectsLoader $(LDFLAGS)
+
 Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
@@ -137,3 +155,6 @@ OpenGLDrawing.o: Src/Graphics/OpenGLFixed/OpenGLDrawing.cpp Src/Graphics/OpenGLF
 
 OpenGLState.o: Src/Graphics/OpenGLFixed/OpenGLState.cpp Src/Graphics/OpenGLFixed/OpenGLState.h
 	$(CXX) -c $(CXXFLAGS) Src/Graphics/OpenGLFixed/$*.cpp
+
+Torus.o: Src/Base/Geometry/Torus.cpp Src/Base/Geometry/Torus.h
+	$(CXX) -c $(CXXFLAGS) Src/Base/Geometry/$*.cpp

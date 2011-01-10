@@ -1,14 +1,13 @@
-#include "SkeletonApp.h"
+#include "ObjectsLoader.h"
 
 /**
- * \brief Just redirect to SimpleApplication Constructor and create a window called Skeleton with a width of 800 and height of 600 pixels
+ * \brief Just redirect to SimpleApplication Constructor and create a window with a width of 800 and height of 600 pixels
  */
-SkeletonApp::SkeletonApp() : SimpleApplication("Skeleton", 800, 600) {
+ObjectsLoader::ObjectsLoader() : SimpleApplication("ObjectLoader", 800, 600) {
 
 }
 
-void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
-
+void ObjectsLoader::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	// Init Camera
 	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
 	M3DVector3f pos;
@@ -16,23 +15,7 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
     c->SetPosition( pos );
     c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
 
-	/* ====
-     * Problem Objects
-     * ==== */
-
-	// No Material?
-	//Mesh* Flowers = MeshLoader->Load("Objects/flowers.obj");
-	//Flowers->Scale(0.2f);
-
-	// Invisible, Material?
-	//Mesh* Trumpet = MeshLoader->Load("Objects/trumpet.obj");
-	//Trumpet->Scale(0.1f);
-
-
-	/* ====
-     * Nice Objects with Material
-     * ==== */
-
+	// Load some Meshes
 	Mesh* Rose = MeshLoader->Load("Objects/rose+vase.obj");
 	Mesh* Soccerball = MeshLoader->Load("Objects/soccerball.obj");
 	Mesh* Slotmachine = MeshLoader->Load("Objects/slot_machine.obj");
@@ -40,42 +23,7 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	Mesh* Shuttle = MeshLoader->Load("Objects/shuttle.obj");
 	Mesh* Cessna = MeshLoader->Load("Objects/cessna.obj");
 
-	//Mesh* Porsche = MeshLoader->Load("Objects/porsche.obj");
-	//Porsche->Scale(0.1f);
-
-	//Mesh* ViolinCase = MeshLoader->Load("Objects/violin_case.obj");
-
-	//Mesh* Magnolia = MeshLoader->Load("Objects/magnolia.obj");
-	//Magnolia->Scale(0.03f);
-	//Mesh* Skyscraper = MeshLoader->Load("Objects/skyscraper.obj");
-	//Skyscraper->Scale(0.04f);
-	
-	//Mesh* Sandal = MeshLoader->Load("Objects/sandal.obj");
-
-	//Mesh* Lamp = MeshLoader->Load("Objects/lamp.obj");
-	//Lamp->Scale(0.4f);
-
-	//Mesh* PowerLines = MeshLoader->Load("Objects/power_lines.obj");
-	//PowerLines->Scale(0.05f);
-
-	/* ======
-     * Boring Objects without Material
-     * ====== */
-
-	//Mesh* Humanoid = MeshLoader->Load("Objects/humanoid_tri.obj");
-	//Humanoid->Scale(0.5f);
-	//Mesh* Cube = MeshLoader->Load("Objects/cube.obj");
-	//Mesh* Gourd = MeshLoader->Load("Objects/gourd.obj");*/
-	//Mesh* M = MeshLoader->Load("Objects/icosahedron.obj");
-	//Mesh* M = MeshLoader->Load("Objects/octahedron.obj");
-	//Mesh* M = MeshLoader->Load("Objects/tetrahedron.obj");
-	//Mesh* M = MeshLoader->Load("Objects/humanoid_quad.obj");
-	//Mesh* Dolphins = MeshLoader->Load("Objects/dolphins.obj");
-	//Dolphins->Scale(0.01f);
-	//Mesh* Teapot = MeshLoader->Load("Objects/teapot.obj");
-	//Teapot->Scale(0.05f);
-	//Mesh* Al = MeshLoader->Load("Objects/al.obj");
-
+	// Build up Scenegraph
 	c->AddChild(
 		(new Transform(string("SlotMachineTransform")))->AddChild(
 			(new Geometry(Slotmachine, string("SlotMachine")))
@@ -125,16 +73,16 @@ void SkeletonApp::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
 	t->Scale(0.05f, 0.05f, 0.05f);
 }
 
-void SkeletonApp::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
+void ObjectsLoader::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 { 
 	RenderVisitor->Traverse(l);
 };
 
-void SkeletonApp::Shutdown()
+void ObjectsLoader::Shutdown()
 { 
 };
 
 int main(int argc, char *argv[]) {
-	SkeletonApp App;
+	ObjectsLoader App;
 	App.Start();
 }

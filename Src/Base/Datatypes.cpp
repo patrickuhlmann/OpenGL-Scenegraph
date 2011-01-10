@@ -22,6 +22,12 @@ Vector3::Vector3(const Vector3& v) {
 	Array[2] = v.Array[2];
 }
 
+Vector3::Vector3(Vector3*& v) {
+	Array[0] = v->Array[0];
+	Array[1] = v->Array[1];
+	Array[2] = v->Array[2];
+}
+
 const float* Vector3::GetConstPointer() const {
 	return Array;
 }
