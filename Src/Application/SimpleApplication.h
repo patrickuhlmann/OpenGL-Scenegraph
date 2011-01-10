@@ -13,11 +13,10 @@ class SimpleApplication : public BaseApplication {
    void HandleKeysSimple(enuKey Code);
    
   protected:
-   Light  _light;
-   Camera _camera;
    
   public:
    SimpleApplication(string Title, int WindowWidth, int WindowHeight);
+   virtual ~SimpleApplication();
    virtual void Init(CompositeNode* RootNode, MeshFileLoader* MeshLoader);
    virtual void Update(CompositeNode* RootNode);
    virtual void Render(NodeVisitor* RenderVisitor, CompositeNode* RootNode);
@@ -27,5 +26,4 @@ class SimpleApplication : public BaseApplication {
    virtual void Pause();
    virtual void Continue();
    virtual void Shutdown();
-   static void ShutdownS();
 };

@@ -189,7 +189,7 @@ void MeshLoaderObj::ReadMaterialFile(mmsm& MaterialMap, string& FileName) {
 
 	string Definition;
 
-	Material* Mat = new Material("Proto", Vector3( 0.2f, 0.2f, 0.2f));
+	Material* Mat;
 
 	bool FirstMat = true;
 	float r;
@@ -464,8 +464,8 @@ void MeshLoaderObj::ReadFace(istream& Stream, Mesh* M, Material* Mat) {
 			Stream.ignore(1);
 	}
 
-	Vector3* CalculatedNormal = new Vector3();
-	m3dFindNormal(CalculatedNormal->GetPointer(), M->_vertices[Vertices[0]]->GetConstPointer(), M->_vertices[Vertices[1]]->GetConstPointer(), M->_vertices[Vertices[2]]->GetConstPointer());
+	Vector3 CalculatedNormal = Vector3();
+	m3dFindNormal(CalculatedNormal.GetPointer(), M->_vertices[Vertices[0]]->GetConstPointer(), M->_vertices[Vertices[1]]->GetConstPointer(), M->_vertices[Vertices[2]]->GetConstPointer());
 
 	if (Vertices.size() == 3) {
 		//DLOG(INFO) << "Found Triangle: (" << Vertices[0] << ", " << Vertices[1] << ", " << Vertices[2] << ")" << endl;

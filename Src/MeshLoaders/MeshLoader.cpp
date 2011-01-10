@@ -4,9 +4,7 @@
  * \brief Delete all the Added Loaders
  */
 MeshLoader::~MeshLoader() {
-	for (vector<IMeshLoader*>::iterator it = this->Loaders.begin();
-             it != this->Loaders.end(); ++it)
-        {
+	for (vector<IMeshLoader*>::iterator it = this->Loaders.begin(); it != this->Loaders.end(); ++it) {
 		delete *it;
 	}
 }

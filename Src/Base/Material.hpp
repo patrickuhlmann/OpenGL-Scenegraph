@@ -3,6 +3,8 @@
 #include "../Include/math3d.h"
 #include <string>
 #include "../Base/Datatypes.h"
+#include <set>
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 using namespace std;
 
@@ -11,7 +13,7 @@ public:
   Material(const string& Name, const Vector3& AmbientLight);
   Material( const Material& );
   Material( const Material* );
-  ~Material() { };
+  virtual ~Material() { };
   
   void operator= ( const Material& );
   void SetAmbient(const Vector3& AmbientLight );

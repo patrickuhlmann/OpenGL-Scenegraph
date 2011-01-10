@@ -22,6 +22,7 @@ Node::Node(string name) {
 
 /** \brief Destructor. Empty */
 Node::~Node() {
+	DLOG(INFO) << "~Node for " << this->GetName() << endl;
 }
 
 /** \brief Set the Parent of this Node. You cannot set yourself as parent

@@ -11,8 +11,10 @@ Mesh::Mesh(const string& Name) : _name(Name) { }
  * \brief Destructor frees all Vertices, Normals and TextureCoordinates
  */
 Mesh::~Mesh() {
+	DLOG(INFO) << "Stared Deleting Mesh" << endl;
+
 	for (VertexVector::iterator it = _vertices.begin(); it != _vertices.end(); ++it) {
-		delete[] *it;
+		delete *it;
 	}
 
 	for (TextureCoordVector::iterator it = _textureCoords.begin(); it != _textureCoords.end(); ++it) {
@@ -39,9 +41,11 @@ Mesh::~Mesh() {
 		delete (*it);
 	}
 
-	/*for (MaterialVector::iterator it = _material.begin(); it != _material.end(); ++it) {
-		delete (*it);
-	}*/
+	for (mmsm::iterator it = _materials.begin(); it != _materials.end(); ++it) {
+		delete ((*it).second);
+	}
+
+	DLOG(INFO) << "Finished Deleting Mesh" << endl;
 }
 
 const TriangleVector& Mesh::GetTriangleVector() const {

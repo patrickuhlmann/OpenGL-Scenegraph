@@ -7,6 +7,10 @@ InputManager::InputManager() {
 	Instance = this;
 }
 
+InputManager::~InputManager() {
+	DLOG(INFO) << "~InputManager" << endl;
+}
+
 /**
  * \brief Needs to be static as it is called from glut. It will redirect to the HandleKeys method of the active instance
  */

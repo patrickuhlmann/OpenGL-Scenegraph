@@ -6,8 +6,10 @@
 #ifdef __APPLE__
 #include <glut/glut.h>
 #else
-#include <GL/glut.h>
+#include <GL/freeglut.h>
 #endif
+
+
 
 // C++
 #include <stdio.h>
@@ -25,7 +27,7 @@
 #include "../Graph/Group.hpp"
 #include "../Graphics/Adapter/OpenGLFixedAdapter.h"
 
-//#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 using namespace std;
 
@@ -61,7 +63,7 @@ class BaseApplication {
 
 	public:
 		BaseApplication(string Title, int WindowWidth, int WindowHeight, GraphicsAdapter* Adapter, NodeVisitor* RenderVisitor);
-		~BaseApplication();
+		virtual ~BaseApplication();
 		void Start();
 		virtual int GetFrameCounter();
 		/** \brief This function is called only once before the first update happens to initialize everything we want */
@@ -74,4 +76,5 @@ class BaseApplication {
 		/** \brief This function is called whenever we change the size of the window (which includes one call when it is created the first time) */
 		virtual void Resize(int NewWidth, int NewHeight) = 0;
 		static void ResizeS(int NewWidth, int NewHeight);
+		virtual void Shutdown() = 0;
 };

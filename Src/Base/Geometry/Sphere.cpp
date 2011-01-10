@@ -41,15 +41,17 @@ Sphere::Sphere(float Radius, int Slices, int Stacks) {
 			float y = ctheta * srho;
 			float z = crho;
         
-			Vector3* Normal1 = new Vector3(x, y, z);
+			Vector3 Normal1 = Vector3(x, y, z);
 			Vector3* Point1 = new Vector3(x * Radius, y * Radius, z * Radius);
+			_vertices.push_back(Point1);
 			
             x = stheta * srhodrho;
 			y = ctheta * srhodrho;
 			z = crhodrho;
 
-			Vector3* Normal2 = new Vector3(x, y, z);
+			Vector3 Normal2 = Vector3(x, y, z);
 			Vector3* Point2 = new Vector3(x * Radius, y * Radius, z * Radius);
+			_vertices.push_back(Point2);
 
 			theta = ((j+1) == Slices) ? 0.0f : (j+1) * dtheta;
 			stheta = -sin(theta);
@@ -60,15 +62,17 @@ Sphere::Sphere(float Radius, int Slices, int Stacks) {
 			z = crho;
         
             s += ds;
-			//Vector3* Normal3 = new Vector3(x, y, z);
+			//Vector3 Normal3 = Vector3(x, y, z);
 			Vector3* Point3 = new Vector3(x * Radius, y * Radius, z * Radius);
+			_vertices.push_back(Point3);
 			
             x = stheta * srhodrho;
 			y = ctheta * srhodrho;
 			z = crhodrho;
 
-			Vector3* Normal4 = new Vector3(x, y, z);
+			Vector3 Normal4 = Vector3(x, y, z);
 			Vector3* Point4 = new Vector3(x * Radius, y * Radius, z * Radius);
+			_vertices.push_back(Point4);
 
 			_triangles.push_back(new Triangle(Point1, Point2, Point3, Normal1, Mat));
 
@@ -76,6 +80,9 @@ Sphere::Sphere(float Radius, int Slices, int Stacks) {
 			Point1 = new Vector3(Point2);
 			Point2 = new Vector3(Point4);
 			Point3 = new Vector3(Point3);
+			_vertices.push_back(Point1);
+			_vertices.push_back(Point2);
+			_vertices.push_back(Point3);
 
 			_triangles.push_back(new Triangle(Point1, Point2, Point3, Normal2, Mat));			
 		}

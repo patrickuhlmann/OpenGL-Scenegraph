@@ -23,6 +23,7 @@ Light::Light(const Vector4 pos) : CompositeNode()
 
 /** \brief Free the State */
 Light::~Light() {
+	DLOG(INFO) << "~Light" << endl;
 	delete _state;
 }
 

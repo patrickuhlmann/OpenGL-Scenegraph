@@ -1,11 +1,13 @@
 #pragma once
 
+#include <glog/logging.h>
 #include <vector>
 #include "../Include/math3d.h"
 #include <string>
 #include "Material.hpp"
 #include "Datatypes.h"
 #include <map>
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 class MeshLoaderObj;
 
@@ -27,7 +29,7 @@ class Mesh {
 	public: 
 		Mesh();
 		Mesh(const string& Name);
-		~Mesh();
+		virtual ~Mesh();
 
 		const Vector3* GetVertex(int i) const;
 		const float* GetTextureCoord(int i) const;

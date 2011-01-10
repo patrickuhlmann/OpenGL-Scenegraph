@@ -1,5 +1,10 @@
 #include "MeshFileLoader.h"
 
+/** \brief Destructor. Empty */
+MeshFileLoader::~MeshFileLoader() {
+
+}
+
 /**
  * \brief Load the Mesh from the File
  *

@@ -40,6 +40,9 @@
 #define _DEBUG_NEW_H
 
 #include <new>
+#include <set>
+#include <map>
+#include <algorithm>
 #include <stdio.h>
 
 /**

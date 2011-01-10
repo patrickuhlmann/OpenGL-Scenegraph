@@ -5,3 +5,7 @@ void Group::Accept( NodeVisitor* visitor )
 {
    visitor->VisitGroup( this );
 }
+
+Group::~Group() {
+	DLOG(INFO) << "~Group" << endl;
+}

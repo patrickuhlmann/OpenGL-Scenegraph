@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glog/logging.h>
 #include "CompositeNode.hpp"
 #include "../Base/State.hpp"
 #include <string>

@@ -22,7 +22,7 @@ void Cube::Init(float Length) {
 	_vertices.push_back(new Vector3(-Length, Length, -Length));    
 	_vertices.push_back(new Vector3(-Length, Length, Length));
 
-	_quads.push_back(new Quad(_vertices[0], _vertices[1], _vertices[2], _vertices[3], new Vector3(0, Length, 0), Mat));
+	_quads.push_back(new Quad(_vertices[0], _vertices[1], _vertices[2], _vertices[3], Vector3(0, Length, 0), Mat));
 
     // Bottom
 	_vertices.push_back(new Vector3(-Length, -Length, -Length));
@@ -30,17 +30,17 @@ void Cube::Init(float Length) {
 	_vertices.push_back(new Vector3(Length, -Length, Length));
 	_vertices.push_back(new Vector3(-Length, -Length, Length));
 
-	_quads.push_back(new Quad(_vertices[7], _vertices[6], _vertices[5], _vertices[4], new Vector3(0, -Length, 0), Mat));
+	_quads.push_back(new Quad(_vertices[7], _vertices[6], _vertices[5], _vertices[4], Vector3(0, -Length, 0), Mat));
     
     // Left side
-	_quads.push_back(new Quad(_vertices[7], _vertices[3], _vertices[2], _vertices[4], new Vector3(-Length, 0, 0), Mat));
+	_quads.push_back(new Quad(_vertices[7], _vertices[3], _vertices[2], _vertices[4], Vector3(-Length, 0, 0), Mat));
     
     // Right side
-	_quads.push_back(new Quad(_vertices[6], _vertices[5], _vertices[1], _vertices[0], new Vector3(Length, 0, 0), Mat));
+	_quads.push_back(new Quad(_vertices[6], _vertices[5], _vertices[1], _vertices[0], Vector3(Length, 0, 0), Mat));
 
     // Front
-	_quads.push_back(new Quad(_vertices[7], _vertices[6], _vertices[0], _vertices[3], new Vector3(0, 0, Length), Mat));
+	_quads.push_back(new Quad(_vertices[7], _vertices[6], _vertices[0], _vertices[3], Vector3(0, 0, Length), Mat));
 
     // Back
-	_quads.push_back(new Quad(_vertices[1], _vertices[5], _vertices[4], _vertices[2], new Vector3(0, 0, -Length), Mat));
+	_quads.push_back(new Quad(_vertices[1], _vertices[5], _vertices[4], _vertices[2], Vector3(0, 0, -Length), Mat));
 }

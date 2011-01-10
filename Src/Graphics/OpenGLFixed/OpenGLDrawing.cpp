@@ -53,7 +53,7 @@ void OpenGLDrawing::DrawTriangle(const Triangle* T) {
 	SetDrawingColorAndMaterial(T->Mat);
 
 	glBegin(GL_TRIANGLES);
-			glNormal3fv(T->Normal->Array);
+			glNormal3fv(T->Normal.Array);
 			glVertex3fv(T->Vertex1->Array);
  			glVertex3fv(T->Vertex2->Array);
  			glVertex3fv(T->Vertex3->Array);
@@ -68,7 +68,7 @@ void OpenGLDrawing::DrawTriangles(const vector<Triangle*>& T) {
 	for (vector<Triangle*>::const_iterator it = T.begin(); it != T.end(); ++it) {
 		SetDrawingColorAndMaterial((*it)->Mat);
 
-		glNormal3fv((*it)->Normal->Array);
+		glNormal3fv((*it)->Normal.Array);
 		glVertex3fv((*it)->Vertex1->Array);
 		glVertex3fv((*it)->Vertex2->Array);
 		glVertex3fv((*it)->Vertex3->Array);
@@ -82,7 +82,7 @@ void OpenGLDrawing::DrawQuad(const Quad* Q) {
 	SetDrawingColorAndMaterial(Q->Mat);
 
 	glBegin(GL_QUADS);
-			glNormal3fv(Q->Normal->Array);
+			glNormal3fv(Q->Normal.Array);
 			glVertex3fv(Q->Vertex1->Array);
  			glVertex3fv(Q->Vertex2->Array);
  			glVertex3fv(Q->Vertex3->Array);
@@ -96,7 +96,7 @@ void OpenGLDrawing::DrawPolygon(const Polygon* P) {
 	SetDrawingColorAndMaterial(P->Mat);
 
 	glBegin(GL_POLYGON);
-		glNormal3fv(P->Normal->Array);
+		glNormal3fv(P->Normal.Array);
 		for (int i=0; i<P->Size; ++i) {
 			glVertex3fv(P->Get(i)->Array);
 		}

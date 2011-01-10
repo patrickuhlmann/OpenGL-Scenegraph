@@ -38,11 +38,13 @@ Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum) {
 			/*Vector3* Normal1 = new Vector3(x0*c, y0*c, z/minorRadius)
 			m3dNormalizeVector3(vNormal[0]);*/
 			Vector3* Point1 = new Vector3(x0 * r, y0 * r, z);
+			_vertices.push_back(Point1);
 			
 			// Second point
 			/*Vector3* Normal2 = new Vector3(x1*c, y1*c, z/minorRadius)
 			m3dNormalizeVector3(vNormal[1]);*/
 			Vector3* Point2 = new Vector3(x1 * r, y1 * r, z );
+			_vertices.push_back(Point2);
 
 			// Next one over
 			b = (j+1) * MinorStep;
@@ -54,21 +56,26 @@ Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum) {
 			/*Vector3* Normal3 = new Vector3(x0*c, y0*c, z/minorRadius);
 			m3dNormalizeVector3(vNormal[2]);*/
 			Vector3* Point3 = new Vector3(x0 * r, y0 * r, z);
+			_vertices.push_back(Point3);
 			
 			// Fourth (based on second)
 			/*Vector3* Normal3 = new Vector3(x1*c, y1*c, z/minorRadius)
 			m3dNormalizeVector3(vNormal[3]);*/
 			Vector3* Point4 = new Vector3(x1*r, y1*r, z);
+			_vertices.push_back(Point4);
 
-			_triangles.push_back(new Triangle(Point1, Point2, Point3, new Vector3(x0*c, y0*c, z/MinorRadius), Mat));
+			_triangles.push_back(new Triangle(Point1, Point2, Point3, Vector3(x0*c, y0*c, z/MinorRadius), Mat));
 	
 			
 			// Rearrange for next triangle
 			Point1 = new Vector3(Point2);
 			Point2 = new Vector3(Point4);
 			Point3 = new Vector3(Point3);
+			_vertices.push_back(Point1);
+			_vertices.push_back(Point2);
+			_vertices.push_back(Point3);
 
-			_triangles.push_back(new Triangle(Point1, Point2, Point3, new Vector3(x1*c, y1*c, z/MinorRadius), Mat));		
+			_triangles.push_back(new Triangle(Point1, Point2, Point3, Vector3(x1*c, y1*c, z/MinorRadius), Mat));		
 		}
 	}
 }

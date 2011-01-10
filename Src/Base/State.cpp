@@ -6,9 +6,10 @@ State::State() : _material(0), _enables(0), _disables(0) {
 
 /** \brief Deletes the Material, Enable list and disable list */
 State::~State() {
-	//delete _material;
-	//delete _enables;
-	//delete _disables;
+	DLOG(INFO) << "~State" << endl;
+	delete _material;
+	delete _enables;
+	delete _disables;
 }
 
 /** \brief Copy all the Enables and Disables to this state

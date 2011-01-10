@@ -27,4 +27,6 @@ class IMeshLoader {
 		 *	\return true if possible, false otherwise
 		 */
 		virtual bool Accept(istream& Stream) = 0;
+
+		virtual ~IMeshLoader() { };
 };

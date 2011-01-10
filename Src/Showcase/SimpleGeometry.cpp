@@ -8,7 +8,6 @@ SimpleGeometry::SimpleGeometry() : SimpleApplication("SimpleGeometry", 800, 600)
 }
 
 void SimpleGeometry::Init( CompositeNode* l, MeshFileLoader* MeshLoader) {
-
 	// Init Camera
 	Camera* c = reinterpret_cast<Camera*>(l->GetByName("GlobalCamera"));
 	M3DVector3f pos;
@@ -45,7 +44,7 @@ void SimpleGeometry::Render(NodeVisitor* RenderVisitor, CompositeNode* l)
 };
 
 void SimpleGeometry::Shutdown()
-{ 
+{
 };
 
 int main(int argc, char *argv[]) {

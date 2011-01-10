@@ -6,6 +6,7 @@
 #include "../../Base/Datatypes.h"
 #include "../../Base/Material.hpp"
 #include <vector>
+#include "../../../Libs/nvwa-0.8.2/debug_new.h"
 
 
 class OpenGLDrawing {

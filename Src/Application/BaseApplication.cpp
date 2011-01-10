@@ -1,9 +1,5 @@
 #include "BaseApplication.h"
 
-BaseApplication::~BaseApplication() {
-	delete this->RenderVisitor;
-}
-
 /**
  * \brief Initialize Glut, Create Window, Setup Callback for Render, Resize and Keyboard Handler
  * \param Title Title which will be print to the titlebar of the window
@@ -50,13 +46,23 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->PrintTime = false;
 }
 
+BaseApplication::~BaseApplication() {
+	DLOG(INFO) << "~BaseApplication" << endl;
+	delete this->GAdapter;
+	delete this->RenderVisitor;
+}
+
 /**
  * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop
  */
 void BaseApplication::Start() {
 	this->Init(&this->RootNode, &this->MeshLoader);
 
+	glutSetOption (GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION); 
+
 	glutMainLoop();
+
+	Shutdown();
 }
 
 /**

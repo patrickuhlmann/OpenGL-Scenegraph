@@ -2,6 +2,8 @@
 
 #include <set>
 #include "Material.hpp"
+#include <glog/logging.h>
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 using namespace std;
 

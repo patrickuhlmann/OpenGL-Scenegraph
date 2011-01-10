@@ -9,17 +9,21 @@
  * \param WindowHeight decies how high the window will be (pixel)
  */
 SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHeight) 
-   : BaseApplication(Title, WindowWidth, WindowHeight, new OpenGLFixedAdapter(), new RenderVisitorOpenGL1()),
-     _light("GlobalLight"), _camera("GlobalCamera")
-{
+   : BaseApplication(Title, WindowWidth, WindowHeight, new OpenGLFixedAdapter(), new RenderVisitorOpenGL1()) {
 	Input.AddGlobalListener(this->HandleKeysS);
-	atexit(this->ShutdownS);
 
-        //_camera.SetParent( &_light );
-        _light.AddChild( &_camera );
-        _camera.SetPerspective( 45.0f,(GLfloat)WindowWidth/(GLfloat)WindowHeight,0.1f,100.0f );
+	Light* l = new Light("GlobalLight");
 
-        RootNode.AddChild( &_light ); // Add the light to the scene
+	Camera* c = new Camera("GlobalCamera");
+	c->SetPerspective( 45.0f,(GLfloat)WindowWidth/(GLfloat)WindowHeight,0.1f,100.0f );
+
+	RootNode.AddChild(l->AddChild(c));
+}
+
+/** Empty Implementation
+ */
+SimpleApplication::~SimpleApplication() {
+	DLOG(INFO) << "~SimpleApplication" << endl;
 }
 
 /**
@@ -81,7 +85,8 @@ void SimpleApplication::HandleKeysS(enuKey Code, int x, int y) {
 void SimpleApplication::HandleKeysSimple(enuKey Code) {
    DLOG(INFO) << "HandleKeysSimple() called\n";
 	if (Code == APP_KEY_ESC) {
-           exit(0);
+		DLOG(INFO) << "Esc leaving application" << endl;
+		void glutLeaveMainLoop(void);
 	} else if (Code == APP_KEY_P) {
 		this->PauseFlag = !this->PauseFlag;
 		if (this->PauseFlag)
@@ -101,35 +106,37 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
  * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeys(enuKey Code) {
+	Camera* _camera = reinterpret_cast<Camera*>(RootNode.GetByName("GlobalCamera"));
+
    DLOG(INFO) << "HandleKeys() called\n";
    switch( Code ) {
       case APP_KEY_W :
          DLOG(INFO) << "Moving Up\n";
-         _camera.MoveUp( STEP );
+         _camera->MoveUp( STEP );
          break;
       case APP_KEY_S :
          DLOG(INFO) << "Moving Down\n";
-         _camera.MoveDown( STEP );
+         _camera->MoveDown( STEP );
          break;
       case APP_KEY_D :           /* TODO: handle shift and do rotatation */
          DLOG(INFO) << "Moving Right\n";
-         _camera.MoveRight( STEP );
+         _camera->MoveRight( STEP );
          break;
       case APP_KEY_A :
          DLOG(INFO) << "Moving Left\n";
-         _camera.MoveLeft( STEP );
+         _camera->MoveLeft( STEP );
          break;
       case APP_KEY_I :
-         _camera.MoveForward( STEP );
+         _camera->MoveForward( STEP );
          break;
       case APP_KEY_K :
-         _camera.MoveBackward( STEP );
+         _camera->MoveBackward( STEP );
          break;
       case APP_KEY_J :
-         _camera.RotateWorld( ANGLE, 0.0f, 0.1f, 0.0f );
+         _camera->RotateWorld( ANGLE, 0.0f, 0.1f, 0.0f );
          break;
       case APP_KEY_L:
-         _camera.RotateWorld( -ANGLE, 0.0f, 0.1f, 0.0f );
+         _camera->RotateWorld( -ANGLE, 0.0f, 0.1f, 0.0f );
          break;
       default:
          DLOG(INFO) << "HandleKeys()\n";
@@ -159,11 +166,4 @@ void SimpleApplication::Continue() {
  */
 void SimpleApplication::Shutdown() {
 
-}
-
-/**
- * \brief needs to be static as it is the callback function for key inputs which will be called from glut. Just redirects the call to the HandleKeys method of the most recently created real instance of SimpleApplication
- */
-void SimpleApplication::ShutdownS() {
-	reinterpret_cast<SimpleApplication*>(Instance)->Shutdown();
 }

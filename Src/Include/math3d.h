@@ -43,6 +43,7 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 
 #include <math.h>
 #include <string.h>	// Memcpy lives here on most systems
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Data structures and containers

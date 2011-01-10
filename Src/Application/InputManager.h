@@ -9,6 +9,7 @@
 #include <string>
 #include <map>
 #include <glog/logging.h>
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 using namespace std;
 
@@ -71,6 +72,7 @@ class InputManager {
 
 	public:
 		InputManager();
+		virtual ~InputManager();
 		void AddBinding(string Action, enuKey KeyInput);
 		void AddBinding(string Action, enuMouse MouseInput);
 		void AddListener(string Action, void (*HandlerCallback)(enuKey, int, int));

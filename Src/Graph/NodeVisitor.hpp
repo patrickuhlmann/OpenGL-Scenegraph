@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
 class Node;
 class CompositeNode;
 class Light;
@@ -20,6 +22,8 @@ public:
    virtual void VisitLight    ( Light* )     = 0;
    virtual void VisitGroup    ( Group* )     = 0;
    virtual void VisitCamera   ( Camera* )    = 0;
+   /** \brief Destructor. Empty */
+   virtual ~NodeVisitor() { };
    
 protected:
    /** Only subclasses can construct a NodeVisitor */
