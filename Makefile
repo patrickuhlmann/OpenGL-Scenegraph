@@ -129,6 +129,24 @@ Transform.o: Src/Graph/Transform.cpp Src/Graph/Transform.hpp
 UpdateVisitor.o: Src/Graph/UpdateVisitor.cpp Src/Graph/UpdateVisitor.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
+TransformUpdateVisitor.o: Src/Graph/TransformUpdateVisitor.cpp Src/Graph/TransformUpdateVisitor.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+UpdateVisitorFactory.o: Src/Graph/UpdateVisitorFactory.cpp Src/Graph/UpdateVisitorFactory.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+TransformStrategy.o: Src/Graph/TransformStrategy.cpp Src/Graph/TransformStrategy.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+TranslateTransformStrategy.o: Src/Graph/TranslateTransformStrategy.cpp Src/Graph/TranslateTransformStrategy.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+ScaleTransformStrategy.o: Src/Graph/ScaleTransformStrategy.cpp Src/Graph/ScaleTransformStrategy.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
+RotateTransformStrategy.o: Src/Graph/RotateTransformStrategy.cpp Src/Graph/RotateTransformStrategy.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+
 OpenGLDrawing.o: Src/OpenGLFixed/OpenGLDrawing.cpp Src/OpenGLFixed/OpenGLDrawing.h
 	$(CXX) -c $(CXXFLAGS) Src/OpenGLFixed/$*.cpp
 
