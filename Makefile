@@ -81,11 +81,11 @@ GLTools.o: Src/Include/GLTools.cpp
 GLTriangleBatch.o: Src/Include/GLTriangleBatch.cpp
 	$(CXX) -c $(CXXFLAGS) Src/Include/$*.cpp
 
-Material.o: Src/Graph/Material.cpp Src/Graph/Material.hpp
-	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+Material.o: Src/Base/Material.cpp Src/Base/Material.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Base/$*.cpp
 
-State.o: Src/Graph/State.cpp Src/Graph/State.hpp
-	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
+State.o: Src/Base/State.cpp Src/Base/State.hpp
+	$(CXX) -c $(CXXFLAGS) Src/Base/$*.cpp
 
 InputManager.o: Src/Application/InputManager.cpp Src/Application/InputManager.h
 	$(CXX) -c $(CXXFLAGS) Src/Application/$*.cpp

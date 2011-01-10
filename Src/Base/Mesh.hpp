@@ -3,7 +3,7 @@
 #include <vector>
 #include "../Include/math3d.h"
 #include <string>
-#include "../Graph/Material.hpp"
+#include "Material.hpp"
 #include "Datatypes.h"
 #include <map>
 

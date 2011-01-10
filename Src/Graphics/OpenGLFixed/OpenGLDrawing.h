@@ -4,7 +4,7 @@
 #include "../../Include/GL/glew.h"
 #include <vector>
 #include "../../Base/Datatypes.h"
-#include "../../Graph/Material.hpp"
+#include "../../Base/Material.hpp"
 #include <vector>
 
 

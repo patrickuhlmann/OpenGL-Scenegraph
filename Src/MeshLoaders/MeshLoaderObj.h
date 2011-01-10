@@ -12,7 +12,7 @@
 #include <limits.h>
 #include <stdlib.h>
 #include <map>
-#include "../Graph/Material.hpp"
+#include "../Base/Material.hpp"
 #include <cmath>
 #include "../Base/Datatypes.h"
 
