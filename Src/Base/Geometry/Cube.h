@@ -7,11 +7,10 @@
 class Cube : public Mesh {
 	private:
 		void Init(float Length, const Material& CMat = CubeMaterial);
-		/** \brief Holds a prototype material to use for cubes */
+		/** \brief Holds a prototype material to use for cubes. It's green with a blue diffuse component */
 		static Material CubeMaterial;
 
 	public:
 		Cube(float Length);
-		Cube(float Length, const string& Name);
-		Cube(float Length, const string& Name, const Material& Material);
+		Cube(float Length, const string& Name, const Material& Mat = CubeMaterial);
 };

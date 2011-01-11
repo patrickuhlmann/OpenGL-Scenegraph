@@ -1,5 +1,15 @@
 #include "Datatypes.h"
 
+string IntegerToString(int x) {
+	ostringstream o;
+	
+	//if (!(o << x))
+	//	throw BadConversion("IntegerToString failed for: " + x);
+	o << x;
+	
+	return o.str();
+}
+
 ostream& operator<<(ostream& out, const Vector3& v) {
 	return out << "(" << v.Components.x << ", " << v.Components.y << ", " << v.Components.z << ")" << endl;
 }

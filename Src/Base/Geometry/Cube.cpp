@@ -12,14 +12,6 @@ Cube::Cube(float Length) : Mesh() {
  * \param Length of the cube
  * \param Name of the cube
  */
-Cube::Cube(float Length, const string& Name) : Mesh(Name) {
-	Init(Length);
-}
-
-/** \brief Create a named cube of the defined length placed at the origin of the coordinate system
- * \param Length of the cube
- * \param Name of the cube
- */
 Cube::Cube(float Length, const string& Name, const Material& Mat) : Mesh(Name) {
 	Init(Length, Mat);
 }

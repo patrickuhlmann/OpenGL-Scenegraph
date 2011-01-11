@@ -1,14 +1,39 @@
 #include "Torus.h"
 
+Material Torus::TorusMaterial = Material("TorusMat", Vector3(1.0f, 0, 0), Vector3(0, 0.3f, 0));
+
 /** \brief Create a Torus
   * \param MajorRadius to the outer circle
   * \param MinorRadius to the inner circle
   * \param MajorNum number of subdivisions for the big circle
-  * \param MinorNum number of subdivisions for the small circle */
-Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum) {
-	Material* Mat = new Material("CubeMat", Vector3(1.0f, 0, 0));
-	Mat->SetDiffuse(Vector3(0, 0.3f, 0));
-	_materials.insert(mmsm::value_type("CubeMat", Mat));
+  * \param MinorNum number of subdivisions for the small circle
+  */
+Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum) : Mesh() {
+	Init(MajorRadius, MinorRadius, MajorNum, MinorNum);
+}
+
+/** \brief Create a Torus
+  * \param MajorRadius to the outer circle
+  * \param MinorRadius to the inner circle
+  * \param MajorNum number of subdivisions for the big circle
+  * \param MinorNum number of subdivisions for the small circle
+  * \param TMat Material to use for the Torus
+  */
+Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum, const string& Name, const Material& Mat) : Mesh(Name) {
+	Init(MajorRadius, MinorRadius, MajorNum, MinorNum, Mat);
+}
+
+
+/** \brief Create a Torus
+  * \param MajorRadius to the outer circle
+  * \param MinorRadius to the inner circle
+  * \param MajorNum number of subdivisions for the big circle
+  * \param MinorNum number of subdivisions for the small circle
+  * \param TMat Material to use for the Torus
+  */
+void Torus::Init(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum, const Material& TMat) {
+	Material* Mat = new Material(TMat);
+	_materials.insert(mmsm::value_type("TorusMat", Mat));
 
     double MajorStep = 2.0f * PI / MajorNum;
     double MinorStep = 2.0f * PI / MinorNum;
@@ -22,12 +47,6 @@ Torus::Torus(float MajorRadius, float MinorRadius, int MajorNum, int MinorNum) {
 		float x1 = cos(a1);
 		float y1 = sin(a1);
 
-		
-
-		M3DVector3f vVertex[4];
-		M3DVector3f vNormal[4];
-		M3DVector2f vTexture[4];
-		
 		for (j=0; j<=MinorNum; ++j) {
 			double b = j * MinorStep;
 			float c = cos(b);

@@ -19,9 +19,8 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
 		exit(1);
 	}
 
-	Light* _light = new Light("GlobalLight");
-
-	Camera* _camera = new Camera("GlobalCamera");
+	_light = new Light("GlobalLight");
+	_camera = new Camera("GlobalCamera");
 	_camera->SetPerspective( 45.0f,(float)WindowWidth/(float)WindowHeight,0.1f,100.0f );
 
 	RootNode.AddChild(_light->AddChild(_camera));

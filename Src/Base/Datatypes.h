@@ -2,6 +2,9 @@
 
 #include <vector>
 #include <istream>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 #ifdef MEMORY_CHECK_ACTIVE
 	#include "../../Libs/nvwa-0.8.2/debug_new.h"
@@ -12,6 +15,8 @@ const double PI = 3.141592653589;
 class Material;
 
 using namespace std;
+
+string IntegerToString(int x);
 
 union Vector3 { 
 	struct sComponents {

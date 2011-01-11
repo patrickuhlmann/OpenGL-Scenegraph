@@ -17,6 +17,8 @@
 #include "../MeshLoaders/MeshFileLoader.h"
 #include "../MeshLoaders/MeshLoaderObj.h"
 #include "../Graph/Group.hpp"
+#include "../Graph/Camera.hpp"
+#include "../Graph/Light.hpp"
 #include "../Graphics/Adapter/GraphicsAdapter.h"
 
 #ifdef MEMORY_CHECK_ACTIVE

@@ -3,15 +3,16 @@
 
 // default at origin, pointing at -Z and up is Y
 // default frustum gives an orthographic projection matrix
-Camera::Camera() : CompositeNode() {} 
+Camera::Camera() : CompositeNode() {
+} 
 
 // default at origin, pointing at -Z and up is Y
 // default frustum gives an orthographic projection matrix
 // named camera
-Camera::Camera(string Name) : CompositeNode(Name) {} 
+Camera::Camera(string Name) : CompositeNode(Name) {
+} 
 
-Camera::Camera( const M3DVector3f pos, const M3DVector3f dir, Node* parent )
-  : CompositeNode()
+Camera::Camera( const M3DVector3f pos, const M3DVector3f dir) : CompositeNode()
 {
   _frame.SetOrigin( pos );
   _frame.SetForwardVector( dir );
@@ -65,10 +66,14 @@ void Camera::MoveBackward( float delta )
 { _frame.MoveForward( -delta ); }
 
 void Camera::MoveRight( float delta )
-{ _frame.MoveRight( delta ); }
+{ 
+	_frame.MoveRight( delta );
+}
 
 void Camera::MoveLeft( float delta )
-{ _frame.MoveRight( -delta ); }
+{ 
+	_frame.MoveRight( -delta );
+}
 
 void Camera::MoveUp( float delta )
 { _frame.MoveUp( delta ); }

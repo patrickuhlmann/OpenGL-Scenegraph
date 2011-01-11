@@ -1,17 +1,39 @@
 #include "Mesh.hpp"
 
-/**
- * \brief Create an empty mesh with the name Dummy
- */
-Mesh::Mesh() : _name("Dummy") {}
+int Mesh::MeshCounter = 0;
+NameSet Mesh::Names;
 
-Mesh::Mesh(const string& Name) : _name(Name) { }
+bool Mesh::IsNameUnique(const string& Name) {
+	NameSetPair Ret = Names.insert(Name);
+	return Ret.second;
+}
+
+/**
+ * \brief Create an empty mesh with a generated name Mesh + a counter. You get a warning to the console if there is already a mesh with the same name.
+ */
+Mesh::Mesh() : _name(string("Mesh"+IntegerToString(MeshCounter))) {
+	if (!IsNameUnique(_name))
+		DLOG(WARNING) << "Name " << _name << " is not unique!" << endl;
+	
+	MeshCounter++;
+}
+
+/**
+ * \brief Create an empty mesh with a given name. You get a warning to the console if there is already a mesh with the same name.
+ * \param Name of the Mesh
+ */
+Mesh::Mesh(const string& Name) : _name(Name) {
+	if (!IsNameUnique(_name))
+		DLOG(WARNING) << "Name " << _name << " is not unique!" << endl;
+
+	MeshCounter++;
+}
 
 /**
  * \brief Destructor frees all Vertices, Normals and TextureCoordinates
  */
 Mesh::~Mesh() {
-	DLOG(INFO) << "Stared Deleting Mesh" << endl;
+	DLOG(INFO) << "Started Deleting Mesh" << endl;
 
 	for (VertexVector::iterator it = _vertices.begin(); it != _vertices.end(); ++it) {
 		delete *it;
