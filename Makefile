@@ -146,7 +146,7 @@ Camera.o: Src/Graph/Camera.cpp Src/Graph/Camera.hpp
 Group.o: Src/Graph/Group.cpp Src/Graph/Group.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
-Node.o: Src/Graph/Node.cpp Src/Graph/Node.h
+Node.o: Src/Graph/Node.cpp Src/Graph/Node.hpp
 	$(CXX) -c $(CXXFLAGS) Src/Graph/$*.cpp
 
 Geometry.o: Src/Graph/Geometry.cpp Src/Graph/Geometry.hpp
