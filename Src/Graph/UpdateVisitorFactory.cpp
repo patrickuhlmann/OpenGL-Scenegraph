@@ -22,10 +22,10 @@
 }
 
  NodeVisitor* UpdateVisitorFactory::CreateRotateVisitor( float x, float y, float z, float angle )    
-{ return new TransformUpdateVisitor( RotateTransformStrategy( angle, x, y, z ) ); }
+ { return new TransformUpdateVisitor( new RotateTransformStrategy( angle, x, y, z ) ); }
 
  NodeVisitor* UpdateVisitorFactory::CreateScaleVisitor( float x, float y, float z, float angle )     
-{ return new TransformUpdateVisitor( ScaleTransformStrategy( x, y, z ) ); }
+ { return new TransformUpdateVisitor( new ScaleTransformStrategy( x, y, z ) ); }
 
  NodeVisitor* UpdateVisitorFactory::CreateTranslateVisitor( float x, float y, float z, float angle ) 
-{ return new TransformUpdateVisitor( TranslateTransformStrategy( x, y, z ) ); }
+ { return new TransformUpdateVisitor( new TranslateTransformStrategy( x, y, z ) ); }
