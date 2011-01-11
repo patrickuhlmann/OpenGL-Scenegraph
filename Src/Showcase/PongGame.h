@@ -4,7 +4,10 @@
 #include "../Base/Geometry/Cube.h"
 #include "../Base/Geometry/Torus.h"
 #include "../Base/Geometry/Sphere.h"
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
+#ifdef MEMORY_CHECK_ACTIVE
+	#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#endif
 
 using namespace std;
 
