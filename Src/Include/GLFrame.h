@@ -31,6 +31,9 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 */
 
 #include "math3d.h"
+#include <glog/logging.h>
+
+using namespace std;
 
 #ifndef _ORTHO_FRAME_
 #define _ORTHO_FRAME_
@@ -51,6 +54,8 @@ class GLFrame
 		GLFrame(void) {
 			// At origin
             vOrigin[0] = 0.0f; vOrigin[1] = 0.0f; vOrigin[2] = 0.0f; 
+	
+			DLOG(INFO) << "origin " << vOrigin[0] << endl;
 
 			// Up is up (+Y)
             vUp[0] = 0.0f; vUp[1] = 1.0f; vUp[2] = 0.0f;
@@ -63,7 +68,8 @@ class GLFrame
         /////////////////////////////////////////////////////////////
         // Set Location
         inline void SetOrigin(const M3DVector3f vPoint) {
-			m3dCopyVector3(vOrigin, vPoint); }
+			m3dCopyVector3(vOrigin, vPoint);
+		}
         
         inline void SetOrigin(float x, float y, float z) { 
 			vOrigin[0] = x; vOrigin[1] = y; vOrigin[2] = z; }

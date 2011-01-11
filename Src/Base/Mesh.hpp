@@ -7,6 +7,7 @@
 #include "Material.hpp"
 #include "Datatypes.h"
 #include <map>
+#include <set>
 
 #ifdef MEMORY_CHECK_ACTIVE
 	#include "../../Libs/nvwa-0.8.2/debug_new.h"
@@ -22,8 +23,9 @@ typedef vector<Quad*> QuadVector;
 typedef vector<Polygon*> PolygonVector;
 typedef vector<float*> TextureCoordVector;
 typedef multimap<string, Material*> mmsm;
-
 typedef TriangleVector::const_iterator TriangleIteratorConst;
+typedef set<string> NameSet;
+typedef pair<set<string>::iterator,bool> NameSetPair;
 
 /**
  * \brief Class to hold all data needed for a mesh. This includes: Vertices, Normals, Triangles, TextureCoordinates and Materials. It has as many Normals and Materials as Triangles and as many TextureCoordinates as Vertices
@@ -76,6 +78,12 @@ class Mesh {
 		TextureCoordVector  _textureCoords;
 		/** \brief Name of the Mesh */
 		string _name;
+
+	private:
+		/** \brief will be increased for every created mesh */
+		static int MeshCounter;
+		static NameSet Names;
+		static bool IsNameUnique(const string& name);
 
 friend class MeshLoaderObj;
 friend class MeshFileLoader;

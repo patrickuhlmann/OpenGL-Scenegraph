@@ -1,6 +1,27 @@
 #include "Transform.hpp"
 
-Transform::~Transform() { }
+/** \brief Transform Node is initialized with a Name and the identity matrix
+ * \param Name of the Node
+ */
+Transform::Transform(const string& Name) : CompositeNode(Name) { 
+	m3dLoadIdentity44( _matrix );
+}
+
+/** \brief Transform Node is initialized with a matrix
+  */
+Transform::Transform(const M3DMatrix44f& m) : CompositeNode() { 
+	m3dCopyMatrix44(_matrix, m);
+}
+
+/** \brief Transform Node is initialized with the Identity Matrix */
+Transform::Transform() : CompositeNode() { 
+	m3dLoadIdentity44( _matrix ); 
+}
+
+/** \brief Destructor. Empty */
+Transform::~Transform() { 
+	DLOG(INFO) << "~Transform" << endl;
+}
 
 void Transform::SetMatrix( M3DMatrix44f m ) { m3dCopyMatrix44(m, _matrix); }
 

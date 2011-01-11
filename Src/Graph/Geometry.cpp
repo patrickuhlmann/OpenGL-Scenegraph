@@ -1,13 +1,17 @@
 #include "Geometry.hpp"
 
-Geometry::Geometry(Mesh* M) : CompositeNode() {
-	if (M == 0)
-		DLOG(WARNING) << "Try to initialize Geometry with null pointer!" << endl;
-
+/** \brief Initializes a Geometry node with a mesh. The node will take the name of the mesh
+  * \param M Mesh to use in this geometry node. It takes ownership of the mesh and takes care of deleting it at the end
+ */
+Geometry::Geometry(Mesh* M) : CompositeNode(M->GetName()) {
 	_mesh = M;
 	Visible = true;
 };
 
+/** \brief Initializes a Geometry node with a mesh and a name.
+  * \param M Mesh to use in this geometry node. It takes ownership of the mesh and takes care of deleting it at the end
+  * \param Name of the GeometryNode
+  */
 Geometry::Geometry(Mesh* M, const string& Name) : CompositeNode(Name) {
 	if (M == 0)
 		DLOG(WARNING) << "Try to initialize Geometry with null pointer!" << endl;

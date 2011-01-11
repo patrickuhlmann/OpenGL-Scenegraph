@@ -8,17 +8,9 @@ using namespace std;
 
 class Transform : public CompositeNode {
 public:
-	Transform(const string& Name) : CompositeNode(Name) { 
-		m3dLoadIdentity44( _matrix );
-	}
-
-	Transform(const M3DMatrix44f& m) : CompositeNode() { 
-		m3dCopyMatrix44(_matrix, m);
-	}
-
-	Transform() : CompositeNode() { 
-		m3dLoadIdentity44( _matrix ); 
-	}
+	Transform(const string& Name);
+	Transform(const M3DMatrix44f& m);
+	Transform();
 
    virtual ~Transform();
 

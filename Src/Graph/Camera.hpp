@@ -33,9 +33,8 @@ public:
    *
    * @param pos the position of the camera.
    * @param dir the direction of the camera.
-   * @param parent        a pointer to the parent node.
    */
-  Camera( const M3DVector3f, const M3DVector3f, Node* );
+  Camera( const M3DVector3f, const M3DVector3f);
 
    ~Camera() { DLOG(INFO) << "~Camera"; }
 

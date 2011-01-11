@@ -1,13 +1,36 @@
 #include "Sphere.h"
 
-/** \brief Create a Torus
-  * \param Radius of the Sphere
-  * \param Slices of the circle (x surface)
-  * \param Stacks how many circles (y surface)
-  */
-Sphere::Sphere(float Radius, int Slices, int Stacks) {
-	Material* Mat = new Material("SphereMat", Vector3(0, 0, 1.0f));
-	Mat->SetDiffuse(Vector3(0.3f, 0, 0));
+Material Sphere::SphereMaterial = Material("SphereMat", Vector3(0, 0, 1.0f), Vector3(0.3f, 0, 0));
+
+/** \brief Create a sphere at the origin
+ * \param Radius of the sphere
+ * \param Slices on the x surface
+ * \param Stacks on the y surface
+ */
+Sphere::Sphere(float Radius, int Slices, int Stacks) : Mesh() {
+	Init(Radius, Slices, Stacks);
+}
+
+/** \brief Create a sphere at the origin
+ * \param Radius of the sphere
+ * \param Slices on the x surface
+ * \param Stacks on the y surface
+ * \param Name of the Sphere
+ * \param Mat Material to use. Default is SphereMat
+ */
+Sphere::Sphere(float Radius, int Slices, int Stacks, const string& Name, const Material& Mat) : Mesh(Name) {
+	Init(Radius, Slices, Stacks, Mat);
+}
+
+/** \brief Create a sphere at the origin
+ * \param Radius of the sphere
+ * \param Slices on the x surface
+ * \param Stacks on the y surface
+ * \param Name of the Sphere
+ * \param Mat Material to use. Default is SphereMat
+ */
+void Sphere::Init(float Radius, int Slices, int Stacks, const Material& SMat) {
+	Material* Mat = new Material(SMat);
 	_materials.insert(mmsm::value_type("SphereMat", Mat));
 
     float drho = PI / (float)Stacks;
@@ -18,7 +41,6 @@ Sphere::Sphere(float Radius, int Slices, int Stacks) {
 	float s = 0.0f;
     int i, j;     // Looping variables
     
-
 	for (i = 0; i < Stacks; i++) {
 		float rho = (float)i * drho;
 		float srho = sin(rho);
