@@ -56,8 +56,9 @@ BaseApplication::~BaseApplication() {
 void BaseApplication::Start() {
 	this->Init(&this->RootNode, &this->MeshLoader);
 
+        #ifdef __LINUX__
 	glutSetOption (GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION); 
-
+        #endif
 	glutMainLoop();
 
 	Shutdown();
