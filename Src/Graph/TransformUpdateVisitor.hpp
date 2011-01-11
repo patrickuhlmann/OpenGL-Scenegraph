@@ -5,8 +5,10 @@
 class TransformUpdateVisitor : public UpdateVisitor {
 public:
    // TransformUpdateVisitor();
-   TransformUpdateVisitor( const TransformStrategy& );
+   TransformUpdateVisitor( TransformStrategy* );
    
+   ~TransformUpdateVisitor();
+
    /**
     * Default implementation of Traverse().
     * TransformUpdaters should not traverse a node.
@@ -16,9 +18,9 @@ public:
    /** 
     * Perform a transformation on the Node's matrix.
     */
-   void VisitTransform( Node* );
+   void VisitTransform( Transform* );
 
 private:
-   TransformStrategy _strategy;
+   TransformStrategy* _strategy;
 
 };

@@ -1,5 +1,10 @@
 #include "TransformUpdateVisitor.hpp"
 
-TransformUpdateVisitor::TransformUpdateVisitor( const TransformStrategy& s ) : _strategy(s) {}
+TransformUpdateVisitor::TransformUpdateVisitor( TransformStrategy* s ) : _strategy(s) {}
 
-void TransformUpdateVisitor::VisitTransform( Node* node ) { _strategy( node ); }
+TransformUpdateVisitor::~TransformUpdateVisitor() { delete _strategy; }
+
+void TransformUpdateVisitor::VisitTransform( Transform* node ) 
+{ 
+   _strategy->Apply( node ); 
+}

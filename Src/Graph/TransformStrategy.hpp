@@ -12,7 +12,7 @@ public:
     * @see Node.hpp
     * @param pointer to Node
     */
-   void operator() ( Node* );
+   void Apply( Transform* );
 
 /**
  * Virtual function that can be overridden in subclasses to 
@@ -20,7 +20,7 @@ public:
  * The default behaviour means that the transformation multiplication
  * will be done with the identity matrix.
  */
- virtual void transformation();
+ virtual void transformation() = 0;
    
 protected:
    TransformStrategy();
