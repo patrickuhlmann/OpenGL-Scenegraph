@@ -2,7 +2,10 @@
 
 #include <vector>
 #include <istream>
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
+#ifdef MEMORY_CHECK_ACTIVE
+	#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#endif
 
 const double PI = 3.141592653589;
 

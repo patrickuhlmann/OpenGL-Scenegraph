@@ -43,7 +43,10 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 
 #include <math.h>
 #include <string.h>	// Memcpy lives here on most systems
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
+#ifdef MEMORY_CHECK_ACTIVE
+	#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // Data structures and containers
@@ -354,6 +357,7 @@ inline void m3dGetMatrixColumn33(M3DVector3d dst, const M3DMatrix33d src, const 
 
 inline void m3dSetMatrixColumn33(M3DMatrix33f dst, const M3DVector3f src, const int column)
 	{ memcpy(dst + (3 * column), src, sizeof(float) * 3); }
+
 
 inline void m3dSetMatrixColumn33(M3DMatrix33d dst, const M3DVector3d src, const int column)
 	{ memcpy(dst + (3 * column), src, sizeof(double) * 3); }

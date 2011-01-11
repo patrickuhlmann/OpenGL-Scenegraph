@@ -72,7 +72,9 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 	#include <GL/glew.h>
 #endif
 
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#ifdef MEMORY_CHECK_ACTIVE
+	#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#endif
 
 //////////////////////// TEMPORARY TEMPORARY TEMPORARY - On SnowLeopard this is suppored, but GLEW doens't hook up properly
 //////////////////////// Fixed probably in 10.6.3

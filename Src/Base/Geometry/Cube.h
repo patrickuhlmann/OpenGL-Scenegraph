@@ -13,4 +13,5 @@ class Cube : public Mesh {
 	public:
 		Cube(float Length);
 		Cube(float Length, const string& Name);
+		Cube(float Length, const string& Name, const Material& Material);
 };

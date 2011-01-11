@@ -4,7 +4,6 @@
 #include <list>
 #include <algorithm>
 #include <iostream>
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 typedef std::list< Node* > NodeList;
 typedef NodeList::iterator NodeIterator;

@@ -4,7 +4,6 @@
 #include "../Include/GLFrame.h"
 #include "../Include/GLFrustum.h"
 #include <glog/logging.h>
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 /**
  * Camera class for easy handling of view space and projection.

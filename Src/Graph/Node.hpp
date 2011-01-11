@@ -3,7 +3,10 @@
 #include <glog/logging.h>
 #include "NodeVisitor.hpp"
 #include <string>
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
+
+#ifdef MEMORY_CHECK_ACTIVE
+	#include "../../Libs/nvwa-0.8.2/debug_new.h"
+#endif
 
 using namespace std;
 

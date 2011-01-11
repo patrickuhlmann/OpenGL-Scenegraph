@@ -16,7 +16,17 @@ Cube::Cube(float Length, const string& Name) : Mesh(Name) {
 	Init(Length);
 }
 
-/** \brief Create a cube with a defined length and  */
+/** \brief Create a named cube of the defined length placed at the origin of the coordinate system
+ * \param Length of the cube
+ * \param Name of the cube
+ */
+Cube::Cube(float Length, const string& Name, const Material& Mat) : Mesh(Name) {
+	Init(Length, Mat);
+}
+
+/** \brief Create a cube with a defined length and material
+  * \param Length of the cube
+  * \param material to use */
 void Cube::Init(float Length, const Material& CMat) {
 	Material* Mat = new Material(CMat);
 	_materials.insert(mmsm::value_type("CubeMat", Mat));

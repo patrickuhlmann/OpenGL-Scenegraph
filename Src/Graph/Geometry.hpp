@@ -4,7 +4,6 @@
 #include "../Base/Mesh.hpp"
 #include "../Base/State.hpp"
 #include <string>
-#include "../../Libs/nvwa-0.8.2/debug_new.h"
 
 using namespace std;
 
