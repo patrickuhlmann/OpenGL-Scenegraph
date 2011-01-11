@@ -12,12 +12,19 @@ SimpleApplication::SimpleApplication(string Title, int WindowWidth, int WindowHe
    : BaseApplication(Title, WindowWidth, WindowHeight, new OpenGLFixedAdapter(), new RenderVisitorOpenGL1()) {
 	Input.AddGlobalListener(this->HandleKeysS);
 
-	Light* l = new Light("GlobalLight");
+	// Initialize Glew
+	GLenum err = glewInit();
+	if (GLEW_OK != err) {
+		fprintf(stderr, "GLEW Error: %s\n", glewGetErrorString(err));
+		exit(1);
+	}
 
-	Camera* c = new Camera("GlobalCamera");
-	c->SetPerspective( 45.0f,(GLfloat)WindowWidth/(GLfloat)WindowHeight,0.1f,100.0f );
+	Light* _light = new Light("GlobalLight");
 
-	RootNode.AddChild(l->AddChild(c));
+	Camera* _camera = new Camera("GlobalCamera");
+	_camera->SetPerspective( 45.0f,(float)WindowWidth/(float)WindowHeight,0.1f,100.0f );
+
+	RootNode.AddChild(_light->AddChild(_camera));
 }
 
 /** Empty Implementation
@@ -106,8 +113,6 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
  * \param Code of the pressed key
  */
 void SimpleApplication::HandleKeys(enuKey Code) {
-	Camera* _camera = reinterpret_cast<Camera*>(RootNode.GetByName("GlobalCamera"));
-
    DLOG(INFO) << "HandleKeys() called\n";
    switch( Code ) {
       case APP_KEY_W :

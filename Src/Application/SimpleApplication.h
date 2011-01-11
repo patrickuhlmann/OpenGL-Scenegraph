@@ -2,6 +2,7 @@
 
 #include "BaseApplication.h"
 #include "../Graph/RenderVisitorOpenGL1.hpp"
+#include "../Graphics/Adapter/OpenGLFixedAdapter.h"
 
 #define STEP 1.0f    // amount to move
 #define ANGLE 0.09f  // angle in radians almost 5 deg
@@ -13,6 +14,8 @@ class SimpleApplication : public BaseApplication {
    void HandleKeysSimple(enuKey Code);
    
   protected:
+	Light* _light;
+	Camera* _camera;
    
   public:
    SimpleApplication(string Title, int WindowWidth, int WindowHeight);

@@ -9,23 +9,15 @@
 #include <GL/freeglut.h>
 #endif
 
-
-
 // C++
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
 #include <string>
 
 // Own classes
 #include "InputManager.h"
 #include "../MeshLoaders/MeshFileLoader.h"
 #include "../MeshLoaders/MeshLoaderObj.h"
-#include "../Graph/Light.hpp"
-#include "../Graph/Camera.hpp"
-#include "../Graph/NodeVisitor.hpp"
 #include "../Graph/Group.hpp"
-#include "../Graphics/Adapter/OpenGLFixedAdapter.h"
+#include "../Graphics/Adapter/GraphicsAdapter.h"
 
 #include "../../Libs/nvwa-0.8.2/debug_new.h"
 
@@ -37,8 +29,6 @@ using namespace std;
 class BaseApplication {
 	private:
 		void RenderBase();
-		void SetupOpenGL();
-		void CheckOpenGLError();
 		void ResizeBase(int NewWidth, int NewHeight);
 
 	protected:
@@ -76,5 +66,6 @@ class BaseApplication {
 		/** \brief This function is called whenever we change the size of the window (which includes one call when it is created the first time) */
 		virtual void Resize(int NewWidth, int NewHeight) = 0;
 		static void ResizeS(int NewWidth, int NewHeight);
+		/** \brief This function is called when the application exits. It' supposed to do the cleanup */
 		virtual void Shutdown() = 0;
 };

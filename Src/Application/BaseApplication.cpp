@@ -5,6 +5,8 @@
  * \param Title Title which will be print to the titlebar of the window
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
+ * \param GraphicsAdapter as interface to the Graphics Library (OpenGL/DirectX) to use, we take ownership and remove it at the end
+ * \param NodeVisitor to use for rendering, we take ownership and remove it at the end
  */
 BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight, GraphicsAdapter* Adapter, NodeVisitor* RenderVisitor) : RootNode(string("Root")) {
 	// Initialize Glut and our Window
@@ -25,13 +27,6 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	glutKeyboardFunc(Input.HandleKeysS);
 	DLOG(INFO) << "Registred Keyboard Handler in Glut" << endl;
 
-	// Initialize Glew
-	GLenum err = glewInit();
-	if (GLEW_OK != err) {
-		fprintf(stderr, "GLEW Error: %s\n", glewGetErrorString(err));
-		exit(1);
-	}
-
 	// Initialize the MeshLoader
 	this->MeshLoader.AddMeshLoader(new MeshLoaderObj());
 
@@ -47,16 +42,16 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 }
 
 /**
- * Removes the GraphicsAdapter and the RenderVisitor
+ * \brief Removes the GraphicsAdapter and the RenderVisitor
  */
 BaseApplication::~BaseApplication() {
-	DLOG(INFO) << "~BaseApplication" << endl;
 	delete this->GAdapter;
 	delete this->RenderVisitor;
+	DLOG(INFO) << "~BaseApplication" << endl;
 }
 
 /**
- * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop
+ * \brief This function is intended to really start our application. It calls Virtual Init Function and Start the glut Main Loop. It will hang until we end the Application and then it will call Shutdown
  */
 void BaseApplication::Start() {
 	this->Init(&this->RootNode, &this->MeshLoader);
@@ -77,6 +72,8 @@ int BaseApplication::GetFrameCounter() {
 
 /**
  * \brief Adjust the OpenGL Viewport and calls the Resize Lifecycle method
+ * \param NewWidth of the Window
+ * \param NewHeight of the Window
  */
 void BaseApplication::ResizeBase(int NewWidth, int NewHeight) {
 	glViewport(0, 0, NewWidth, NewHeight);
@@ -84,13 +81,11 @@ void BaseApplication::ResizeBase(int NewWidth, int NewHeight) {
 }
 
 /**
- * \brief Check if there was an error, call virtual update function, clear the window, call virtual render, swap the buffers and increase the framecounter
+ * \brief Do nothing if the pause flag ist set. Otherwise execute the the Update and Render function. If PrintTime is set it will also messure how long it takes for them to execute
  */
 void BaseApplication::RenderBase() {
 	if (this->PauseFlag)
 		return;
-
-	this->GAdapter->BeforeRendering();
 
 	if (PrintTime) {
 		float BeforeUpdate = glutGet(GLUT_ELAPSED_TIME);
@@ -99,6 +94,8 @@ void BaseApplication::RenderBase() {
 	} else {
 		this->Update(&this->RootNode);
 	}
+
+	this->GAdapter->BeforeRendering();
 
 	if (PrintTime) {
 		float BeforeRender = glutGet(GLUT_ELAPSED_TIME);
@@ -130,6 +127,8 @@ void BaseApplication::RenderS() {
 /**
  * \brief Needs to be static because it is a callback function which needs to be called from glut. Redirects the call
  to the Resize function of the Instance
+ * \param NewWidth of the Window
+ * \param NewHeight of the Window
  */
 void BaseApplication::ResizeS(int NewWidth, int NewHeight) {
 	BaseApplication::Instance->ResizeBase(NewWidth, NewHeight);
