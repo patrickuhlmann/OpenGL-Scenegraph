@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef __APPLE__
-#include <glut/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-
 #include <string>
 #include <map>
 #include <glog/logging.h>
@@ -13,6 +7,7 @@
 
 using namespace std;
 
+/** \brief Keys that can be bound */
 enum enuKey {
 	APP_KEY_ESC = 27,
 	APP_KEY_A = 97,
@@ -43,12 +38,6 @@ enum enuKey {
 	APP_KEY_Z = 120,
 };
 
-enum enuMouse {
-	APP_MOUSE_LEFT,
-	APP_MOUSE_RIGHT,
-	APP_MOUSE_MIDDLE
-};
-
 typedef multimap<int, string> mmis;
 typedef multimap<string, void (*)(enuKey, int, int)> mmsp;
 typedef pair<mmis::iterator, mmis::iterator> mmispairit;
@@ -63,7 +52,6 @@ class InputManager {
 	private:
 		/** \brief This reference is needed so that the static callback function can redirect to the most recently created instance */
 		static InputManager* Instance;
-		/** \brief This is the callback function which (will be called indirectly via HandleKeysS) can then call all registred callback function of this class */
 		void HandleKeys(int Code, int x, int y);
 		/** \brief Stores the Binding which Action is associated with which key */
 		mmis ActionInputMap;
@@ -74,7 +62,6 @@ class InputManager {
 		InputManager();
 		virtual ~InputManager();
 		void AddBinding(string Action, enuKey KeyInput);
-		void AddBinding(string Action, enuMouse MouseInput);
 		void AddListener(string Action, void (*HandlerCallback)(enuKey, int, int));
 		void AddGlobalListener(void (*HandlerCallback)(enuKey, int, int));
 		static void HandleKeysS(unsigned char Code, int x, int y);

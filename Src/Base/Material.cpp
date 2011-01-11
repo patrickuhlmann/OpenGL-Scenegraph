@@ -4,12 +4,22 @@
 *	\param Name of the Material
 *	\param AmbientLight float array containing three elements for red, green and blue component of the light
 */
-Material::Material(const string& Name, const Vector3& AmbientLight) {
-	_ambient = Vector3(AmbientLight);
+Material::Material(const string& Name, const Vector3& AmbientLight) : _ambient(Vector3(AmbientLight)), _name(Name) {
 	_transparency = 1;
 	_useDiffuse = false;
 	_useSpecular = false;
-	_name = Name;
+	_shine = 0;
+}
+
+/** Creates a material which has a AmbientLight, a Diffuse Light and a name. There is no Specular light. The Alpha Value of the object is set to 1 (visible)
+*	\param Name of the Material
+*	\param AmbientLight containing the RGB values of the light
+*   \param DiffuseLight containing the RGB values of the light
+*/
+Material::Material(const string& Name, const Vector3& AmbientLight, const Vector3& DiffuseLight) : _ambient(Vector3(AmbientLight)), _diffuse(Vector3(DiffuseLight)), _name(Name) {
+	_transparency = 1;
+	_useDiffuse = true;
+	_useSpecular = false;
 	_shine = 0;
 }
 
@@ -17,7 +27,9 @@ Material::Material(const string& Name, const Vector3& AmbientLight) {
 *
 * \param m to copy the properties from
 */
-Material::Material( const Material& m ) { Copy( m ); }
+Material::Material( const Material& m ) {
+	Copy( m );
+}
 
 Material::Material( const Material* m) {
 	Copy(m); 

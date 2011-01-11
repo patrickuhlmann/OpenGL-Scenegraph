@@ -7,6 +7,9 @@ InputManager::InputManager() {
 	Instance = this;
 }
 
+/**
+ * \brief Destructor. Empty
+ */
 InputManager::~InputManager() {
 	DLOG(INFO) << "~InputManager" << endl;
 }
@@ -51,6 +54,8 @@ void InputManager::HandleKeys(int Code, int x, int y) {
 
 /**
  * \brief Bind a Key to an action
+ * \param Action to bind the key to
+ * \param KeyInput code to bind
  */
 void InputManager::AddBinding(string Action, enuKey KeyInput) {
 	ActionInputMap.insert(mmis::value_type(KeyInput, Action));
@@ -58,15 +63,9 @@ void InputManager::AddBinding(string Action, enuKey KeyInput) {
 }
 
 /**
- * \brief Bind a MouseKey to an action
- */
-void InputManager::AddBinding(string Action, enuMouse MouseInput) {
-	ActionInputMap.insert(mmis::value_type(MouseInput, Action));
-	DLOG(INFO) << "Added Binding for " << Action << endl;
-}
-
-/**
  * \brief Add a Callback Method for an Action. This callback will be called whenever a key activates an action which is associated to this callback
+ * \param Action which triggers a call to the Callback
+ * \param HandlerCallback which will be triggered
  */
 void InputManager::AddListener(string Action, void (*HandlerCallback)(enuKey, int, int)) {
 	ActionCallbackMap.insert(mmsp::value_type(Action, HandlerCallback));
@@ -74,7 +73,8 @@ void InputManager::AddListener(string Action, void (*HandlerCallback)(enuKey, in
 }
 
 /**
- * \brief Add a Callback Method for every key. This callback will be called whenever a key is pressed
+ * \brief Add a Callback Method for every key. This callback will be called whenever any key is pressed
+ * \param HandlerCallback which will be triggered
  */
 void InputManager::AddGlobalListener(void (*HandlerCallback)(enuKey, int, int)) {
 	ActionCallbackMap.insert(mmsp::value_type("_GLOBAL_", HandlerCallback));

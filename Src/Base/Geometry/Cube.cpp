@@ -1,20 +1,25 @@
 #include "Cube.h"
 
+Material Cube::CubeMaterial = Material("CubeMat", Vector3(0, 1.0f, 0), Vector3(0, 0, 0.3f));
+
+/** \brief Create a unnamed cube of the defined length placed at the origin of the coordinate system. The Material is Blue 
+ * \param Length of the cube */
 Cube::Cube(float Length) : Mesh() {
 	Init(Length);
 }
 
+/** \brief Create a named cube of the defined length placed at the origin of the coordinate system
+ * \param Length of the cube
+ * \param Name of the cube
+ */
 Cube::Cube(float Length, const string& Name) : Mesh(Name) {
 	Init(Length);
 }
 
-void Cube::Init(float Length) {
-	Material* Mat = new Material("CubeMat", Vector3(0, 1.0f, 0));
-	Mat->SetDiffuse(Vector3(0, 0, 0.3f));
+/** \brief Create a cube with a defined length and  */
+void Cube::Init(float Length, const Material& CMat) {
+	Material* Mat = new Material(CMat);
 	_materials.insert(mmsm::value_type("CubeMat", Mat));
-
-	// Texture?
-	// Vertex Normals?
 
     // Top
 	_vertices.push_back(new Vector3(Length, Length, Length));

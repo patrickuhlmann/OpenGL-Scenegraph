@@ -11,6 +11,7 @@ using namespace std;
 class Material {
 public:
   Material(const string& Name, const Vector3& AmbientLight);
+  Material(const string& Name, const Vector3& AmbientLight, const Vector3& DiffuseLight);
   Material( const Material& );
   Material( const Material* );
   virtual ~Material() { };

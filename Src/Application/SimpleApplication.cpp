@@ -93,7 +93,11 @@ void SimpleApplication::HandleKeysSimple(enuKey Code) {
    DLOG(INFO) << "HandleKeysSimple() called\n";
 	if (Code == APP_KEY_ESC) {
 		DLOG(INFO) << "Esc leaving application" << endl;
-		void glutLeaveMainLoop(void);
+		#if defined(linux) || defined(__linux)
+			void glutLeaveMainLoop(void);
+		#else
+			exit(0);
+		#endif
 	} else if (Code == APP_KEY_P) {
 		this->PauseFlag = !this->PauseFlag;
 		if (this->PauseFlag)

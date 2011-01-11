@@ -1,3 +1,4 @@
 #include "BaseApplication.h"
 
-BaseApplication *BaseApplication::Instance = 0;
+/** \brief Initializes the static variable to hold the active instance */
+BaseApplication* BaseApplication::Instance = 0;

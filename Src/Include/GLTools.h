@@ -42,34 +42,34 @@ ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF S
 // Bring in OpenGL 
 // Windows
 #ifdef WIN32
-#include <windows.h>		// Must have for Windows platform builds
-#ifndef GLEW_STATIC
-#define GLEW_STATIC
-#endif
+	#include <windows.h>		// Must have for Windows platform builds
+	#ifndef GLEW_STATIC
+		#define GLEW_STATIC
+	#endif
 
-#include <gl\glew.h>			// OpenGL Extension "autoloader"
-#include <gl\gl.h>			// Microsoft OpenGL headers (version 1.1 by themselves)
+	#include <gl\glew.h>			// OpenGL Extension "autoloader"
+	#include <gl\gl.h>			// Microsoft OpenGL headers (version 1.1 by themselves)
 #endif
 
 // Mac OS X
 #ifdef __APPLE__
-#include <stdlib.h>
+	#include <stdlib.h>
 
-#include <TargetConditionals.h>
-#if TARGET_OS_IPHONE | TARGET_IPHONE_SIMULATOR
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#define OPENGL_ES
-#else
-#include "GL/glew.h"
-#include <OpenGL/gl.h>		// Apple OpenGL haders (version depends on OS X SDK version)
-#endif
+	#include <TargetConditionals.h>
+	#if TARGET_OS_IPHONE | TARGET_IPHONE_SIMULATOR
+		#include <OpenGLES/ES2/gl.h>
+		#include <OpenGLES/ES2/glext.h>
+		#define OPENGL_ES
+	#else
+		#include "GL/glew.h"
+		#include <OpenGL/gl.h>		// Apple OpenGL haders (version depends on OS X SDK version)
+	#endif
 #endif
 
 // Linux
 #ifdef linux
-#define GLEW_STATIC
-#include <GL/glew.h>
+	#define GLEW_STATIC
+	#include <GL/glew.h>
 #endif
 
 #include "../../Libs/nvwa-0.8.2/debug_new.h"
