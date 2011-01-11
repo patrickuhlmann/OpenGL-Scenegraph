@@ -4,6 +4,7 @@
 #include "../Include/math3d.h"
 #include "../Base/State.hpp"
 #include "../Base/Material.hpp"
+#include "Node.hpp"
 
 /**
  * Updates a node in the scene graph.
@@ -17,6 +18,8 @@ public:
   UpdateVisitor();
   ~UpdateVisitor();
   
+   virtual void Visit( Node* );
+
   /**
    * Update a transform node.
    *

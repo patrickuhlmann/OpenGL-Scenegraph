@@ -7,6 +7,12 @@ UpdateVisitor::~UpdateVisitor() {
 		delete _material;
 }
 
+
+void UpdateVisitor::Visit( Node* n )
+{
+   n->Accept( this );
+}
+
 void UpdateVisitor::VisitTransform( Transform* t ) 
 {
 
