@@ -46,6 +46,9 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	this->PrintTime = false;
 }
 
+/**
+ * Removes the GraphicsAdapter and the RenderVisitor
+ */
 BaseApplication::~BaseApplication() {
 	DLOG(INFO) << "~BaseApplication" << endl;
 	delete this->GAdapter;

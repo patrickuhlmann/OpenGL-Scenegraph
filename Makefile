@@ -34,7 +34,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader AddRemoveChild.o AddRemoveChild Node.o
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader AddRemoveChild.o AddRemoveChild Node.o PongGame.o PongGame
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -52,6 +52,12 @@ TestCompositeNode: Tests/TestCompositeNode.cpp Src/Graph/Node.hpp Src/Graph/Comp
 
 MeshLoader.o: Src/MeshLoaders/MeshLoader.cpp Src/MeshLoaders/MeshLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
+
+PongGame.o: Src/Showcase/PongGame.cpp Src/Showcase/PongGame.h
+	$(CXX) -c $(CXXFLAGS) Src/Showcase/$*.cpp
+
+PongGame: Src/Showcase/PongGame.cpp $(GRAPHICPROGO) PongGame.o
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) PongGame.o -o PongGame $(LDFLAGS)
 
 MeshFileLoader.o: MeshLoader.o Src/MeshLoaders/MeshFileLoader.cpp Src/MeshLoaders/MeshFileLoader.h
 	$(CXX) -c $(CXXFLAGS) Src/MeshLoaders/$*.cpp
