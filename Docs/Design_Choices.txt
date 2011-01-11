@@ -1,0 +1,36 @@
+Name of Nodes
+=============
+Every Node should have a unique name. We ensure this with a static set of Names in the Node Base Class. Whenever you create a node it will check if there is already a node with the same name
+
+States in Nodes
+===============
+We don't want to add the State in the Composite or Node class because not all of the Nodes actually need the state.
+
+Read in Mesh
+============
+Create a group node and hierarchiy
+
+Optimizations
+=============
+Sort the States to minimize changes of Material and Color
+
+Visitor pattern
+=============
+The graph represents graphical objects and transformations in a scene
+spatially. Camera and lights can be thought of as objects that
+transform graphical objects. Since the structure of the graph doesn't
+change often but the algorithms acting on the nodes in the graph does
+we have decided to use the visitor pattern. By using different
+visitors we can easily swap between different rendering algorithms,
+for example those that perform rendering by using OpenGL immediate
+mode and those that use shaders. 
+New algorithms can easily be added, for example a pre-render analysis
+that creates rendernodes sorted by state/material.
+
+Composite pattern
+=============
+The scene graph consist of nodes and leafs. The composite pattern is
+quite natural to use. We have two kinds of nodes, a node without
+children and a composite node that can have any number of children.
+
+
