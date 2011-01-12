@@ -1,7 +1,9 @@
 #include "BaseApplication.h"
 
+int BaseApplication::MaxFrameRate = 25;
+
 /**
- * \brief Initialize Glut, Create Window, Setup Callback for Render, Resize and Keyboard Handler
+ * \brief Initialize Glut, Create Window, Setup Callback for Render, Setup Time to restrict FPS, Resize and Keyboard Handler
  * \param Title Title which will be print to the titlebar of the window
  * \param WindowWidth decides how wide the window will be (pixel)
  * \param WindowHeight decides how heigh the window will be (pixel)
@@ -21,6 +23,7 @@ BaseApplication::BaseApplication(string Title, int WindowWidth, int WindowHeight
 	BaseApplication::Instance = this;
 	glutReshapeFunc(this->ResizeS);
 	glutDisplayFunc(this->RenderS);
+	glutTimerFunc(1000/MaxFrameRate, this->TimerS, 0);
 	LOG(INFO) << "Registred Render Function in Glut" << endl;
 
 	// Setup KeyHandler
@@ -89,23 +92,21 @@ void BaseApplication::RenderBase() {
 	if (this->PauseFlag)
 		return;
 
-	if (PrintTime) {
-		float BeforeUpdate = glutGet(GLUT_ELAPSED_TIME);
-		this->Update(&this->RootNode);
-		DLOG(INFO) << "Update took: " << glutGet(GLUT_ELAPSED_TIME) - BeforeUpdate << endl;
-	} else {
-		this->Update(&this->RootNode);
-	}
+	float BeforeUpdate = glutGet(GLUT_ELAPSED_TIME);
+	this->Update(&this->RootNode);
+	float UpdateTime = glutGet(GLUT_ELAPSED_TIME) - BeforeUpdate;
+
+	if (PrintTime)
+		DLOG(INFO) << "Update took: " << UpdateTime << endl;
 
 	this->GAdapter->BeforeRendering();
 
-	if (PrintTime) {
-		float BeforeRender = glutGet(GLUT_ELAPSED_TIME);
-		this->Render(this->RenderVisitor, &this->RootNode);
-		DLOG(INFO) << "Render took: " << glutGet(GLUT_ELAPSED_TIME) - BeforeRender << endl;
-	} else {
-		this->Render(this->RenderVisitor, &this->RootNode);
-	}
+	float BeforeRender = glutGet(GLUT_ELAPSED_TIME);
+	this->Render(this->RenderVisitor, &this->RootNode);
+	float RenderTime = glutGet(GLUT_ELAPSED_TIME) - BeforeRender;
+
+	if (PrintTime)
+		DLOG(INFO) << "Render took: " << RenderTime << endl;
 
 	this->GAdapter->AfterRendering();
 
@@ -113,9 +114,6 @@ void BaseApplication::RenderBase() {
 	glutSwapBuffers();
 
 	++this->FrameCounter;
-
-	// Redraw
-	glutPostRedisplay();
 }
 
 /**
@@ -134,4 +132,12 @@ void BaseApplication::RenderS() {
  */
 void BaseApplication::ResizeS(int NewWidth, int NewHeight) {
 	BaseApplication::Instance->ResizeBase(NewWidth, NewHeight);
+}
+
+/** \brief This timer function gets called whenever a frame is ready (regarding to FPS). It will display a frame and set a callback for itself 
+ * \param int ignored
+ */
+void BaseApplication::TimerS(int) {
+	glutTimerFunc(1000/MaxFrameRate, BaseApplication::TimerS, 0);
+	glutPostRedisplay();
 }

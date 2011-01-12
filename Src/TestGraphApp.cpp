@@ -80,8 +80,8 @@ public:
 
          UpdateVisitorFactory fact;
         
-        visitor = fact.CreateTransformationVisitor( ROTATE, 1.0f, 0.0f, 0.0f, 0.001f );
-        visitor2 = fact.CreateTransformationVisitor( SCALE, 1.0002f, 1.0f, 1.0f );
+        visitor = fact.CreateTransformationVisitor( ROTATE, 1.0f, 0.0f, 0.0f, 0.01f );
+        visitor2 = fact.CreateTransformationVisitor( SCALE, 1.002f, 1.0f, 1.0f );
    };
 
    void Render( NodeVisitor* r, CompositeNode* c)

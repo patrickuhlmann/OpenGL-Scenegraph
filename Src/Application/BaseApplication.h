@@ -11,6 +11,7 @@
 
 // C++
 #include <string>
+#include <time.h>
 
 // Own classes
 #include "InputManager.h"
@@ -54,6 +55,8 @@ class BaseApplication {
 		bool PrintTime;
 		/** \brief Adapter class to the graphics framework to use */
 		GraphicsAdapter* GAdapter;
+		/** \brief Maximum Framerate of our application */ 
+		static int MaxFrameRate;
 
 	public:
 		BaseApplication(string Title, int WindowWidth, int WindowHeight, GraphicsAdapter* Adapter, NodeVisitor* RenderVisitor);
@@ -72,4 +75,5 @@ class BaseApplication {
 		static void ResizeS(int NewWidth, int NewHeight);
 		/** \brief This function is called when the application exits. It' supposed to do the cleanup */
 		virtual void Shutdown() = 0;
+		static void TimerS(int);
 };

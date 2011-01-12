@@ -39,10 +39,6 @@ Mesh::~Mesh() {
 		delete *it;
 	}
 
-	for (TextureCoordVector::iterator it = _textureCoords.begin(); it != _textureCoords.end(); ++it) {
-		delete[] *it;
-	}
-
 	for (TriangleVector::iterator it = _triangles.begin(); it != _triangles.end(); ++it) {
 		delete (*it);
 	}
@@ -81,15 +77,6 @@ const TriangleVector& Mesh::GetTriangleVector() const {
  */
 const Vector3* Mesh::GetVertex( int i ) const {
 	return _vertices.at(i);
-}
-
-/**
- * \brief Get the TextureCoordinates at position i
- * \param i index of the TextureCoordinates
- * \return pointer to the TextureCoordinates (ST)
- */
-const float* Mesh::GetTextureCoord( int i ) const {
-	return _textureCoords.at(i);
 }
 
 /**

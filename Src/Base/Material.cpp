@@ -24,25 +24,27 @@ Material::Material(const string& Name, const Vector3& AmbientLight, const Vector
 }
 
 /** \brief Copy constructor to copy the properties of another Material. These properties are completly independent of the original 
-*
 * \param m to copy the properties from
 */
 Material::Material( const Material& m ) {
 	Copy( m );
 }
 
+/** \brief Copy constructor to copy the properties of another Material. These properties are completly independent of the original 
+* \param m to copy the properties from
+*/
 Material::Material( const Material* m) {
 	Copy(m); 
 }
 
 /** \brief Just copies all properties. These properties are completly independent of the original 
-*
 * \param m to assign to our class
 */
-void Material::operator= ( const Material& m ) { Copy( m ); }
+void Material::operator= ( const Material& m ) { 
+	Copy( m );
+}
 
 /** \brief Helper Method to copy a material. It just makes a copy of all properties 
-*
 * \param other to copy the properties from
 */
 void Material::Copy( const Material& other )
@@ -58,7 +60,6 @@ void Material::Copy( const Material& other )
 }
 
 /** \brief Helper Method to copy a material. It just makes a copy of all properties 
-*
 * \param other to copy the properties from
 */
 void Material::Copy( const Material* other )
@@ -74,7 +75,6 @@ void Material::Copy( const Material* other )
 }
 
 /** \brief Sets the Ambient Light of the Material (Ambient is the Light which is always present. No matter how far away or in which direction the viewer is.
-*
 * \param AmbientLight float array containing three elements for red, green and blue component of the light
 */
 void Material::SetAmbient(const Vector3& AmbientLight )
@@ -93,7 +93,6 @@ void Material::SetAmbient(float r, float g, float b) {
 }
 
 /** \brief Sets the Diffuse Light of the Material (Diffuse is the light which is dependent of the viewing direction of the user
-*
 * \param DiffuseLight float array containing three elements for red, green and blue component of the light
 */
 void Material::SetDiffuse(const Vector3& DiffuseLight)
@@ -103,7 +102,6 @@ void Material::SetDiffuse(const Vector3& DiffuseLight)
 }
 
 /** \brief Sets the Diffuse Light of the Material (Diffuse is the light which is dependent of the viewing direction of the user
-*
 * \param r for the red component of the light
 * \param g for the green component of the light
 * \param b for the blue component of the light
@@ -119,7 +117,6 @@ void Material::RemoveDiffuse() {
 }
 
 /** \brief Sets the Specular Light of the Material (Specular is the light wich is dependent of the viewing direction and creates a bright spot on the object)
-*
 *	\param SpecularLight float array containing three elements for red, green and blue component of the light
 *	\param s shininess of the color (Shininess is a value from 0 (not bright) to 1000 (very bright) to define how bright the Specular Light will be)
 */
@@ -132,7 +129,6 @@ void Material::SetSpecular(const Vector3& SpecularLight, int s)
 }
 
 /** \brief Sets the Specular Light of the Material (Specular is the light wich is dependent of the viewing direction and creates a bright spot on the object)
-*
 * \param r for the red component of the light
 * \param g for the green component of the light
 * \param b for the blue component of the light
@@ -150,7 +146,6 @@ void Material::RemoveSpecular() {
 }
 
 /** \brief Sets the Alpha value of the object
-*
 * \param a 0 is invisible, 1 is solid visible, values between are partly visible. The background can be seen through
 */
 void Material::SetTransparency( float a ) { 

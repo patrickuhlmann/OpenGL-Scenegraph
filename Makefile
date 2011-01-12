@@ -3,7 +3,7 @@ CXXFLAGS = -pg -g -lglog
 CXXTESTFLAGS = -lgtest -pthread -lglog
 LDFLAGS = -L/usr/X11R6/lib -lglut -lGLU -lGL -lXmu -lX11 -lm -pg -g -lglog -lGLEW
 LDFLAGSAPPLE = -lm  -pg -g -lglog -framework OpenGL -framework GLUT /opt/local/lib/libGLEW.a
-GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o Node.o 
+GRAPHICPROGO = SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o Node.o UpdateVisitorFactory.o UpdateVisitor.o TransformUpdateVisitor.o TransformStrategy.o RotateTransformStrategy.o ScaleTransformStrategy.o TranslateTransformStrategy.o
 #Libs/nvwa-0.8.2/debug_new.o
 TESTGRAPHAPP =  SimpleApplication.o BaseApplication.o BaseApplicationInstanceInit.o InputManager.o InputManagerInstanceInit.o GLTools.o MeshFileLoader.o MeshLoaderObj.o MeshLoader.o Mesh.o Material.o math3d.o Light.o Camera.o RenderVisitorOpenGL1.o Transform.o Geometry.o State.o GLBatch.o GLTriangleBatch.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o Node.o UpdateVisitorFactory.o UpdateVisitor.o TransformUpdateVisitor.o TransformStrategy.o RotateTransformStrategy.o ScaleTransformStrategy.o TranslateTransformStrategy.o
 #Libs/nvwa-0.8.2/debug_new.o 
@@ -37,7 +37,7 @@ clean:
 doc:
 	doxygen Doxyfile
 
-AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader AddRemoveChild.o AddRemoveChild Node.o PongGame.o PongGame
+AllCode: UpdateVisitor.o Transform.o Light.o Geometry.o Camera.o SkeletonApp SkeletonApp.o SimpleApplication.o BaseApplicationInstanceInit.o BaseApplication.o InputManagerInstanceInit.o InputManager.o State.o Material.o GLTriangleBatch.o GLTools.o GLShaderManager.o GLBatch.o math3d.o Mesh.o MeshLoaderObj.o MeshFileLoader.o MeshLoader.o RenderVisitorOpenGL1.o OpenGLDrawing.o OpenGLState.o Group.o Datatypes.o OpenGLFixedAdapter.o Cube.o Torus.o Sphere.o SimpleGeometry.o SimpleGeometry ObjectsLoader.o ObjectsLoader AddRemoveChild.o AddRemoveChild Node.o PongGame.o PongGame UpdateVisitorFactory.o UpdateVisitor.o TransformUpdateVisitor.o TransformStrategy.o RotateTransformStrategy.o ScaleTransformStrategy.o TranslateTransformStrategy.o
 
 AllTests: TestMeshLoaders TestNode TestCompositeNode
 
@@ -199,6 +199,9 @@ Torus.o: Src/Base/Geometry/Torus.cpp Src/Base/Geometry/Torus.h
 
 TestGraphApp.o: Src/TestGraphApp.cpp
 	$(CXX) -c $(CXXFLAGS) Src/$*.cpp
+
+TestGraphAppLinux: Src/TestGraphApp.cpp $(GRAPHICPROGO) TestGraphApp.o
+	$(CXX) $(CXXFLAGS) $(GRAPHICPROGO) TestGraphApp.o -o TestGraphApp $(LDFLAGS)
 
 TestGraphApp: Src/TestGraphApp.cpp $(TESTGRAPHAPP) TestGraphApp.o
 	$(CXX) $(CXXFLAGS) $(TESTGRAPHAPP) TestGraphApp.o -o TestGraphApp $(LDFLAGSAPPLE)

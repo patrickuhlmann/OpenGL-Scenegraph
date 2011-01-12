@@ -148,14 +148,6 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 
 
 
-	// Add Texture for all Vertices
-	for (VertexVector::iterator it = M->_vertices.begin(); it != M->_vertices.end(); ++it) {
-		float* Texture = new float[2];
-		Texture[0] = 0;
-		Texture[1] = 0;
-
-		M->_textureCoords.push_back(Texture);
-	}
 
 	DLOG(INFO) << "Read in " << M->_vertices.size() << " Vertices" << endl;
 	DLOG(INFO) << "Read in " << M->_triangles.size() << " Triangles" << endl;
@@ -163,7 +155,6 @@ Mesh* MeshLoaderObj::Load(istream& Stream) {
 	DLOG(INFO) << "Read in " << M->_polygons.size() << " Polygons" << endl;
 	DLOG(INFO) << "Read in " << M->_quadsConcave.size() << " ConcaveQuads" << endl;
 	DLOG(INFO) << "Read in " << M->_polygonsConcave.size() << " ConcavePolygons" << endl;
-	DLOG(INFO) << "Read in " << M->_textureCoords.size() << " Texture Coordinates" << endl;
 
 	if (Stream.bad()) {
 		DLOG(WARNING) << "Error reading in Mesh" << endl;

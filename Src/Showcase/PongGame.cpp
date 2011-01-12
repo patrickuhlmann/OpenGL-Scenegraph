@@ -4,8 +4,8 @@
  * \brief Just redirect to SimpleApplication Constructor and create a window with a width of 800 and height of 600 pixels
  */
 PongGame::PongGame() : SimpleApplication("PongGame", 800, 600) {
-	SpeedX = 0.03f;
-	SpeedY = 0.03f;
+	SpeedX = 0.06f;
+	SpeedY = 0.06f;
 	BallPosX = 0;
 	BallPosY = 0;
 	BatPosY = 0;

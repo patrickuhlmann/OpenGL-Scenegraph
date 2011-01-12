@@ -11,6 +11,7 @@
 
 using namespace std;
 
+/** \brief Represents a Material. It can have Ambient, Diffuse and Specular Light. For the Specular Light it also deffines an Shininess intensitiy. Furthermore it can be transparent */
 class Material {
 public:
   Material(const string& Name, const Vector3& AmbientLight);

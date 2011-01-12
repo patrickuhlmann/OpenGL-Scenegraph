@@ -37,7 +37,6 @@ class Mesh {
 		virtual ~Mesh();
 
 		const Vector3* GetVertex(int i) const;
-		const float* GetTextureCoord(int i) const;
 		const Triangle* GetTriangle(int i) const;
 		const Quad* GetQuad(int i) const;
 		const Quad* GetQuadConcave(int i) const;
@@ -74,8 +73,6 @@ class Mesh {
 		PolygonVector _polygonsConcave;
 		mmsm _materials;
 
-		/** \brief Vector of TextureCoordinates, should be one per Vertex */
-		TextureCoordVector  _textureCoords;
 		/** \brief Name of the Mesh */
 		string _name;
 
