@@ -1,22 +1,23 @@
 #include "TransformStrategy.hpp"
+#include "glog/logging.h"
+#include <iostream>
+
+using namespace std;
 
 TransformStrategy::TransformStrategy() { m3dLoadIdentity44( _transMatrix ); }
 
-void TransformStrategy::transformation() { /* do nothing */ }
+//void TransformStrategy::transformation() { DLOG(INFO) }
 
-void TransformStrategy::operator() ( Node* c )
+void TransformStrategy::Apply( Transform* t )
 {
-   Transform* t = dynamic_cast<Transform*>( c );
+   M3DMatrix44f newMatrix, oldMatrix;
+   t->GetMatrix( oldMatrix );
 
-   if (t) {
-      M3DMatrix44f newMatrix, oldMatrix;
-      t->GetMatrix( oldMatrix );
-      
-      // Use hook to perform custom transformation of matrix
-      transformation();
-      // result, a, b
-      m3dMatrixMultiply44( newMatrix, oldMatrix, _transMatrix );
+   // Use hook to perform custom transformation of matrix
+   transformation();
 
-      t->SetMatrix( newMatrix );
-   }
+   // result, a, b
+   m3dMatrixMultiply44( newMatrix, oldMatrix, _transMatrix );
+
+   t->SetMatrix( newMatrix );
 }

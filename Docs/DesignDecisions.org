@@ -1,9 +1,0 @@
-* SceneGraph
-** State
-*** Makes sense to have them in just a few nodes
-**** Light
-***** Enable and Disable Light
-**** Geometry
-***** Describe material and how it should be rendered
-**** Transform
-***** Group transformations and state for one or more children, share state

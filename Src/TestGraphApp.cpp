@@ -4,6 +4,8 @@
 #include "Graph/RenderVisitorOpenGL1.hpp"
 #include "MeshLoaders/MeshFileLoader.h"
 #include "MeshLoaders/MeshLoaderObj.h"
+#include "Graph/TransformUpdateVisitor.hpp"
+#include "Graph/UpdateVisitorFactory.hpp"
 
 class TestGraphApp : public SimpleApplication {
 public:
@@ -12,7 +14,7 @@ public:
 
    void Init(CompositeNode* root, MeshFileLoader* MeshLoader )
    {
-      glDisable(GL_CULL_FACE);
+      // glDisable(GL_CULL_FACE);
       // glEnable(GL_CULL_FACE);
       // glCullFace(GL_BACK);
       // m = mfl->Load("Objects/cube.obj");
@@ -29,32 +31,16 @@ public:
       Skyscraper->Scale(0.04f);
       
         
-      // M3DVector4f color;
-      // m3dLoadVector4( color, 0.0f, 1.0f, 0.0f, 1.0f );
-      // l->SetDiffuse( color );
-      // l->SetAmbient( color );
+
 
         M3DVector3f pos;
         m3dLoadVector3( pos, 0.0f, 0.0f, 50.0f );
-      // Node* n = l->GetByName("GlobalCamera");
-      // if (!n) {
-      //    DLOG(ERROR) << "GlobalCamera not found!\n";
-      //    exit( 1 );
-      // }
-      // c = dynamic_cast<Camera*>( n );
-      // if (!c) {
-      //    DLOG(ERROR) << "Cast failed!\n";
-      //    exit( 1 );
-      // }
-      // c->SetPosition( pos );
-     // c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,800.0f);
-       //_camera.AddChild( g );
-       _camera.SetPosition( pos );
-      // root->AddChild( &_
-	M3DVector4f color;
-	m3dLoadVector4( color, 0.0f, 1.0f, 0.0f, 1.0f );
-	_light.SetDiffuse( color );
-	_light.SetAmbient( color );
+        if (_camera) DLOG(INFO) << "_camera address: " << _camera << endl;
+       
+        _camera->SetPosition( pos );
+         Vector4 color( 1.0f, 1.0f, 1.0f, 1.0f );
+      	 _light->SetDiffuse( color );
+         _light->SetAmbient( color );
 
 	// M3DVector3f pos;
 	// m3dLoadVector3( pos, 0.0f, 0.0f, 10.0f );
@@ -65,53 +51,60 @@ public:
     // c->SetPerspective(45.0f,(GLfloat)800/(GLfloat)600,0.1f,100.0f);
 
 	// Build Up Scenegraph
-	_camera.AddChild(
-		(new Transform(string("MagnoliaTransform")))->AddChild(
-			(new Geometry(Magnolia, string("Magnolia")))
-	));
-        _camera.AddChild(
-		(new Transform(string("RoseTransform")))->AddChild(
-			(new Geometry(Rose, "Rose")))
-	);
-        _camera.AddChild(
-		(new Transform(string("SkyscraperTransform")))->AddChild(
-			(new Geometry(Skyscraper, "Skyscraper")))
-	);
+	 _camera->AddChild(
+	 	(new Transform(string("MagnoliaTransform")))->AddChild(
+	 		(new Geometry(Magnolia, string("Magnolia")))
+	 ));
+         _camera->AddChild(
+	 	(new Transform(string("RoseTransform")))->AddChild(
+	 		(new Geometry(Rose, "Rose")))
+	 );
+         _camera->AddChild(
+	 	(new Transform(string("SkyscraperTransform")))->AddChild(
+	 		(new Geometry(Skyscraper, "Skyscraper")))
+	 );
 
-	Transform* t = reinterpret_cast<Transform*>(root->GetByName("MagnoliaTransform"));
-	t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
-	t->Translate(-3.0f, 0.0f, 0.0f);
+	 Transform* t = dynamic_cast<Transform*>(root->GetByName("MagnoliaTransform"));
+	 t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
+	 t->Translate(-3.0f, 0.0f, 0.0f);
 
-	t = reinterpret_cast<Transform*>(root->GetByName("RoseTransform"));
-	t->Translate(2.0f, 0.0f, 0.0f);
-	t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
-	t->Scale(1.6f, 1.2f, 1.2f);
+	 t = dynamic_cast<Transform*>(root->GetByName("RoseTransform"));
+	 t->Translate(2.0f, 0.0f, 0.0f);
+	 t->Rotate(20.0f, 1.0f, 1.0f, 1.0f);
+	 t->Scale(1.6f, 1.2f, 1.2f);
 
-	t = reinterpret_cast<Transform*>(root->GetByName("SkyscraperTransform"));
-	t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);
+	 t = dynamic_cast<Transform*>(root->GetByName("SkyscraperTransform"));
+	 t->Rotate(50.0f, 1.0f, 1.0f, 1.0f);
+
+         update = t;
+
+         UpdateVisitorFactory fact;
+        
+        visitor = fact.CreateTransformationVisitor( ROTATE, 1.0f, 0.0f, 0.0f, 0.001f );
+        visitor2 = fact.CreateTransformationVisitor( SCALE, 1.0002f, 1.0f, 1.0f );
    };
 
    void Render( NodeVisitor* r, CompositeNode* c)
    { 
-      // DLOG(INFO) << "Render()\n";
-      r->Traverse( c );
-      // DLOG(INFO) << "End of Render()\n";
+      r->Visit( c );
    };
    
    void Update( CompositeNode* c )
    {
-      // DLOG(INFO) << "Update()\n";
+      visitor->Visit( c->GetByName("SkyscraperTransform") );
+      visitor2->Visit( c->GetByName("RoseTransform") );
    };
 
    void Resize( int w, int h )
    {
-      // DLOG(INFO) << "Resize()\n";
    };
 
 private:
    Transform* t;
    Mesh* m;
    Geometry* g;
+   Transform* update;
+   NodeVisitor* visitor, *visitor2;
    // RenderVisitor r;
 };
 
