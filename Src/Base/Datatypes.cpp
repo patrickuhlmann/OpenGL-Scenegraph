@@ -1,5 +1,8 @@
 #include "Datatypes.h"
 
+/** \brief Convert an IntegerNumber to a string
+ * \param x to convert
+ */
 string IntegerToString(int x) {
 	ostringstream o;
 	
@@ -10,31 +13,41 @@ string IntegerToString(int x) {
 	return o.str();
 }
 
+/** \brief Outputs the Vector3 to a Stream. It prints each component of the vector */
 ostream& operator<<(ostream& out, const Vector3& v) {
 	return out << "(" << v.Components.x << ", " << v.Components.y << ", " << v.Components.z << ")" << endl;
 }
 
-Vector3::~Vector3() {
-}
-
+/** \brief Initializes the Vector with all 0 */
 Vector3::Vector3() {
 	Array[0] = 0;
 	Array[1] = 0;
 	Array[2] = 0;
 }
 
+/** \brief Initializes the Vector with the arguments
+  * \param x set the x coordinate
+  * \param y set the y coordinate
+  * \param z set the z coordinate
+  */
 Vector3::Vector3(float x, float y, float z) { 
 	Array[0] = x;
 	Array[1] = y;
 	Array[2] = z;
 }
 
+/** \brief Copies the values from the vector given in the argument to itself
+  * \param v to get the values from
+  */
 Vector3::Vector3(const Vector3& v) {
 	Array[0] = v.Array[0];
 	Array[1] = v.Array[1];
 	Array[2] = v.Array[2];
 }
 
+/** \brief Copies the values from the vector given in the argumetn to itself
+  * \param v to get the values from
+  */
 Vector3::Vector3(Vector3*& v) {
 	Array[0] = v->Array[0];
 	Array[1] = v->Array[1];
@@ -88,17 +101,11 @@ ostream& operator<<(ostream& out, const Triangle& t) {
 
 Triangle::Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3& Normal, const Material* Mat) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Normal(Normal), Mat(Mat) { };
 
-Triangle::~Triangle() { 
-};
-
 ostream& operator<<(ostream& out, const Quad& q) {
 	return out << *(q.Vertex1) << ", " << *(q.Vertex2) << ", " << *(q.Vertex3) << ", " << *(q.Vertex4) << endl;
 }
 
 Quad::Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3& Normal, const Material* Mat) : Vertex1(V1), Vertex2(V2), Vertex3(V3), Vertex4(V4), Normal(Normal), Mat(Mat) { };
-
-Quad::~Quad() { 
-};
 
 Polygon::Polygon(vector<Vector3*> Vertices, const Vector3& Normal, const Material* Mat) : Size(Vertices.size()), Normal(Normal), Mat(Mat) {
 	this->Vertices = new Vector3*[Vertices.size()];

@@ -40,12 +40,9 @@ void Transform::Reset() {
 
 void Transform::Translate( float x, float y, float z ) 
 {
-	M3DMatrix44f _transmatrix;
-	m3dTranslationMatrix44( _transmatrix, x, y, z );
-	M3DMatrix44f _source;
-	m3dCopyMatrix44(_source, _matrix);
-
-	m3dMatrixMultiply44(_matrix, _source, _transmatrix);
+	_matrix[12] = _matrix[12] + x;
+	_matrix[13] = _matrix[13] + y;
+	_matrix[14] = _matrix[14] + z;
 }
 
 void Transform::Rotate( float angle, float x, float y, float z ) 

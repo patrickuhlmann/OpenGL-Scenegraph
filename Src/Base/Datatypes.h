@@ -18,22 +18,23 @@ using namespace std;
 
 string IntegerToString(int x);
 
-union Vector3 { 
+/** \brief Vector with 3 elemenst. These can be accessed with x,y and z or over an array. Furthermore you can get pointers to the data. */
+union Vector3 {
+	/** \brief Access to x, y and z coordinates */ 
 	struct sComponents {
 		float x;
 		float y;
 		float z;
 	} Components;
 
+	/** \brief Elements in Array: x, y, z */
 	float Array[3];
 
 	Vector3();
-
 	Vector3(float x, float y, float z);
 
 	Vector3(const Vector3& v);
 	Vector3(Vector3*& v);
-	~Vector3();
 
 	const float* GetConstPointer() const;
 
@@ -80,7 +81,6 @@ struct Triangle {
 	const Material* Mat;
 
 	Triangle(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3& Normal, const Material* Mat);
-	~Triangle();
 
 	friend ostream& operator<<(ostream& out, const Triangle& t);
 };
@@ -94,7 +94,6 @@ struct Quad {
 	const Material* Mat;
 
 	Quad(const Vector3* V1, const Vector3* V2, const Vector3* V3, const Vector3* V4, const Vector3& Normal, const Material* Mat);
-	~Quad();
 
 	friend ostream& operator<<(ostream& out, const Quad& q);
 };
