@@ -3,6 +3,8 @@
 int Mesh::MeshCounter = 0;
 NameSet Mesh::Names;
 
+/** \brief Add the Name to the set of names
+ * \return true if it was not there already, false otherwise */
 bool Mesh::IsNameUnique(const string& Name) {
 	NameSetPair Ret = Names.insert(Name);
 	return Ret.second;
@@ -30,7 +32,7 @@ Mesh::Mesh(const string& Name) : _name(Name) {
 }
 
 /**
- * \brief Destructor frees all Vertices, Normals and TextureCoordinates
+ * \brief Destructor frees all Vertices, Triangles, Quads, Polygons and Materials. Removes the Name from the list
  */
 Mesh::~Mesh() {
 	DLOG(INFO) << "Started Deleting Mesh" << endl;
@@ -63,9 +65,12 @@ Mesh::~Mesh() {
 		delete ((*it).second);
 	}
 
+	Names.erase(this->_name);
+
 	DLOG(INFO) << "Finished Deleting Mesh" << endl;
 }
 
+/** \brief Get the Vector containing all triangles */
 const TriangleVector& Mesh::GetTriangleVector() const {
 	return _triangles;
 }
@@ -124,6 +129,9 @@ const Polygon* Mesh::GetPolygonConcave(int i) const {
 	return _polygonsConcave.at(i);
 }
 
+/** \brief Scale the Mesh proportionaly by a defined factor. This operation will lead to information loss and is not revertible. Another possible way to scale a mesh is the call to Transform of a TransformNode containing a GeometryNode containing a Mesh
+ * \param Factor to scale
+ */
 void Mesh::Scale(float Factor) {
 	for (VertexVector::iterator it = _vertices.begin(); it != _vertices.end(); ++it) {
 		(*it)->Array[0] = (*it)->Array[0] * Factor;

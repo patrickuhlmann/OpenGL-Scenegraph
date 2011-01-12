@@ -28,7 +28,7 @@ typedef set<string> NameSet;
 typedef pair<set<string>::iterator,bool> NameSetPair;
 
 /**
- * \brief Class to hold all data needed for a mesh. This includes: Vertices, Normals, Triangles, TextureCoordinates and Materials. It has as many Normals and Materials as Triangles and as many TextureCoordinates as Vertices
+ * \brief Class to hold all data needed for a mesh. This includes: Vertices, Triangles, Quads, Polygons and Materials. The Triangles, Quads and Polygons reference the Material and Vertices saved in this class
  */
 class Mesh {
 	public: 
@@ -71,6 +71,7 @@ class Mesh {
 		PolygonVector _polygons;
 		/** \brief Polygon (Convace) (Index of N Vertices) */
 		PolygonVector _polygonsConcave;
+		/** \brief Hold the Materials */
 		mmsm _materials;
 
 		/** \brief Name of the Mesh */
@@ -79,6 +80,7 @@ class Mesh {
 	private:
 		/** \brief will be increased for every created mesh */
 		static int MeshCounter;
+		/** \brief hold the name of all created meshs */
 		static NameSet Names;
 		static bool IsNameUnique(const string& name);
 
