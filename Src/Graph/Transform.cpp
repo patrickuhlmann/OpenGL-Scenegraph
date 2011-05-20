@@ -7,15 +7,12 @@ Transform::Transform(const string& Name) : CompositeNode(Name) {
 	m3dLoadIdentity44( _matrix );
 }
 
-/** \brief Transform Node is initialized with a matrix
-  */
-Transform::Transform(const M3DMatrix44f& m) : CompositeNode() { 
+/** \brief Transform Node is initialized with a name and a initial transformation matrix
+ * \param Name of the Node
+ * \param m to use as initial transformation
+ */
+Transform::Transform(const string& Name, const M3DMatrix44f& m) : CompositeNode(Name) { 
 	m3dCopyMatrix44(_matrix, m);
-}
-
-/** \brief Transform Node is initialized with the Identity Matrix */
-Transform::Transform() : CompositeNode() { 
-	m3dLoadIdentity44( _matrix ); 
 }
 
 /** \brief Destructor. Empty */
@@ -23,16 +20,27 @@ Transform::~Transform() {
 	DLOG(INFO) << "~Transform" << endl;
 }
 
-void Transform::SetMatrix( M3DMatrix44f m ) { m3dCopyMatrix44( _matrix, m ); }
-
-void Transform::Accept( NodeVisitor* visitor ) 
-{ 
-   visitor->VisitTransform( this ); 
+/** \brief Set the Transformation Matrix to apply.
+ * \param m to use as initial transformation */
+void Transform::SetMatrix(const M3DMatrix44f m) { 
+	m3dCopyMatrix44( _matrix, m );
 }
 
-void Transform::GetMatrix( M3DMatrix44f m ) const { m3dCopyMatrix44( m, _matrix ); }
+/** \brief Just calls VisitTransform on the Visitor
+ * \param Visitor who is visiting us */
+void Transform::Accept( NodeVisitor* Visitor ) 
+{ 
+	Visitor->VisitTransform( this ); 
+}
 
-const M3DMatrix44f& Transform::GetMatrix() const { return _matrix; }
+
+void Transform::GetMatrix( M3DMatrix44f m ) const { 
+	m3dCopyMatrix44( m, _matrix );
+}
+
+const M3DMatrix44f& Transform::GetMatrix() const {
+	return _matrix;
+}
 
 void Transform::Reset() {
 	m3dLoadIdentity44( _matrix );

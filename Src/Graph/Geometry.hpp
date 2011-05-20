@@ -16,24 +16,22 @@ public:
 	Geometry(Mesh* M, const string& Name);
 	virtual ~Geometry();
 
-  /** Accept a visitor */
-  void Accept( NodeVisitor* );
+	void Accept( NodeVisitor* );
 
-  /** Set the mesh pointer */
-  void SetMesh( Mesh* );
+	void SetMesh( Mesh* );
+	const Mesh* GetMesh() const;
 
-  /** Return the mesh pointer */
- const Mesh* GetMesh() const;
+	void SetState(State*);
+	const State* GetState() const;
 
-  void SetState(State*);
-
-  void SetVisibility(bool NewStatus);
-  bool GetVisibility() const;
+	void SetVisibility(bool NewStatus);
+	bool GetVisibility() const;
 
 private:
-  Mesh* _mesh;  /**< Pointer to a mesh */
-  State* _state; /**< State information */
-  bool  _dirty; /**< Flag for checking update of bound */
-  bool Visible;
-  string _name;
+	/** \brief Pointer to the Mesh of this Geometry */
+	Mesh* _mesh;
+	/** \brief Pointer to the State of this Geometry */
+	State* _state;
+	/** \brief Holds the Visiblilty Status of this Geometry */
+	bool Visible;
 };

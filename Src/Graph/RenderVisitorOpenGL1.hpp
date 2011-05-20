@@ -27,7 +27,6 @@ public:
 	virtual void Visit( Node* c );
 
 protected:
-	virtual void Traverse( Node* c );
 	virtual void TraverseChildren( CompositeNode* c );
 
 	virtual void VisitLight( Light* l);
@@ -35,6 +34,7 @@ protected:
 	virtual void VisitGeometry( Geometry* );
 	virtual void VisitTransform( Transform* t);
 	virtual void VisitGroup( Group* g );
+
 private:
 	/** \brief ModelView matrix stack */
 	GLMatrixStack _modelViewMatrix;
@@ -42,8 +42,6 @@ private:
 	GLMatrixStack _projectionMatrix;
 	/** \brief Helper for both the objects */
 	GLGeometryTransform _transformPipeline;
-	/** \brief Keeps track of how many lights we have */
-	int LightCounter;
 };
 
 

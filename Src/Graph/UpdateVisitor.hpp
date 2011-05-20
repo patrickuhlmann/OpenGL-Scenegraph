@@ -75,18 +75,9 @@ public:
   void SetMaterial ( const Material& );
 
 private:
-
-  /**
-   * Traverse a composite.
-   * @param c Node to Traverse
-   * @see CompositeNode
-   */
-  virtual void Traverse( CompositeNode* c );
-
   M3DMatrix44f _transform;
   M3DVector3f  _direction;
   M3DVector3f  _position;
   Material*     _material;
   State* _state;
-  //  Texture* _texture;
 };

@@ -25,37 +25,40 @@ public:
 
   /** \brief Add a Node as Child. This method will automatically set this node as the parent of the child.
   * If it had another parent before it will remove the node from that Parent (so the node will always just
-  * be at the place where it was added the last
   *
   * \param n to add as child
   * \param return point to itself for easy call chaining
   */
   CompositeNode* AddChild( Node* n ) {
 	if (n->GetParent() != 0)
-		DLOG(WARNING) << "Node has already a parent!" << endl;
+		LOG(WARNING) << "Node has already a parent!" << endl;
 
 	n->SetParent(this);
 	_children.push_back( n ); 
 
 	return this;
-  };
+  }
 
-
-/* TODO: Override SetParent and make it add this as a child in the parent node */
-
-  /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. If we have the node it will be removed and deleted */
-  virtual void RemoveChild(Node* n) {
+  /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. If we have the node it will be removed and deleted. You cannot use it anymore!
+   * \param n Node to remove
+   * \return true if we found a child and removed it, false otherwise */
+  virtual bool RemoveChild(Node* n) {
 	int SizeBefore = _children.size();
 	_children.remove(n);
 
-	if (_children.size() < SizeBefore)
+	if (_children.size() < SizeBefore) {
 		delete n;
-  };
+		return true;
+	} else {
+		LOG(WARNING) << "Node didn't have Children!" << endl;
+		return false;
+	}
+  }
 
-  /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and it's parent is set to 0 */
-  virtual void RemoveChild(const string& Name) {
-	int SizeBefore = _children.size();
-
+  /** \brief Remove a Node as a Child. If we don't have this node nothing at all happens. It we have the node it will be removed and deleted. You cannot use it anymore
+	* \return true if we found a suiting node and removed it, false otherwise */
+  virtual bool RemoveChild(const string& Name) {
+/** TODO: write with remove_if or find!!!! */
 	Node* n = 0;
     for (NodeIterator it=_children.begin(); it != _children.end(); it++) {
 		// Check if it is the right one
@@ -65,22 +68,29 @@ public:
 		}
 	}
 
-	if (!n)
+	if (!n) {
 		DLOG(WARNING) << "Node " << Name << " not found" << endl;
-
-	_children.remove(n);
-
-	if (_children.size() < SizeBefore)
+		return false;
+	} else {
+		_children.remove(n);
 		delete n;
+		return true;
+	}
   };
 
   /** \brief Gets a iterator pointing to the very first element of the children list. */  
-  virtual NodeIterator GetNodeIterator() { return _children.begin(); };
+  virtual NodeIterator GetNodeIterator() {
+	return _children.begin();
+  };
 
-  /** \brief Get a iterator pointing after the very last element of the children list */
-  virtual NodeIterator GetNodeIteratorEnd() { return _children.end(); };
+  /** \brief Get a iterator pointing after the element after the very last element of the children list */
+  virtual NodeIterator GetNodeIteratorEnd() {
+	return _children.end();
+  };
 
-  /** \brief Return true if one of the children is the Node, false otherwise */
+  /** \brief Check if a Node is one of our children
+    * \param n to search for
+    * \return true if found, false otherwise */
   virtual bool Contains(Node* n) {
 	return find(_children.begin(), _children.end(), n) != _children.end();
   }
@@ -109,9 +119,15 @@ public:
 		}
 	}
 
+	//LOG(WARNING) << "Couldn't find the Node " << Name << endl;
+
     return 0;
   }
 
+  /** \brief Utility Method to Print the Name of all children to a stream
+   * \param out Stream to print to
+   */
+  // TODO: with for_each
   virtual void PrintChildren(ostream& out) {
 	out << "Children for: " << this->GetName() << "[";
     for (NodeIterator it=_children.begin(); it != _children.end(); it++) {
@@ -120,6 +136,11 @@ public:
 	out << "]" << endl;
   }
 
+  /** \brief Utility Method to Print the whole tree (children and then their children etc.) to a stream
+   * \param out Stream to print to
+   */
+  // TODO: nicer output?
+  // TODO: with for_each ev. using PrintChildren
   virtual void PrintWholeTree(ostream& out) {
 	out << "Children for: " << this->GetName() << "[";
     for (NodeIterator it=_children.begin(); it != _children.end(); it++) {

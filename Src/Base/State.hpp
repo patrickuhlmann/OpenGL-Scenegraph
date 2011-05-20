@@ -24,8 +24,10 @@ public:
 
 	void operator= ( const State& );
 
-	/** Function to Apply the States. Needs to be implemeneted by the concrete state like OpenGL or DirectX */
-	virtual void Apply() = 0;
+	/** \brief function to Apply the States. Needs to be implemeneted by the concrete state like OpenGL or DirectX */
+	virtual void Apply() const = 0;
+	/** \brief function to Undo the changes from the states. This needs to be done when we are finished traversing the children and want to change to another branch where those states are not active */
+	virtual void Undo() const = 0;
 
 	void Enable(int);
 	void Disable(int);

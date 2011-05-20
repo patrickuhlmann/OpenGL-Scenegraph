@@ -1,7 +1,9 @@
 #include "Light.hpp"
 
+set<int> Light::LightsNumber;
+
 /** 
-* \brief Create a light and initialize the position. The light will have no ambient but white diffuse and specular component. It initializes Changed to true
+* \brief Create a light and initialize the position. The light will have no ambient but white diffuse and specular component. The position will be (1, 1, 0) It initializes Changed to true
 *
 * \param Name for the Node
 */
@@ -21,13 +23,14 @@ Light::Light(const Vector4 pos) : CompositeNode()
 	this->Changed = true;
 }
 
-/** \brief Free the State */
+/** \brief Free the State and the Light number in the list */
 Light::~Light() {
 	DLOG(INFO) << "~Light" << endl;
+	LightsNumber.erase(this->LightNumber);
 	delete _state;
 }
 
-/** \brief initialize light component vectors. Light from left upper edge. No ambient but white diffuse and specular light */
+/** \brief initialize light component vectors. Light from right upper edge. No ambient but white diffuse and specular light */
 void Light::Init() 
 {
 	_position = Vector4(1.0f, 1.0f, 0.0f, 1.0f);
@@ -37,6 +40,9 @@ void Light::Init()
 
 	_state = 0;
 	LightNumber = 0;
+
+	//TODO: search free light number, set it and insert to active lights, 
+	//TODO: check max light number and give warning when reached, LightNumber will be set to max
 }
 
 /** \brief Accept a visitor. It calls VisitLight on it's Visitor
@@ -71,8 +77,6 @@ void Light::SetAmbient (const Vector4& v) {
 * @param v  RGBA
 */
 void Light::SetDiffuse (const Vector4& v) {
-DLOG(INFO) << "def: " << v.Components.x << ", " << v.Components.y << ", " << v.Components.z << ", " << v.Components.w << endl;
-
 	_diffuse = Vector4(v);
 	this->Changed = true;
 }
@@ -132,7 +136,7 @@ bool Light::SetChanged(bool NewValue) {
 
 /** \brief Get a reference to the State of the Light Node
  */
-State* Light::GetState() const {
+const State* Light::GetState() const {
 	return _state;
 }
 
@@ -147,13 +151,6 @@ void Light::SetState(State* NewState) {
 /** \brief Get the Light Index */
 int Light::GetLightNumber() const {
 	return this->LightNumber;
-}
-
-/** \brief Set the Light Index
-  * \param NewIndex for the Light
-  */
-void Light::SetLightNumber(int NewNumber) {
-	this->LightNumber = NewNumber;
 }
 
 

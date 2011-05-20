@@ -1,11 +1,18 @@
 #include "Group.hpp"
 
-Group::Group( const std::string& name ) : CompositeNode( name ) {}
-void Group::Accept( NodeVisitor* visitor )
+/** \brief Create a group node with a name
+ * \param Name of the Node */
+Group::Group(const std::string& Name) : CompositeNode( Name ) {}
+
+/** \brief Accept a Visitor. Just call the VisitGroup Method
+ * \param Visitor who visits us
+ */
+void Group::Accept( NodeVisitor* Visitor )
 {
-   visitor->VisitGroup( this );
+   Visitor->VisitGroup( this );
 }
 
+/** \brief Empty Destructor */
 Group::~Group() {
 	DLOG(INFO) << "~Group" << endl;
 }

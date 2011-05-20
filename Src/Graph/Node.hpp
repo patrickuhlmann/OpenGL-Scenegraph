@@ -11,7 +11,7 @@
 using namespace std;
 
 /**
- * Abstract class representing nodes in the scene graph. It provides basic properties and methods which all nodes have in commen. This is the possibility to accept a NodeVisitor, having a parent, a name and being dirty (need to refresh the values to the children)
+ * Abstract class representing nodes in the scene graph. It provides basic properties and methods which all nodes have in common. This is the possibility to accept a NodeVisitor, having a parent and a name
  */
 class Node {
 public:
@@ -24,7 +24,6 @@ public:
 
   virtual const Node* GetParent() const;
 
-  virtual void SetName(const string& Name);
   virtual const string& GetName() const;
 
   void SetParent(Node* Parent);
@@ -38,9 +37,6 @@ protected:
 
 	/** \brief Pointer to the Name of this Node */
 	string _name;
-
-	/** \brief If true the children are not refreshed, false otherwise */
-	bool _dirty;
 
 	static int NodeCounter;
 };

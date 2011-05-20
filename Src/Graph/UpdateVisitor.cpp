@@ -3,8 +3,7 @@
 UpdateVisitor::UpdateVisitor(){}
 
 UpdateVisitor::~UpdateVisitor() {
-	if (_material)
-		delete _material;
+	delete _material;
 }
 
 
@@ -48,13 +47,6 @@ void UpdateVisitor::SetPosition( const M3DVector3f& p )
 void UpdateVisitor::SetState(State* s ) { _state = s; }
 
 void UpdateVisitor::SetMaterial ( const Material& m ) { 
-    if (_material)
-		delete _material;
-
+	delete _material;
 	_material = new Material(m);
-}
-
-// TODO: implement
-void UpdateVisitor::Traverse( CompositeNode* c ) {
-
 }

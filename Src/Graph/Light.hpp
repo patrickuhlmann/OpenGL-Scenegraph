@@ -13,31 +13,30 @@ using namespace std;
  * @author Steve Eriksson
  */
 class Light : public CompositeNode {
-public:
-  Light(string Name = "");
-  Light(const Vector4 pos);
-  ~Light();
+public:	
+	Light(string Name);
+	Light(const Vector4 pos);	
+	~Light();
 
-  void Accept( NodeVisitor* );
+	void Accept( NodeVisitor* );
 
-  void SetPosition(const Vector4&);
-  void SetDiffuse(const Vector4&);
-  void SetAmbient(const Vector4&);
-  void SetSpecular(const Vector4&);
+	void SetPosition(const Vector4&);
+	void SetDiffuse(const Vector4&);
+	void SetAmbient(const Vector4&);
+	void SetSpecular(const Vector4&);
 
-  const Vector4& GetPosition() const;
-  const Vector4& GetDiffuse() const;
-  const Vector4& GetAmbient() const;
-  const Vector4& GetSpecular() const;
+	const Vector4& GetPosition() const;
+	const Vector4& GetDiffuse() const;
+	const Vector4& GetAmbient() const;
+	const Vector4& GetSpecular() const;
 
-  bool IsChanged() const;
-  bool SetChanged(bool NewValue);
+	bool IsChanged() const;
+	bool SetChanged(bool NewValue);
 
-  State* GetState() const;
-  void SetState(State* NewState);
+	const State* GetState() const;
+	void SetState(State* NewState);
 
-  int GetLightNumber() const;
-  void SetLightNumber(int NewNumber);
+	int GetLightNumber() const;
 
 private:
 	/** \brief Represents the Position of the Light */
@@ -54,6 +53,8 @@ private:
 	State* _state;
 	/** \brief Represents the Index of the Light for the Graphics Framework */
 	int LightNumber;
-
+	/** \brief Has a list of all the active lights */
+	static set<int> LightsNumber;
+	
 	void Init();
 };

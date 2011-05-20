@@ -17,47 +17,21 @@
 class Camera : public CompositeNode {
 public:
 
-  /**
-   * Create a default camera a the origin, pointing down -z axis
-   * and having the y axis as the up vector.
-   * Default view frustum gives a orthographic projection matrix.
-   */
-  Camera();
+	Camera();
+	Camera(string Name);
+	Camera(const M3DVector3f Position, const M3DVector3f Direction);
+	virtual ~Camera();
 
-  Camera(string Name);
+	virtual void Accept( NodeVisitor* Visitor );
+	void SetPosition( const M3DVector3f Position );
+	void LookAt( const M3DVector3f Point);
 
-  /**
-   * Create a camera and initilize it with a position and
-   * a direction and set a node as a parent.
-   * The y axis will be used as up vector.
-   *
-   * @param pos the position of the camera.
-   * @param dir the direction of the camera.
-   */
-  Camera( const M3DVector3f, const M3DVector3f);
+	void GetViewMatrix( M3DMatrix44f& ) const;
+	void GetProjectionMatrix( M3DMatrix44f& );
 
-   ~Camera() { DLOG(INFO) << "~Camera"; }
-
-  /** Accept a visitor */
-  virtual void Accept( NodeVisitor* );
-
-  /** Set a new position */
-  void SetPosition( const M3DVector3f );
-
-  /** Set a new point to look at */
-  void LookAt( const M3DVector3f );
-
-  // void GetViewMatrix( const M3DMatrix44f m ) const;
-
-  /**
-   * Get the value of the view matrix.
-   */
-   void GetViewMatrix( M3DMatrix44f ) const;
-
-   /** Get the value of the projection matrix */
-  void GetProjectionMatrix( M3DMatrix44f );
-  // const GLFrustum& GetViewFrustum() const;
-  //void SetViewFrustum( GLFrustum& );
+	void SetOrthographic(GLfloat xMin, GLfloat xMax, 
+		       GLfloat yMin, GLfloat yMax,
+		       GLfloat zMin, GLfloat zMax);
 
    /** 
    * Set the perspective projection in the frustum.
@@ -69,37 +43,21 @@ public:
    */
   void SetPerspective(GLfloat fFov, GLfloat fAspect, GLfloat fNear, GLfloat fFar);
 
-  /**
-   * Set the orthographic projection of the frustum.
-   * 
-   * @param xMin minimum x.
-   * @param xMax maximum x.
-   * @param yMin minimum y.
-   * @param yMax maximum y.
-   * @param zMin minimum z.
-   * @param zMax maximum z.
-   */
-  void SetOrthographic(GLfloat xMin, GLfloat xMax, 
-		       GLfloat yMin, GLfloat yMax,
-		       GLfloat zMin, GLfloat zMax);
 
+   void MoveForward( float Delta );
+   void MoveBackward( float Delta );
 
-   void MoveForward( float delta );
+   void MoveRight( float Delta );
+   void MoveLeft( float Delta );
 
-   void MoveBackward( float delta );
-
-   void MoveRight( float delta );
-
-   void MoveLeft( float delta );
-
-   void MoveUp( float delta );
-
-   void MoveDown( float delta );
+   void MoveUp( float Delta );
+   void MoveDown( float Delta );
    
-   void RotateWorld( float angle, float x, float y, float z );
+   void RotateWorld( float Angle, float x, float y, float z );
 
 private:
-  GLFrame      _frame;       /**< Handles movement and direction of camera */
-  M3DMatrix44f _viewMatrix;  /**< Matrix is derived from the frame */
-  GLFrustum    _viewFrustum; /**< Handles projection **/
+	/* \brief Handles Movement and Direction of the Camera */
+	GLFrame      _frame;
+	/* \brief Handles Projection */	
+	GLFrustum    _viewFrustum;
 };

@@ -3,9 +3,10 @@
 #include <string>
 #include <glog/logging.h>
 
+/** \brief This class is a compositeNode which is only to group other nodes. It has no other function */
 class Group : public CompositeNode {
 public:
-   ~Group();
-   Group( const std::string& );
-   virtual void Accept( NodeVisitor* );
+	virtual ~Group();
+	Group( const std::string& );
+	virtual void Accept( NodeVisitor* );
 };
