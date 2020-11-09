@@ -1,5 +1,6 @@
 # Doxygen files
 DoxygenWarnings.log
+doc/*
 
 # Compiled C++ files
 *.o
@@ -10,3 +11,11 @@ DoxygenWarnings.log
 
 # Temporary test files
 temp_*.*
+
+# The compiled applications
+AddRemoveChild
+ObjectsLoader
+PongGame
+SimpleGeometry
+SkeletonApp
+TestGraphApp
